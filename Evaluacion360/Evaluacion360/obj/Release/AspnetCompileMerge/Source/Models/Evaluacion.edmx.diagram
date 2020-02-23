@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="76d4fa3605af4dfca88263c4ffdf6c60" Name="Diagram1">
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Auto_Evaluacion_Preguntas" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Auto_Evaluacion_Resultado" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Auto_Evaluaciones" Width="1.5" PointX="0.75" PointY="2.875" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Cargos" Width="1.5" PointX="2.75" PointY="2.875" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Cargos_Evaluadores" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Datos_Usuarios" Width="1.5" PointX="4.75" PointY="2.875" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Estado_Componentes" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Estado_Evaluaciones" Width="1.5" PointX="6.75" PointY="2.875" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Evaluacion_Preguntas_Cargos" Width="1.5" PointX="2.75" PointY="6" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Evaluacion_Resultado_Cargos" Width="1.5" PointX="10.75" PointY="2.875" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Evaluaciones_Cargos" Width="1.5" PointX="0.75" PointY="6" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Operacion" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Preguntas_Aleatorias" Width="1.5" PointX="8.75" PointY="2.875" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Preguntas_Cargos" Width="1.5" PointX="4.75" PointY="6" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Rol" Width="1.5" PointX="6.75" PointY="6" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Rol_Operacion" Width="1.5" PointX="8.75" PointY="6" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Secciones" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Usuarios" Width="1.5" PointX="0.75" PointY="8.375" />
+        <EntityTypeShape EntityType="BD_EvaluacionModel.Procesos_Evaluacion" Width="1.5" PointX="10.75" PointY="6" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

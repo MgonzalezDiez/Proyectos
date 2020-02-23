@@ -1,0 +1,114 @@
+﻿@model Evaluacion360.Models.ViewModels.PQViewModel
+
+@{
+    ViewBag.Title = "Detalle Preguntas por Cargo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalle Preguntas por Cargo</title>
+    <!-- meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+
+        addEventListener("load", function()
+            { setTimeout(hideURLbar, 0); },
+            false);
+            function hideURLbar()
+            { window.scrollTo(0,1); }
+    </script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+
+    <!-- Custom CSS -->
+    <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+
+    <!-- Graph CSS -->
+    <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
+    <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+    <!-- lined-icons -->
+    <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+    <!-- //lined-icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="panel-body" , style="background-color:#fff">
+        <div class="notification_header" style="text-align:center">
+            <h1 class="center-block">Detalle de Pregunta</h1>
+        </div>
+        <br />
+        <form form="role" class="form-horizontal">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group has-feedback">
+                <label class="col-md-3 control-label ">Cargo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
+                        @Html.DropDownListFor(model => model.Codigo_Cargo, (SelectList)ViewBag.Cargos, "Seleccione Cargo", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Cargo Evaluado</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluado", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Sección</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                        @Html.DropDownListFor(model => model.Codigo_seccion, (SelectList)ViewBag.Section, "Seleccione Sección", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Nro. de Pregunta</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                        @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { type = "text", @disabled = "disabled", @class = "form-control1", @placeholder = "00,0", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="panel-footer">
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="justify-content-center" ">
+                        <input class="btn btn-success btn-sm" onclick="location.href='@Url.Action("List", "PositionQuestion")'" type="button" value="Volver a la Lista" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+
+

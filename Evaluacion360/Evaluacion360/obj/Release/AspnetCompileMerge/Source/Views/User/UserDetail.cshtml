@@ -1,0 +1,210 @@
+﻿@model Evaluacion360.Models.UserListViewModel
+@{
+    ViewBag.Title = "Detalle de Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalle de Usuarios</title>
+    <!-- meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+
+        addEventListener("load", function()
+            { setTimeout(hideURLbar, 0); },
+            false);
+            function hideURLbar()
+            { window.scrollTo(0,1); }
+    </script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+    @*<link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />*@
+    <!-- Custom CSS -->
+    <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/Css/morris.css" rel="stylesheet" type="text/css" />
+    <!-- Graph CSS -->
+    <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
+    <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+    <!-- lined-icons -->
+    <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+    <!-- //lined-icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="panel-body" , style="background-color:#fff">
+        <form form="role" class="form-horizontal">
+            @Html.AntiForgeryToken()
+            <h2 style="text-align:center; color:red; font-weight:500">Detalle de Usuario</h2>
+            <br />
+
+            <div class="form-group has-feedback">
+                <label class="col-md-3 control-label ">Código de Usuario</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
+                        @Html.EditorFor(model => model.Codigo_Usuario, new { htmlAttributes = new { type = "text", disabled = "disabled", @class = "form-control1", @placeholder = "Código de Usuario", style = "width:70%" } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Nombre de Usuario</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        @Html.EditorFor(model => model.Nombre_Usuario, new { htmlAttributes = new { type = "text", disabled = "disabled", @class = "form-control1", @placeholder = "Nombre de Usuario", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Tipo de Usuario</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                        @Html.EditorFor(model => model.Tipo_Usuario, new { htmlAttributes = new { type = "text", disabled = "disabled", @class = "form-control1", @placeholder = "Tipo Usuario", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Código de Cargo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        @Html.EditorFor(model => model.Codigo_Cargo, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "Código Cargo", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Nombre Completo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                        @Html.EditorFor(model => model.Nombre_Completo, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "Nombre Completo Usuario", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Fecha Nacimiento</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        @Html.EditorFor(model => model.Fecha_Nacimiento, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Rut</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-registered"></i></span>
+                        @Html.EditorFor(model => model.Rut, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "Rut", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Fondo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-shopping-bag"></i></span>
+                        @Html.EditorFor(model => model.Fondo, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "Fondo", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Fecha Ingreso</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        @Html.EditorFor(model => model.Fecha_Ingreso, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Fecha Término Contrato</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        @Html.EditorFor(model => model.Fecha_Termino_Contrato, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Calidad Contrato</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-qq"></i></span>
+                        @Html.EditorFor(model => model.Calidad_Contrato, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "Calidad Contrato", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Tipo de Contrato</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-archive"></i></span>
+                        @Html.EditorFor(model => model.Tipo_Contrato, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "Tipo Contrato", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Código de Contrato</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-code"></i></span>
+                        @Html.EditorFor(model => model.Codigo_Contrato, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "CódigoContrato", style = "width:70%" } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Estado</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-star-half-full"></i></span>
+                        @Html.EditorFor(model => model.IdState, new { htmlAttributes = new { disable = "disabled", @placeholder = "Estado", @class = "form-control", style = "width:70%" } })
+                        @Html.ValidationMessageFor(model => model.IdState, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="panel-footer">
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8">
+                        <input onclick="location.href='@Url.Action("List", "User")'" type="button" value="Volver a la Lista" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

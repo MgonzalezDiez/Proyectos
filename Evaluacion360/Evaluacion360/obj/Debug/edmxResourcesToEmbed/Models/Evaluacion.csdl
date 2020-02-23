@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BD_EvaluacionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="BD_EvaluacionEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Auto_Evaluacion_Preguntas" EntityType="BD_EvaluacionModel.Auto_Evaluacion_Preguntas" />
+    <EntitySet Name="Auto_Evaluacion_Resultado" EntityType="BD_EvaluacionModel.Auto_Evaluacion_Resultado" />
+    <EntitySet Name="Auto_Evaluaciones" EntityType="BD_EvaluacionModel.Auto_Evaluaciones" />
+    <EntitySet Name="Cargos" EntityType="BD_EvaluacionModel.Cargos" />
+    <EntitySet Name="Cargos_Evaluadores" EntityType="BD_EvaluacionModel.Cargos_Evaluadores" />
+    <EntitySet Name="Datos_Usuarios" EntityType="BD_EvaluacionModel.Datos_Usuarios" />
+    <EntitySet Name="Estado_Componentes" EntityType="BD_EvaluacionModel.Estado_Componentes" />
+    <EntitySet Name="Estado_Evaluaciones" EntityType="BD_EvaluacionModel.Estado_Evaluaciones" />
+    <EntitySet Name="Evaluacion_Preguntas_Cargos" EntityType="BD_EvaluacionModel.Evaluacion_Preguntas_Cargos" />
+    <EntitySet Name="Evaluacion_Resultado_Cargos" EntityType="BD_EvaluacionModel.Evaluacion_Resultado_Cargos" />
+    <EntitySet Name="Evaluaciones_Cargos" EntityType="BD_EvaluacionModel.Evaluaciones_Cargos" />
+    <EntitySet Name="Operacion" EntityType="BD_EvaluacionModel.Operacion" />
+    <EntitySet Name="Preguntas_Aleatorias" EntityType="BD_EvaluacionModel.Preguntas_Aleatorias" />
+    <EntitySet Name="Preguntas_Cargos" EntityType="BD_EvaluacionModel.Preguntas_Cargos" />
+    <EntitySet Name="Rol" EntityType="BD_EvaluacionModel.Rol" />
+    <EntitySet Name="Rol_Operacion" EntityType="BD_EvaluacionModel.Rol_Operacion" />
+    <EntitySet Name="Secciones" EntityType="BD_EvaluacionModel.Secciones" />
+    <EntitySet Name="Usuarios" EntityType="BD_EvaluacionModel.Usuarios" />
+    <EntitySet Name="Procesos_Evaluacion" EntityType="BD_EvaluacionModel.Procesos_Evaluacion" />
+    <FunctionImport Name="Crea_Evaluaciones">
+      <Parameter Name="CodigoUsuario" Mode="In" Type="String" />
+      <Parameter Name="Proceso" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ObtenerDV">
+      <Parameter Name="Rut" Mode="In" Type="Int32" />
+      <Parameter Name="Dv" Mode="InOut" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Auto_Evaluacion_Preguntas">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_seccion" />
+      <PropertyRef Name="Numero_Pregunta" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_seccion" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Numero_Pregunta" Type="Int32" Nullable="false" />
+    <Property Name="Nota" Type="Decimal" Nullable="false" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Auto_Evaluacion_Resultado">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_Seccion" />
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Seccion" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Codigo_Usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Nota_F_Seccion" Type="Decimal" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Auto_Evaluaciones">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Fecha" Type="DateTime" Precision="0" />
+    <Property Name="Logros" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Metas" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado_AE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Nota_Final_AE" Type="Decimal" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Cargos">
+    <Key>
+      <PropertyRef Name="Codigo_Cargo" />
+    </Key>
+    <Property Name="Codigo_Cargo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Nombre_Cargo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fondo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Ciclo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IdState" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Cargos_Evaluadores">
+    <Key>
+      <PropertyRef Name="Codigo_Cargo" />
+      <PropertyRef Name="Cod_Cargo_Evaluado" />
+    </Key>
+    <Property Name="Codigo_Cargo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Cod_Cargo_Evaluado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ponderacion" Type="Decimal" Nullable="false" Precision="3" Scale="1" />
+    <Property Name="IdState" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Datos_Usuarios">
+    <Key>
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Codigo_Usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Nombre_Completo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Fecha_Nacimiento" Type="DateTime" Precision="0" />
+    <Property Name="Rut" Type="Int32" Nullable="false" />
+    <Property Name="Fondo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fecha_Ingreso" Type="DateTime" Precision="0" />
+    <Property Name="Fecha_Termino_Contrato" Type="DateTime" Precision="0" />
+    <Property Name="Calidad_Contrato" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Tipo_Contrato" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Codigo_Contrato" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Estado_Componentes">
+    <Key>
+      <PropertyRef Name="IdState" />
+    </Key>
+    <Property Name="IdState" Type="Int32" Nullable="false" />
+    <Property Name="StateDescription" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Estado_Evaluaciones">
+    <Key>
+      <PropertyRef Name="IdState" />
+    </Key>
+    <Property Name="IdState" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+    <Property Name="StateDescription" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Evaluacion_Preguntas_Cargos">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_seccion" />
+      <PropertyRef Name="Numero_Pregunta" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_seccion" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Numero_Pregunta" Type="Int32" Nullable="false" />
+    <Property Name="Nota" Type="Decimal" Nullable="false" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Evaluacion_Resultado_Cargos">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_Seccion" />
+      <PropertyRef Name="Cod_Cargo_Evaluado" />
+      <PropertyRef Name="Cod_Usuario_Evaluado" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Seccion" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Cod_Cargo_Evaluado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Cod_Usuario_Evaluado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Nota_F_Seccion" Type="Decimal" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Evaluaciones_Cargos">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Cod_Usuario_Evaluado" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Cod_Usuario_Evaluado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Cod_Cargo_Evaluado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Estado_EC" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Nota_Final_EC" Type="Decimal" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Operacion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Preguntas_Aleatorias">
+    <Key>
+      <PropertyRef Name="Codigo_Seccion" />
+      <PropertyRef Name="Numero_Pregunta" />
+    </Key>
+    <Property Name="Codigo_Seccion" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Numero_Pregunta" Type="Int32" Nullable="false" />
+    <Property Name="Texto_Pregunta" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Ponderacion_P" Type="Decimal" Nullable="false" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Preguntas_Cargos">
+    <Key>
+      <PropertyRef Name="Codigo_Cargo" />
+      <PropertyRef Name="Cod_Cargo_Evaluado" />
+      <PropertyRef Name="Codigo_seccion" />
+      <PropertyRef Name="Numero_Pregunta" />
+    </Key>
+    <Property Name="Codigo_Cargo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Cod_Cargo_Evaluado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Codigo_seccion" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Numero_Pregunta" Type="Int32" Nullable="false" />
+    <Property Name="IdState" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rol">
+    <Key>
+      <PropertyRef Name="Tipo_Usuario" />
+    </Key>
+    <Property Name="Tipo_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Rol_Operacion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdRol" Type="Int32" Nullable="false" />
+    <Property Name="IdOperacion" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Secciones">
+    <Key>
+      <PropertyRef Name="Codigo_Seccion" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo_Seccion" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Nombre_Seccion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Ponderacion_S" Type="Decimal" Nullable="false" Precision="3" Scale="1" />
+    <Property Name="IdState" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Codigo_Usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Nombre_Usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Tipo_Usuario" Type="Int32" Nullable="false" />
+    <Property Name="Codigo_Cargo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PASS" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IdState" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Procesos_Evaluacion">
+    <Key>
+      <PropertyRef Name="Codigo_Proceso" />
+    </Key>
+    <Property Name="Codigo_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Nombre_Proceso" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Ano_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Mes_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Retroalimentacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado_PE" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="IdState" Type="Int32" Nullable="false" />
+  </EntityType>
+</Schema>

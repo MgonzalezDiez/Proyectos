@@ -1,0 +1,175 @@
+﻿@model Evaluacion360.Models.ViewModels.PositionViewModel
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ingreso de Cargos</title>
+    <!-- meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+
+        addEventListener("load", function()
+            { setTimeout(hideURLbar, 0); },
+            false);
+            function hideURLbar()
+            { window.scrollTo(0,1); }
+
+        window.setTimeout(function () {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+            }); }, 3000);
+        window.setTimeout(function () {
+            $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+            }); }, 8000);
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+    
+    <!-- Custom CSS -->
+    <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+
+    <!-- Graph CSS -->
+    <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
+    <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+    <!-- lined-icons -->
+    <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+    <!-- //lined-icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+</head>
+<body>
+
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.Status)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+        }
+
+        if (!ViewBag.Status)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+    @Html.AntiForgeryToken()
+
+    <div class="panel-body">
+        <form form="role" class="form-horizontal" action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="notification_header" style="text-align:center">
+                <h1 class="center-block">Crear Cargos</h1>
+            </div>
+            <div class="card box-shadow col-xl-7">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <br />
+                    <label class="col-md-3 control-label">Código de Cargo</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
+                            @Html.EditorFor(model => model.Codigo_Cargo, new { htmlAttributes = new { @required = true, type = "text", @class = "form-control1", @placeholder = "Ingrese Código Cargo" } })
+                        </div>
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label ">Desscripción Cargo</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
+                            @Html.EditorFor(model => model.Nombre_Cargo, new { htmlAttributes = new { @required = true, type = "text", @class = "form-control1", @placeholder = "Ingrese Desscripción Cargo" } })
+                        </div>
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label ">Fondo</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
+                            @Html.EditorFor(model => model.Fondo, new { htmlAttributes = new { @required = true, type = "text", @class = "form-control1", @placeholder = "Ingrese Fondo" } })
+                        </div>
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label ">Ciclo</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
+                            @Html.EditorFor(model => model.Ciclo, new { htmlAttributes = new { @required = true, type = "text", @class = "form-control1", @placeholder = "Ingrese Ciclo" } })
+                        </div>
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label ">Estado</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
+                            @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.State, "Seleccione Estado", new { @required = true, type = "text", @class = "form-control1", @placeholder = "Seleccione Estado", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-9">
+                            <button class="btn btn-danger btn-sm" style="width:191px" id="PQCreate" type="submit">Crear Cargo</button>
+                            <button class="btn btn-success btn-sm" style="width:191px" id="backToList" onclick="location.href='@Url.Action("List", "Positions")'" type="button">Volver a la Lista</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <script>
+        toastr.succes("Proceso realizado", "Atención",
+            {
+                closeButton: true,
+                preventDuplicates: true,
+                showDuration: 800,
+                progressBar: true
+            });
+    </script>
+</body>
+
+</html>
+

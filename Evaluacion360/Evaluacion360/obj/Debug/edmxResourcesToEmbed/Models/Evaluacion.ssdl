@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BD_EvaluacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Auto_Evaluacion_Preguntas">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_seccion" />
+      <PropertyRef Name="Numero_Pregunta" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="int" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="int" Nullable="false" />
+    <Property Name="Codigo_seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Numero_Pregunta" Type="int" Nullable="false" />
+    <Property Name="Nota" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Auto_Evaluacion_Resultado">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_Seccion" />
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="int" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="int" Nullable="false" />
+    <Property Name="Codigo_Seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Codigo_Usuario" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Nota_F_Seccion" Type="decimal" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Auto_Evaluaciones">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="int" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="int" Nullable="false" />
+    <Property Name="Codigo_Usuario" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Fecha" Type="date" />
+    <Property Name="Logros" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Metas" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Estado_AE" Type="char" MaxLength="1" />
+    <Property Name="Nota_Final_AE" Type="decimal" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Cargos">
+    <Key>
+      <PropertyRef Name="Codigo_Cargo" />
+    </Key>
+    <Property Name="Codigo_Cargo" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Nombre_Cargo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fondo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ciclo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IdState" Type="int" />
+  </EntityType>
+  <EntityType Name="Cargos_Evaluadores">
+    <Key>
+      <PropertyRef Name="Codigo_Cargo" />
+      <PropertyRef Name="Cod_Cargo_Evaluado" />
+    </Key>
+    <Property Name="Codigo_Cargo" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Cod_Cargo_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Ponderacion" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="IdState" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Datos_Usuarios">
+    <Key>
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Codigo_Usuario" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Nombre_Completo" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Fecha_Nacimiento" Type="date" />
+    <Property Name="Rut" Type="int" Nullable="false" />
+    <Property Name="Fondo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fecha_Ingreso" Type="date" />
+    <Property Name="Fecha_Termino_Contrato" Type="date" />
+    <Property Name="Calidad_Contrato" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Tipo_Contrato" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Codigo_Contrato" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Estado_Componentes">
+    <Key>
+      <PropertyRef Name="IdState" />
+    </Key>
+    <Property Name="IdState" Type="int" Nullable="false" />
+    <Property Name="StateDescription" Type="nvarchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Estado_Evaluaciones">
+    <Key>
+      <PropertyRef Name="IdState" />
+    </Key>
+    <Property Name="IdState" Type="nchar" MaxLength="1" Nullable="false" />
+    <Property Name="StateDescription" Type="nvarchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Evaluacion_Preguntas_Cargos">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_seccion" />
+      <PropertyRef Name="Numero_Pregunta" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="int" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="int" Nullable="false" />
+    <Property Name="Codigo_seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Numero_Pregunta" Type="int" Nullable="false" />
+    <Property Name="Nota" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Evaluacion_Resultado_Cargos">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_Seccion" />
+      <PropertyRef Name="Cod_Cargo_Evaluado" />
+      <PropertyRef Name="Cod_Usuario_Evaluado" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="int" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="int" Nullable="false" />
+    <Property Name="Codigo_Seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Cod_Cargo_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Cod_Usuario_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Nota_F_Seccion" Type="decimal" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Evaluaciones_Cargos">
+    <Key>
+      <PropertyRef Name="Numero_Evaluacion" />
+      <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Cod_Usuario_Evaluado" />
+    </Key>
+    <Property Name="Numero_Evaluacion" Type="int" Nullable="false" />
+    <Property Name="Codigo_Proceso" Type="int" Nullable="false" />
+    <Property Name="Cod_Usuario_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Cod_Cargo_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Estado_EC" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="Nota_Final_EC" Type="decimal" Precision="3" Scale="1" />
+  </EntityType>
+  <EntityType Name="Operacion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Preguntas_Aleatorias">
+    <Key>
+      <PropertyRef Name="Codigo_Seccion" />
+      <PropertyRef Name="Numero_Pregunta" />
+    </Key>
+    <Property Name="Codigo_Seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Numero_Pregunta" Type="int" Nullable="false" />
+    <Property Name="Texto_Pregunta" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Ponderacion_P" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Preguntas_Cargos">
+    <Key>
+      <PropertyRef Name="Codigo_Cargo" />
+      <PropertyRef Name="Cod_Cargo_Evaluado" />
+      <PropertyRef Name="Codigo_seccion" />
+      <PropertyRef Name="Numero_Pregunta" />
+    </Key>
+    <Property Name="Codigo_Cargo" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Cod_Cargo_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Codigo_seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Numero_Pregunta" Type="int" Nullable="false" />
+    <Property Name="IdState" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Procesos_Evaluacion">
+    <Key>
+      <PropertyRef Name="Codigo_Proceso" />
+    </Key>
+    <Property Name="Codigo_Proceso" Type="int" Nullable="false" />
+    <Property Name="Nombre_Proceso" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ano_Proceso" Type="int" Nullable="false" />
+    <Property Name="Mes_Proceso" Type="int" Nullable="false" />
+    <Property Name="Retroalimentacion" Type="nvarchar(max)" />
+    <Property Name="Estado_PE" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="IdState" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rol">
+    <Key>
+      <PropertyRef Name="Tipo_Usuario" />
+    </Key>
+    <Property Name="Tipo_Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rol_Operacion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdRol" Type="int" Nullable="false" />
+    <Property Name="IdOperacion" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Secciones">
+    <Key>
+      <PropertyRef Name="Codigo_Seccion" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo_Seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Nombre_Seccion" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ponderacion_S" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="IdState" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="Codigo_Usuario" />
+    </Key>
+    <Property Name="Codigo_Usuario" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Nombre_Usuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Tipo_Usuario" Type="int" Nullable="false" />
+    <Property Name="Codigo_Cargo" Type="nvarchar" MaxLength="20" />
+    <Property Name="PASS" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IdState" Type="int" Nullable="false" />
+  </EntityType>
+  <Function Name="Crea_Evaluaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CodigoUsuario" Type="nvarchar" Mode="In" />
+    <Parameter Name="Proceso" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="ObtenerDV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Rut" Type="int" Mode="In" />
+    <Parameter Name="Dv" Type="char" Mode="InOut" />
+  </Function>
+  <EntityContainer Name="BD_EvaluacionModelStoreContainer">
+    <EntitySet Name="Auto_Evaluacion_Preguntas" EntityType="Self.Auto_Evaluacion_Preguntas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Auto_Evaluacion_Resultado" EntityType="Self.Auto_Evaluacion_Resultado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Auto_Evaluaciones" EntityType="Self.Auto_Evaluaciones" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cargos" EntityType="Self.Cargos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cargos_Evaluadores" EntityType="Self.Cargos_Evaluadores" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Datos_Usuarios" EntityType="Self.Datos_Usuarios" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Estado_Componentes" EntityType="Self.Estado_Componentes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Estado_Evaluaciones" EntityType="Self.Estado_Evaluaciones" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Evaluacion_Preguntas_Cargos" EntityType="Self.Evaluacion_Preguntas_Cargos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Evaluacion_Resultado_Cargos" EntityType="Self.Evaluacion_Resultado_Cargos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Evaluaciones_Cargos" EntityType="Self.Evaluaciones_Cargos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Operacion" EntityType="Self.Operacion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Preguntas_Aleatorias" EntityType="Self.Preguntas_Aleatorias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Preguntas_Cargos" EntityType="Self.Preguntas_Cargos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Procesos_Evaluacion" EntityType="Self.Procesos_Evaluacion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rol_Operacion" EntityType="Self.Rol_Operacion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Secciones" EntityType="Self.Secciones" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>
