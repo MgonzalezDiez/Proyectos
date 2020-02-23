@@ -1,0 +1,167 @@
+﻿@model Evaluacion360.Models.ViewModels.PQViewModel
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ingreso de Preguntas</title>
+    <!-- meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+
+        addEventListener("load", function()
+            { setTimeout(hideURLbar, 0); },
+            false);
+            function hideURLbar()
+            { window.scrollTo(0,1); }
+
+        window.setTimeout(function () {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+            }); }, 3000);
+        window.setTimeout(function () {
+            $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+            }); }, 8000);
+    </script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+
+    <!-- Custom CSS -->
+    <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+
+    <!-- Graph CSS -->
+    <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
+    <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+    <!-- lined-icons -->
+    <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+    <!-- //lined-icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.Status)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        if (!ViewBag.Status)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+    @Html.AntiForgeryToken()
+
+    <div class="panel-body" , style="background-color:#fff">
+        <div class="notification_header" style="text-align:center">
+            <h1 class="center-block">Crear Pregunta por Cargo</h1>
+        </div>
+        <br />
+        <form form="role" class="form-horizontal" action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group has-feedback">
+                <label class="col-md-3 control-label ">Cargo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
+                        @Html.DropDownListFor(model => model.Codigo_Cargo, (SelectList)ViewBag.Cargos, "Seleccione Cargo", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                    </div>
+                </div>
+            </div>
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group has-feedback">
+                <label class="col-md-3 control-label ">Cargo Evaluado</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
+                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluado", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group has-feedback">
+                <label class="col-md-3 control-label ">Sección</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-sticky-note"></i></span>
+                        @Html.DropDownListFor(model => model.Codigo_seccion, (SelectList)ViewBag.Section, "Seleccione Sección", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group has-feedback">
+                <label class="col-md-3 control-label ">Seleccione Pregunta</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-question"></i></span>
+                        @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, "Seleccione Pregunta", new { type = "text", @class = "form-control1",  @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                    </div>
+                </div>
+            </div>
+
+
+            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label ">Número de Pregunta</label>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                            @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Número de Pregunta", @required = "required" } })
+                        </div>
+                    </div>
+                </div>*@
+
+            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label ">Estado</label>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                            @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.State, "Seleccione Estado", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        </div>
+                    </div>
+                </div>*@
+
+            <div class="panel-footer">
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="justify-content-center">
+                        <input class="btn btn-danger btn-sm" id="PQCreate" type="submit" value="Crear Pregunta" />
+                        <button class="btn btn-success btn-sm" id="backToList" onclick="location.href='@Url.Action("List", "PositionQuestion")'" type="button">Volver a la Lista</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
