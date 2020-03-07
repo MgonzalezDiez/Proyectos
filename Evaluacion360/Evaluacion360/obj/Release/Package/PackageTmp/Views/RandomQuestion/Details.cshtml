@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Detalle Preguntas Aleatorias</title>
+    <title>Detalle de Pregunta</title>
     <!-- meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -50,14 +50,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <body>
     <div class="panel-body" , style="background-color:#fff">
         <div class="notification_header" style="text-align:center">
-            <h1 class="center-block">Detalle de Pregunta Aleatoria</h1>
+            <h1 class="center-block">Detalle de Pregunta</h1>
         </div>
         <br />
 
         <form form="role" class="form-horizontal">
             @Html.AntiForgeryToken()
             <div class="form-group has-feedback">
-                <label class="col-md-3 control-label ">Código de Sección</label>
+                <label class="col-md-3 control-label ">Código de Dominio</label>
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
@@ -76,11 +76,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Ponderación</label>
+                <label class="col-md-3 control-label">Texto de Pregunta</label>
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
-                        @Html.EditorFor(model => model.Texto_Pregunta, new { htmlAttributes = new { type = "text", @disabled = "disabled", @class = "form-control1", @placeholder = "00,0" } })
+                        @Html.EditorFor(model => model.Texto_Pregunta, new { htmlAttributes = new { type = "text", @disabled = "disabled", @class = "form-control1" } })
                         <div class="clearfix"></div>
                     </div>
                 </div>

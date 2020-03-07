@@ -32,30 +32,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
             $(this).remove();
             }); }, 5000);
+        }
+
     </script>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
-    <link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />
-    
-    <!-- Custom CSS -->
-    <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
-    
-    <link href="~/Css-Modernizer/style4.css" rel="stylesheet" />
-    <!-- Graph CSS -->
-    <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
-    <link href="~/Css/jquery-ui.css" rel="stylesheet" />
-    
-    <!-- jQuery -->
-    <script src="~/js/jquery-2.1.4.min.js"></script>
-    <!-- //jQuery -->
-    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
-    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
-    <!-- lined-icons -->
-    <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
-    <!-- //lined-icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- Bootstrap Core CSS -->
+        <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+        <link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />
+
+        <!-- Custom CSS -->
+        <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
+
+        <link href="~/Css-Modernizer/style4.css" rel="stylesheet" />
+        <!-- Graph CSS -->
+        <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
+        <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+
+        <!-- jQuery -->
+        <script src="~/js/jquery-2.1.4.min.js"></script>
+        <!-- //jQuery -->
+        <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+        <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+        <!-- lined-icons -->
+        <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+        <!-- //lined-icons -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -86,7 +88,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container-fluid">
         <div class="outer-w3-agile mt-1">
             <div class="modal-header">
-                <h1 class="center-block" >Ingreso de Usuario</h1>
+                <h1 class="center-block">Ingreso de Usuario</h1>
             </div>
             <form action="Create" method="Post" id="UserData">
                 <div class="card-deck">
@@ -96,7 +98,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
-                                    @Html.EditorFor(model => model.Codigo_Usuario, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Código de Usuario", @required = "required", @maxlength = 20, @minlength = 6, @ErrorMessage = "bbb", style = "text-transform: uppercase", autofocus = "autofocus" } })
+                                    @Html.EditorFor(model => model.Codigo_Usuario, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Código de Usuario", @required = "required", @maxlength = 20, @minlength = 6, autocomplete = "Codigo_Usuario", style = "text-transform: uppercase", autofocus = "autofocus" } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -105,7 +107,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    @Html.EditorFor(model => model.Nombre_Usuario, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Nombre de Usuario", @required = "required", @maxlength = 50, @minlength = 6, @ErrorMessage = "bbb" } })
+                                    @Html.EditorFor(model => model.Nombre_Usuario, new { htmlAttributes = new { autocomplete = "Model.Nombre_Usuario", type = "text", @class = "form-control1", @placeholder = "Nombre de Usuario", @required = "required", @maxlength = 50, @minlength = 6 } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -132,7 +134,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-                                    @Html.EditorFor(model => model.PASS, new { htmlAttributes = new { type = "password", @class = "form-control1", @placeholder = "Password", @required = "required", @maxlength = 20, @minlength = 6, @ErrorMessage = "bbb" } })
+                                    @Html.EditorFor(model => model.PASS, new { htmlAttributes = new { autocomplete = "PASS", type = "password", @class = "form-control1", @placeholder = "Password", @required = "required", @maxlength = 20, @minlength = 6 } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -141,7 +143,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-                                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @required = "required", type = "password", @class = "form-control1", @placeholder = "Confirmar Password" } })
+                                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { autocomplete = "ConfirmPassword", type = "password", @required = "required", @class = "form-control1", @placeholder = "Confirmar Password" } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -150,7 +152,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
-                                    @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.UserState, "Seleccione Estado", new { @required = "required", type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                                    @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.UserState, "Seleccione Estado", new { autocomplete = "IdState", @required = "required", type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -163,7 +165,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
-                                    @Html.EditorFor(model => model.Nombre_Completo, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Nombre Completo Usuario", @required = "required", @maxlength = 50, @minlength = 10, @ErrorMessage = "bbb" } })
+                                    @Html.EditorFor(model => model.Nombre_Completo, new { htmlAttributes = new { autocomplete = "Nombre_Completo", type = "text", @class = "form-control1", @placeholder = "Nombre Completo Usuario", @required = "required", @maxlength = 50, @minlength = 10 } })
                                 </div>
                             </div>
 
@@ -171,7 +173,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    @Html.EditorFor(model => model.Fecha_Nacimiento, new { htmlAttributes = new { type = "date", @class = "form-control1", @placeholder = "Fecha Nacimiento", @ErrorMessage = "bbb" } })
+                                    @Html.EditorFor(model => model.Fecha_Nacimiento, new { htmlAttributes = new { autocomplete = "Fecha_Nacimiento", type = "date", @class = "form-control1", @placeholder = "Fecha Nacimiento", } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -179,7 +181,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-registered"></i></span>
-                                    @Html.TextBoxFor(model => model.Rut, new {  @required = "required", @id = "Rut", @class = "form-control1 form-rut", @minlength = "7", @maxlength = "9", @style = "max-width: 265px;display: inline-block;" })<span>-</span>@Html.TextBoxFor(model => model.Dv, new {  @required = "required", @id="Dv", @class = "form-control1 form-dvrut form-control-sm", @type = "text", @maxlength = "1", @style = "max-width: 35px;display: inline-block; text-align:center;" })
+                                    @Html.TextBoxFor(model => model.Rut, new { autocomplete = "Rut", @required = "required", @id = "Rut", @class = "form-control1 form-rut", @minlength = "7", @maxlength = "9", @style = "max-width: 265px;display: inline-block;" })<span>-</span>@Html.TextBoxFor(model => model.Dv, new { @required = "required", @id = "Dv", @class = "form-control1 form-dvrut form-control-sm", @type = "text", @maxlength = "1", autocomplete = "Dv", @style = "max-width: 35px;display: inline-block; text-align:center;" })
 
                                     <div class="clearfix"></div>
                                 </div>
@@ -188,7 +190,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-shopping-bag"></i></span>
-                                    @Html.EditorFor(model => model.Fondo, new { htmlAttributes = new {  @required = "required", type = "text", @class = "form-control1", @placeholder = "Fondo", @ErrorMessage = "bbb" } })
+                                    @Html.EditorFor(model => model.Fondo, new { htmlAttributes = new { autocomplete = "Fondo", @required = "required", type = "text", @class = "form-control1", @placeholder = "Fondo" } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -196,7 +198,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    @Html.EditorFor(model => model.Fecha_Ingreso, new { htmlAttributes = new { type = "date", @class = "form-control1", @placeholder = "Fecha Ingreso"} })
+                                    @Html.EditorFor(model => model.Fecha_Ingreso, new { htmlAttributes = new { autocomplete = "Fecha_Ingreso", type = "date", @class = "form-control1", @placeholder = "Fecha Ingreso" } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -204,7 +206,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    @Html.EditorFor(model => model.Fecha_Termino_Contrato, new { htmlAttributes = new { type = "date", @class = "form-control1", @placeholder = "Fecha Término Contrato" } })
+                                    @Html.EditorFor(model => model.Fecha_Termino_Contrato, new { htmlAttributes = new { autocomplete = "Fecha_Termino_Contrato", type = "date", @class = "form-control1", @placeholder = "Fecha Término Contrato" } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -212,7 +214,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-qq"></i></span>
-                                    @Html.EditorFor(model => model.Calidad_Contrato, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Calidad Contrato", @required = "required", @ErrorMessage = "bbb" } })
+                                    @Html.EditorFor(model => model.Calidad_Contrato, new { htmlAttributes = new { autocomplete = "Calidad_Contrato", type = "text", @class = "form-control1", @placeholder = "Calidad Contrato", @required = "required" } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -220,7 +222,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-archive"></i></span>
-                                    @Html.EditorFor(model => model.Tipo_Contrato, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Tipo Contrato", @required = "required", @ErrorMessage = "bbb" } })
+                                    @Html.EditorFor(model => model.Tipo_Contrato, new { htmlAttributes = new { autocomplete = "Tipo_Contrato", type = "text", @class = "form-control1", @placeholder = "Tipo Contrato", @required = "required" } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -228,7 +230,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-code"></i></span>
-                                    @Html.EditorFor(model => model.Codigo_Contrato, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "CódigoContrato", @required = "required", @ErrorMessage = "bbb" } })
+                                    @Html.EditorFor(model => model.Codigo_Contrato, new { htmlAttributes = new { autocomplete = "Codigo_Contrato", type = "text", @class = "form-control1", @placeholder = "CódigoContrato", @required = "required" } })
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -330,6 +332,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 document.getElementById("ConfirmPassword").setCustomValidity('');
             //Si está vacío, significa que no hay error
         }
+
     </script>
+    <script src="~/js/Utiles.js"></script>   
+   
 </body>
 </html>

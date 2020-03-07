@@ -1,7 +1,5 @@
 ﻿using Evaluacion360.Models;
 using Evaluacion360.Models.ViewModels;
-
-
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -9,7 +7,7 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-
+using Evaluacion360.Utils;
 namespace Evaluacion360.Controllers
 {
     public class ExcelController : Controller
@@ -26,7 +24,7 @@ namespace Evaluacion360.Controllers
         public JsonResult Index()
         {
             List<SectionExcelModel> excelModel = new List<SectionExcelModel>();
-            
+
             if (Request.Files.Count > 0)
             {
                 var ExcelJson = "";
@@ -51,26 +49,21 @@ namespace Evaluacion360.Controllers
                         var newName = fname.Split('.');
                         fname = newName[0] + "_" + DateTime.Now.Ticks.ToString() + "." + newName[1];
                         var uploadRootFolderInput = AppDomain.CurrentDomain.BaseDirectory + "\\Importados";
-                        if(!Directory.Exists(uploadRootFolderInput))
+                        if (!Directory.Exists(uploadRootFolderInput))
                         {
                             Directory.CreateDirectory(uploadRootFolderInput);
                         }
                         var directoryFullPathInput = uploadRootFolderInput;
                         fname = Path.Combine(directoryFullPathInput, fname);
                         file.SaveAs(fname);
-                       
+
+                        
                         excelModel = ReadSectionExcel(fname);
                         var val1 = excelModel.Exists(n => n.Nombre_Seccion == "Error");
                         if (excelModel != null && !val1)
                         {
                             JavaScriptSerializer ser = new JavaScriptSerializer();
                             ExcelJson = ser.Serialize(excelModel);
-
-                            if (System.IO.File.Exists("D:\\Excel.json"))
-                            {
-                                System.IO.File.Delete("D:\\Excel.json");
-                            }
-                            System.IO.File.WriteAllText("D:\\Excel.json", ExcelJson);
                         }
                         else
                         {
@@ -118,38 +111,56 @@ namespace Evaluacion360.Controllers
                     {
                         if (wrkSheet.Cells[row, 1].Value != null)
                         {
-                            var oSection = new Secciones
+                            string CodSec = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper();
+                            int res = Tools.ValidaDominios(CodSec);
+                            Secciones oSection = new Secciones();
+                            if (res >= 1)
                             {
-                                Codigo_Seccion = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper(),
-                                Nombre_Seccion = wrkSheet.Cells[row, 2].Value.ToString().Trim().ToUpper(),
-                                Ponderacion_S = decimal.Parse(wrkSheet.Cells[row, 3].Value.ToString().Trim()),
-                                IdState = 1
-                            };
-                            bd.Secciones.Add(oSection);
+                                oSection.Codigo_Seccion = CodSec;
+                                oSection.Nombre_Seccion = wrkSheet.Cells[row, 2].Value.ToString().Trim().ToUpper();
+                                oSection.Ponderacion_S = decimal.Parse(wrkSheet.Cells[row, 3].Value.ToString().Trim());
+                                oSection.IdState = 1;
+                                bd.Entry(oSection).State = System.Data.Entity.EntityState.Modified;
+                                bd.SaveChanges();
+                            }
+                            else
+                            {
+                                oSection = new Secciones
+                                {
+                                    Codigo_Seccion = CodSec,
+                                    Nombre_Seccion = wrkSheet.Cells[row, 2].Value.ToString().Trim().ToUpper(),
+                                    Ponderacion_S = decimal.Parse(wrkSheet.Cells[row, 3].Value.ToString().Trim()),
+                                    IdState = 1
+                                };
+                                bd.Secciones.Add(oSection);
+                                bd.SaveChanges();
+                            }
+
                             excelData.Add(new SectionExcelModel()
                             {
-                                Codigo_Seccion = oSection.Codigo_Seccion,
+                                Codigo_Seccion = CodSec,
                                 Nombre_Seccion = oSection.Nombre_Seccion,
-                                Ponderacion_S = oSection.Ponderacion_S,
+                                Ponderacion_S = oSection.Ponderacion_S ?? 0,
                                 IdState = oSection.IdState
                             });
                         }
                     }
-                    //bd.SaveChanges();
-                    //mensaje = "OkExcel";
                 }
-                //string ExcelJson = JsonConvert.SerializeObject(excelData);
                 return excelData;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                string mensaje = ex.InnerException.InnerException.Message;
+
                 excelData.Clear();
-                excelData.Add(new SectionExcelModel() {
+                excelData.Add(new SectionExcelModel()
+                {
+
                     Codigo_Seccion = "Error",
-                    Nombre_Seccion = "Ocurrió el siguiente error " + e.Message + " Contactar al administrador",
+                    Nombre_Seccion = mensaje + " Contactar al administrador",
                     Ponderacion_S = 0,
                     IdState = 0
-            });
+                });
 
                 return excelData;
             }
@@ -202,26 +213,11 @@ namespace Evaluacion360.Controllers
                         fname = Path.Combine(directoryFullPathInput, fname);
                         file.SaveAs(fname);
 
-                        //string xlsFile = fname;
                         excelModel = ReadRQExcel(fname);
-                        var val1 = excelModel.Exists(n => n.Codigo_Seccion == "Error");
-                        if (excelModel != null && !val1)
-                        {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            ExcelJson = ser.Serialize(excelModel);
 
-                            if (System.IO.File.Exists("D:\\ExcelRQ.json"))
-                            {
-                                System.IO.File.Delete("D:\\ExcelRQ.json");
-                            }
-                            System.IO.File.WriteAllText("D:\\ExcelRQ.json", ExcelJson);
-                        }
-                        else
-                        {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            ExcelJson = ser.Serialize(excelModel);
-                            return Json(ExcelJson, JsonRequestBehavior.AllowGet);
-                        }
+                        JavaScriptSerializer ser = new JavaScriptSerializer();
+                        ExcelJson = ser.Serialize(excelModel);
+                        return Json(ExcelJson, JsonRequestBehavior.AllowGet);
                     }
                     if (excelModel.Count > 0)
                     {
@@ -255,44 +251,69 @@ namespace Evaluacion360.Controllers
 
                 using (var bd = new BD_EvaluacionEntities())
                 {
-                    for (int row = 2; row <= rowCount; row++)
+                    try
                     {
-                        if (wrkSheet.Cells[row, 1].Value != null)
+                        for (int row = 2; row <= rowCount; row++)
                         {
-                            var oRQuestion = new Preguntas_Aleatorias
+                            if (wrkSheet.Cells[row, 1].Value != null)
                             {
-                                Codigo_Seccion = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper(),
-                                Numero_Pregunta = Convert.ToInt32( wrkSheet.Cells[row, 2].Value.ToString().Trim()),
-                                Texto_Pregunta = wrkSheet.Cells[row, 3].Value.ToString().Trim(),
-                                Ponderacion_P = decimal.Parse( wrkSheet.Cells[row, 4].Value.ToString().Trim())
-                            };
-                            bd.Preguntas_Aleatorias.Add(oRQuestion);
-                            excelData.Add(new RQExcelModel()
-                            {
-                                Codigo_Seccion = oRQuestion.Codigo_Seccion,
-                                Numero_Pregunta = oRQuestion.Numero_Pregunta,
-                                Texto_Pregunta = oRQuestion.Texto_Pregunta,
-                                Ponderacion_P = oRQuestion.Ponderacion_P
-                            });
+                                var oRQ = new Preguntas_Aleatorias
+                                {
+                                    Codigo_Seccion = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper(),
+                                    Numero_Pregunta = Convert.ToInt32(wrkSheet.Cells[row, 2].Value.ToString().Trim()),
+                                    Texto_Pregunta = wrkSheet.Cells[row, 3].Value.ToString().Trim(),
+                                    Ponderacion_P = decimal.Parse(wrkSheet.Cells[row, 4].Value.ToString().Trim())
+                                };
+                                bd.Preguntas_Aleatorias.Add(oRQ);
+                                excelData.Add(new RQExcelModel()
+                                {
+                                    Codigo_Seccion = oRQ.Codigo_Seccion,
+                                    Numero_Pregunta = oRQ.Numero_Pregunta,
+                                    Texto_Pregunta = oRQ.Texto_Pregunta,
+                                    Ponderacion_P = oRQ.Ponderacion_P
+                                });
+                                //bd.SaveChanges();
+                            }
                         }
+                        bd.SaveChanges();
                     }
-                    //bd.SaveChanges();
+                    catch (Exception ex)
+                    {
+                        string mensaje = ex.InnerException.InnerException.Message;
+
+                        excelData.Clear();
+                        excelData.Add(new RQExcelModel()
+                        {
+
+                            Codigo_Seccion = "Error",
+                            Texto_Pregunta = mensaje + " Valide la información a Ingresar o Contátese con el administrador",
+                            Numero_Pregunta = 0,
+                            Ponderacion_P = 0
+                        });
+                    }
+
                 }
                 return excelData;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                string mensaje = ex.InnerException.InnerException.Message;
+
                 excelData.Clear();
                 excelData.Add(new RQExcelModel()
                 {
+
                     Codigo_Seccion = "Error",
-                    Texto_Pregunta = "Ocurrió el siguiente error " + e.Message + " Contactar al administrador",
+                    Texto_Pregunta = mensaje + " Contactar al administrador",
                     Numero_Pregunta = 0,
                     Ponderacion_P = 0
                 });
+
                 return excelData;
             }
         }
         #endregion
+
+        
     }
 }

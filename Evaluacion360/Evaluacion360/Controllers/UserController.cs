@@ -91,8 +91,8 @@ namespace Evaluacion360.Controllers
                 }
             }
             Usuarios oUser = (Usuarios)Session["User"];
-            ViewBag.TipoUsuario = new SelectList(LeerTipoUsuario(Convert.ToInt32(oUser.Tipo_Usuario)), "Tipo_Usuario", "Nombre", "");
-            ViewBag.Cargos = new SelectList(LeerCargos(Convert.ToInt32(oUser.Tipo_Usuario)), "Codigo_Cargo", "Nombre_Cargo", "");
+            ViewBag.TipoUsuario = new SelectList(Tools.LeerTipoUsuario(Convert.ToInt32(oUser.Tipo_Usuario)), "Tipo_Usuario", "Nombre", "");
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(Convert.ToInt32(oUser.Tipo_Usuario)), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.UserState = new SelectList(Utils.Tools.LeerEstados(), "IdState", "StateDescription", 1);
             return View();
         }
@@ -102,8 +102,8 @@ namespace Evaluacion360.Controllers
         public ActionResult Create(UsuarioViewModel user)
         {
             Usuarios oUser = (Usuarios)Session["User"];
-            ViewBag.TipoUsuario = new SelectList(LeerTipoUsuario(Convert.ToInt32(oUser.Tipo_Usuario)), "Tipo_Usuario", "Nombre", "");
-            ViewBag.Cargos = new SelectList(LeerCargos(Convert.ToInt32(oUser.Tipo_Usuario)), "Codigo_Cargo", "Nombre_Cargo", "");
+            ViewBag.TipoUsuario = new SelectList(Tools.LeerTipoUsuario(Convert.ToInt32(oUser.Tipo_Usuario)), "Tipo_Usuario", "Nombre", "");
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(Convert.ToInt32(oUser.Tipo_Usuario)), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.UserState = new SelectList(Utils.Tools.LeerEstados(), "IdState", "StateDescription", "");
 
             try
@@ -264,8 +264,8 @@ namespace Evaluacion360.Controllers
         public ActionResult Edit(string Id, string mensaje)
         {
             Usuarios oUser = (Usuarios)Session["User"];
-            ViewBag.TipoUsuario = new SelectList(LeerTipoUsuario(Convert.ToInt32(oUser.Tipo_Usuario)), "Tipo_Usuario", "Nombre", "");
-            ViewBag.Cargos = new SelectList(LeerCargos(Convert.ToInt32(oUser.Tipo_Usuario)), "Codigo_Cargo", "Nombre_Cargo", "");
+            ViewBag.TipoUsuario = new SelectList(Tools.LeerTipoUsuario(Convert.ToInt32(oUser.Tipo_Usuario)), "Tipo_Usuario", "Nombre", "");
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(Convert.ToInt32(oUser.Tipo_Usuario)), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.UserState = new SelectList(Utils.Tools.LeerEstados(), "IdState", "StateDescription", "");
 
             ViewBag.Status = false;
@@ -528,97 +528,7 @@ namespace Evaluacion360.Controllers
             using BD_EvaluacionEntities Bd = new BD_EvaluacionEntities();
             var existe = Bd.Usuarios.Where(a => a.Codigo_Usuario == UserCode).FirstOrDefault();
             return existe == null;
-        }
-
-        public static IEnumerable<Cargos> LeerCargos(int userType)
-        {
-            List<Cargos> cargos = new List<Cargos>();
-            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            using SqlConnection Cnn = new SqlConnection(CnnStr);
-            using (SqlCommand cmd = new SqlCommand())
-            {
-                if (userType != 1 )
-                {
-                    cmd.CommandText = "Select Codigo_Cargo, Nombre_Cargo from Cargos Where Codigo_Cargo <> 1";
-                    cmd.Connection = Cnn;
-                }
-                else
-                {
-                    cmd.CommandText = "Select Codigo_Cargo, Nombre_Cargo from Cargos";
-                    cmd.Connection = Cnn;
-                }
-                Cnn.Open();
-                using SqlDataReader rea = cmd.ExecuteReader();
-                while (rea.Read())
-                {
-                    Cargos c = new Cargos
-                    {
-                        Codigo_Cargo = rea.GetString(0),
-                        Nombre_Cargo = rea.GetString(1)
-                    };
-                    cargos.Add(c);
-                }
-                //rea.Close();
-                //Cnn.Close();
-            }
-            return cargos;
-        }
-
-        private static IEnumerable<Rol> LeerTipoUsuario(int userType)
-        {
-            List<Rol> tipoUsuarios = new List<Rol>();
-            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            using SqlConnection Cnn = new SqlConnection(CnnStr);
-            using SqlCommand cmd = new SqlCommand();
-            if (userType != 1)
-            {
-                cmd.CommandText = "Select Tipo_Usuario, Nombre from Rol Where Tipo_Usuario <> 1";
-                cmd.Connection = Cnn;
-            }
-            else
-            {
-                cmd.CommandText = "Select Tipo_Usuario, Nombre from Rol ";
-                cmd.Connection = Cnn;
-            }
-            Cnn.Open();
-            using (SqlDataReader rea = cmd.ExecuteReader())
-            {
-                while (rea.Read())
-                {
-                    Rol r = new Rol
-                    {
-                        Tipo_Usuario = rea.GetInt32(0),
-                        Nombre = rea.GetString(1)
-                    };
-                    tipoUsuarios.Add(r);
-                }
-            }
-
-            //rea.Close();
-            //Cnn.Close();
-            return tipoUsuarios;
-        }
-
-        private static int TipoUsuario(string CodUser)
-        {
-            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            using SqlConnection Cnn = new SqlConnection(CnnStr);
-            using SqlCommand cmd = new SqlCommand();
-            int TUsuario = 0;
-            cmd.CommandText = "Select Tipo_Usuario from Usuarios Where Codigo_Usuario = " + CodUser;
-            cmd.Connection = Cnn;
-            Cnn.Open();
-            using (SqlDataReader rea = cmd.ExecuteReader())
-            {
-                while (rea.Read())
-                {
-                    TUsuario = rea.GetInt32(0);
-                }
-            }
-            //Cnn.Close();
-
-            return TUsuario;
-        }
+        }     
     }
 }
 

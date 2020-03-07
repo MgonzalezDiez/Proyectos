@@ -95,7 +95,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <tr>
                             <th> @Html.DisplayName("Cargo Evaluador")</th>
                             <th> @Html.DisplayName("Cargo Evaluado")</th>
-                            <th> @Html.DisplayName("Penderación")</th>
+                            <th> @Html.DisplayName("Ponderación")</th>
                             <th> @Html.DisplayName("Estado")</th>
                             <th> @Html.DisplayName("Acciones")</th>
                         </tr>
@@ -109,13 +109,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td>@item.Ponderacion</td>
                                 <td>@item.IdState</td>
                                 <td>
-                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","EvaluationPosition", new { cargo=item.Codigo_Cargo, cargoEv=item.Cod_Cargo_Evaluado })'" title="Editar">
+                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","EvaluationPosition", new { codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado })'" title="Editar">
                                         <span class="fa fa-pencil"></span>
                                     </button>
-                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "EvaluationPosition", new {cargo=item.Codigo_Cargo, cargoEv=item.Cod_Cargo_Evaluado})'" title="Detalles">
+                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "EvaluationPosition", new {codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado})'" title="Detalles">
                                         <span class="fa fa-eye"></span>
                                     </button>
-                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "EvaluationPosition", new {cargo=item.Codigo_Cargo, cargoEv=item.Cod_Cargo_Evaluado })'" title="Eliminar">
+                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "EvaluationPosition", new {codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado })'" title="Eliminar">
                                         <span class="fa fa-trash"></span>
                                     </button>
 

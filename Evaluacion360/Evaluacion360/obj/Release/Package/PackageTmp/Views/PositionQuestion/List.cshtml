@@ -93,43 +93,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <table id="table">
                     <thead>
                         <tr>
-                            <th> @Html.DisplayName("Cód. Cargo")</th>
-                            <th> @Html.DisplayName("Cargo Evaluador")</th>
-                            <th> @Html.DisplayName("Cód Cargo Eval")</th>
+                            @*<th> @Html.DisplayName("Cargo")</th>*@
+                            <th> @Html.DisplayName("Evaluador")</th>
+                            @* <th> @Html.DisplayName("Cod. Cargo Eval")</th>*@
                             <th> @Html.DisplayName("Cargo Evaluado")</th>
-                            <th> @Html.DisplayName("Cód Dominio")</th>
+                            @*<th> @Html.DisplayName("Cód Dominio")</th>*@
                             <th> @Html.DisplayName("Dominio")</th>
                             <th> @Html.DisplayName("Pregunta")</th>
+                            <th> @Html.DisplayName("Estado")</th>
                             <th> @Html.DisplayName("Acciones")</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.Secciones)
                         {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Codigo_Cargo)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Cod_Cargo_Evaluado)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo_Evaluado)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Codigo_seccion)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Nombre_Seccion)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Numero_Pregunta)</td>
+                        <tr>
+                            @*<td>@Html.DisplayFor(modelItem => item.Codigo_Cargo)</td>*@
+                            <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo)</td>
+                            @*<td>@Html.DisplayFor(modelItem => item.Cod_Cargo_Evaluado)</td>*@
+                            <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo_Evaluado)</td>
+                            @*<td>@Html.DisplayFor(modelItem => item.Codigo_seccion)</td>*@
+                            <td>@Html.DisplayFor(modelItem => item.Nombre_Seccion)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Texto_Pregunta)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdState)</td>
+                            <td>
+                                <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, askNo = item.Numero_Pregunta, @Model})'" title="Editar">
+                                    <span class="fa fa-pencil"></span>
+                                </button>
+                                <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, askNo = item.Numero_Pregunta, @Model})'" title="Detalles">
+                                    <span class="fa fa-eye"></span>
+                                </button>
+                                <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, askNo = item.Numero_Pregunta, @Model})'" title="Eliminar">
+                                    <span class="fa fa-trash"></span>
+                                </button>
+                            </td>
 
-                                <td>
-                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, @Model})'" title="Editar">
-                                        <span class="fa fa-pencil"></span>
-                                    </button>
-                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, @Model})'" title="Detalles">
-                                        <span class="fa fa-eye"></span>
-                                    </button>
-                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, @Model})'" title="Eliminar">
-                                        <span class="fa fa-trash"></span>
-                                    </button>
-                                </td>
-
-
-
-                            </tr>
+                        </tr>
                         }
                     </tbody>
                 </table>

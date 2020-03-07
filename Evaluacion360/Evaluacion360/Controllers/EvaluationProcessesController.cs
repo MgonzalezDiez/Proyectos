@@ -25,8 +25,8 @@ namespace Evaluacion360.Controllers
             var oEP = new List<EvProcsViewModel>();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
-                oEP = (from ep in Db.Procesos_Evaluacion
-                       select new EvProcsViewModel
+                oEP = (from ep in Db.Procesos_Evaluacion orderby ep.Nombre_Proceso, ep.Ano_Proceso, ep.Mes_Proceso
+                       select new EvProcsViewModel 
                        {
                            Codigo_Proceso = ep.Codigo_Proceso,
                            Nombre_Proceso = ep.Nombre_Proceso,
@@ -128,23 +128,21 @@ namespace Evaluacion360.Controllers
                 if (ModelState.IsValid)
                 {
                     #region Graba Datos
-                    using (var bd = new BD_EvaluacionEntities())
+                    using var bd = new BD_EvaluacionEntities();
+                    var oEP = new Procesos_Evaluacion
                     {
-                        var oEP = new Procesos_Evaluacion
-                        {
-                            Codigo_Proceso = ep.Codigo_Proceso,
-                            Nombre_Proceso = ep.Nombre_Proceso,
-                            Ano_Proceso = ep.Ano_Proceso,
-                            Mes_Proceso = ep.Mes_Proceso,
-                            Retroalimentacion = ep.Retroalimentacion,
-                            Estado_PE = ep.Estado_PE,
-                            IdState = ep.IdState
-                        };
-                        bd.Procesos_Evaluacion.Add(oEP);
-                        bd.SaveChanges();
+                        Codigo_Proceso = ep.Codigo_Proceso,
+                        Nombre_Proceso = ep.Nombre_Proceso,
+                        Ano_Proceso = ep.Ano_Proceso,
+                        Mes_Proceso = ep.Mes_Proceso,
+                        Retroalimentacion = ep.Retroalimentacion,
+                        Estado_PE = ep.Estado_PE,
+                        IdState = ep.IdState
+                    };
+                    bd.Procesos_Evaluacion.Add(oEP);
+                    bd.SaveChanges();
 
-                        Mensaje = "Ok";
-                    }
+                    Mensaje = "Ok";
                     #endregion
                 }
                 else
@@ -190,22 +188,20 @@ namespace Evaluacion360.Controllers
             try
             {
                 var oEP = new EvProcsViewModel();
-                using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
-                {
-                    oEP = (from ep in Db.Procesos_Evaluacion
-                           where ep.Codigo_Proceso == codProc
-                           select new EvProcsViewModel
-                           {
-                               Codigo_Proceso = ep.Codigo_Proceso,
-                               Nombre_Proceso = ep.Nombre_Proceso,
-                               Ano_Proceso = ep.Ano_Proceso,
-                               Mes_Proceso = ep.Mes_Proceso,
-                               Retroalimentacion = ep.Retroalimentacion,
-                               Estado_PE = ep.Estado_PE,
-                               IdState = ep.IdState
-                           }).FirstOrDefault();
-                    return View(oEP);
-                }
+                using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+                oEP = (from ep in Db.Procesos_Evaluacion
+                       where ep.Codigo_Proceso == codProc
+                       select new EvProcsViewModel
+                       {
+                           Codigo_Proceso = ep.Codigo_Proceso,
+                           Nombre_Proceso = ep.Nombre_Proceso,
+                           Ano_Proceso = ep.Ano_Proceso,
+                           Mes_Proceso = ep.Mes_Proceso,
+                           Retroalimentacion = ep.Retroalimentacion,
+                           Estado_PE = ep.Estado_PE,
+                           IdState = ep.IdState
+                       }).FirstOrDefault();
+                return View(oEP);
             }
             catch (Exception e)
             {
@@ -223,18 +219,16 @@ namespace Evaluacion360.Controllers
         {
             try
             {
-                using (var Db = new BD_EvaluacionEntities())
-                {
-                    Procesos_Evaluacion oEP = Db.Procesos_Evaluacion.Find(codProc); 
+                using var Db = new BD_EvaluacionEntities();
+                Procesos_Evaluacion oEP = Db.Procesos_Evaluacion.Find(codProc);
 
-                    oEP.Nombre_Proceso = ep.Nombre_Proceso;
-                    oEP.Ano_Proceso = ep.Ano_Proceso;
-                    oEP.Mes_Proceso = ep.Mes_Proceso;
-                    oEP.Retroalimentacion = ep.Retroalimentacion;
-                    Db.Entry(oEP).State = EntityState.Modified;
-                    Mensaje = "Ok";
-                    Db.SaveChanges();
-                }
+                oEP.Nombre_Proceso = ep.Nombre_Proceso;
+                oEP.Ano_Proceso = ep.Ano_Proceso;
+                oEP.Mes_Proceso = ep.Mes_Proceso;
+                oEP.Retroalimentacion = ep.Retroalimentacion;
+                Db.Entry(oEP).State = EntityState.Modified;
+                Mensaje = "Ok";
+                Db.SaveChanges();
             }
             catch (Exception e)
             {
@@ -299,18 +293,16 @@ namespace Evaluacion360.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var Db = new BD_EvaluacionEntities())
-                    {
-                        var oEP = Db.Procesos_Evaluacion.Find(codProc);
-                        oEP.Nombre_Proceso = ep.Nombre_Proceso.ToUpper();
-                        oEP.Ano_Proceso = ep.Ano_Proceso;
-                        oEP.Mes_Proceso = ep.Mes_Proceso;
-                        oEP.Retroalimentacion = ep.Retroalimentacion;
-                        oEP.IdState = ep.IdState;
-                        Db.Entry(oEP).State = System.Data.Entity.EntityState.Modified;
-                        Db.SaveChanges();
-                        Mensaje = "Ok";
-                    }
+                    using var Db = new BD_EvaluacionEntities();
+                    var oEP = Db.Procesos_Evaluacion.Find(codProc);
+                    oEP.Nombre_Proceso = ep.Nombre_Proceso.ToUpper();
+                    oEP.Ano_Proceso = ep.Ano_Proceso;
+                    oEP.Mes_Proceso = ep.Mes_Proceso;
+                    oEP.Retroalimentacion = ep.Retroalimentacion;
+                    oEP.IdState = ep.IdState;
+                    Db.Entry(oEP).State = System.Data.Entity.EntityState.Modified;
+                    Db.SaveChanges();
+                    Mensaje = "Ok";
                 }
                 else
                 {

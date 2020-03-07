@@ -121,7 +121,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="col-md-9">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                            @Html.EditorFor(model => model.Ponderacion, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @placeholder = "00.00", @required = "required" } })
+                            @Html.EditorFor(model => model.Ponderacion, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @maxlength="4", @min = "00.0", max = "100", step = "00.1", @placeholder = "00.0", @required = "required" } })
                             <div class="clearfix"></div>
                         </div>
                     </div>

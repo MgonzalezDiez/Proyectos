@@ -22,8 +22,6 @@ namespace Evaluacion360.Models.ViewModels
         [Required]
         public int Numero_Pregunta { get; set; }
 
-        //public List<Preguntas_Aleatorias> GetPreguntas_Aleatorias { get; set; }
-
         public int IdState { get; set; }
     }
 
@@ -43,6 +41,7 @@ namespace Evaluacion360.Models.ViewModels
 
         [Required]
         public int Numero_Pregunta { get; set; }
+        public string Texto_Pregunta { get; set; }
 
         public string IdState { get; set; }
     }

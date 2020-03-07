@@ -94,11 +94,13 @@
     <Key>
       <PropertyRef Name="Numero_Evaluacion" />
       <PropertyRef Name="Codigo_Proceso" />
+      <PropertyRef Name="Codigo_Usuario" />
       <PropertyRef Name="Codigo_seccion" />
       <PropertyRef Name="Numero_Pregunta" />
     </Key>
     <Property Name="Numero_Evaluacion" Type="int" Nullable="false" />
     <Property Name="Codigo_Proceso" Type="int" Nullable="false" />
+    <Property Name="Codigo_Usuario" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Codigo_seccion" Type="nchar" MaxLength="10" Nullable="false" />
     <Property Name="Numero_Pregunta" Type="int" Nullable="false" />
     <Property Name="Nota" Type="decimal" Precision="3" Scale="1" Nullable="false" />
@@ -143,10 +145,10 @@
       <PropertyRef Name="Codigo_Seccion" />
       <PropertyRef Name="Numero_Pregunta" />
     </Key>
-    <Property Name="Codigo_Seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Codigo_Seccion" Type="nchar" MaxLength="20" Nullable="false" />
     <Property Name="Numero_Pregunta" Type="int" Nullable="false" />
-    <Property Name="Texto_Pregunta" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="Ponderacion_P" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="Texto_Pregunta" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Ponderacion_P" Type="decimal" Precision="4" Scale="1" Nullable="false" />
   </EntityType>
   <EntityType Name="Preguntas_Cargos">
     <Key>
@@ -194,8 +196,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Codigo_Seccion" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="Nombre_Seccion" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Ponderacion_S" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="Nombre_Seccion" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Ponderacion_S" Type="decimal" Precision="3" Scale="1" />
     <Property Name="IdState" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Usuarios">

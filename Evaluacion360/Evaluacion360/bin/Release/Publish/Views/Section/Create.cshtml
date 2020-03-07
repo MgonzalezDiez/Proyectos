@@ -7,7 +7,7 @@
 
 <!DOCTYPE html>
 
-<html lang="es">
+<html lang="es-CL">
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Registro de Dominio</title>
@@ -45,7 +45,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     @*<link href="~/Css/morris.css" rel="stylesheet" type="text/css" />*@
     <!-- Graph CSS -->
     <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
-    
+
     <link href="~/Css/jquery-ui.css" rel="stylesheet" />
     <!-- jQuery -->
     <script src="~/js/jquery-2.1.4.min.js"></script>
@@ -89,7 +89,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
         <br />
 
-        <form form="role" class="form-horizontal" action="Create" method="post">
+        <form id="form" form="role" class="form-horizontal" action="Create" method="post">
             <div class="card box-shadow col-xl-7 ">
                 @Html.AntiForgeryToken()
                 <div class="form-group has-feedback">
@@ -120,7 +120,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="col-md-9">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-plus"></i></span>
-                            @Html.EditorFor(model => model.Ponderacion_S, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @placeholder = "00,0", @required = true, @maxlength = 18 } })
+                            @Html.EditorFor(model => model.Ponderacion_S, new { htmlAttributes = new { id = "decimales", type = "double", @class = "form-control1", @min = "0,00", @max = "100", @step = "0,01", @placeholder = "00,0", @required = true } })
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -158,7 +158,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                             <div class="modal-body">
                                 <div id="loading" class="hidden">
-                                    @*<img src="~/Content/ajax-loader.gif" />*@
                                 </div>
                                 <input type="file" id="file" class="form-control1" />
                             </div>

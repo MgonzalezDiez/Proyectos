@@ -38,7 +38,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <!-- Bootstrap Core CSS -->
     <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
-    @*<link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />*@
+    <link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />
     <!-- Custom CSS -->
     <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
     @*<link href="~/Css/morris.css" rel="stylesheet" type="text/css" />*@
@@ -121,7 +121,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="modal-header">
                     <h1 class="center-block">Dominios @ViewBag.Alto</h1>
                     <span>
-                        <button class="btn btn-danger btn-sm"  onclick="location.href='@Url.Content("~/Section/Create/")'">Crear Dominio</button>
+                        <button class="btn btn-danger btn-sm" onclick="location.href='@Url.Content("~/Section/Create/")'">Crear Dominio</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#SectionExcel">Importar Excel</button>
                         <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Content("~/Home/Index/")'">Volver al Menú</button>
                     </span>
                 </div>
@@ -146,13 +147,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td>@Html.DisplayFor(modelItem => item.Ponderacion_S)</td>
                                 <td>@Html.DisplayFor(modelItem => item.IdState)</td>
                                 <td>
-                                    <button class="btn btn-xs btn-warning" onclick="location.href='@Url.Content("~/Section/edit/"+ item.Id)'" title="Editar">
+                                    <button class="btn btn-xs btn-warning" onclick="location.href='@Url.Action("Edit", "Section", new {id=item.Id })'" title="Editar">
                                         <span class="fa fa-pencil"></span>
                                     </button>
-                                    <button class="btn btn-xs btn-primary" onclick="location.href='@Url.Content("~/Section/Details/"+ item.Id)'" title="Detalles">
+                                    <button class="btn btn-xs btn-primary" onclick="location.href='@Url.Action("Details", "Section", new {id=item.Id }) '" title="Detalles">
                                         <span class="fa fa-eye"></span>
                                     </button>
-                                    <button class="btn btn-xs btn-danger" onclick="location.href='@Url.Content("~/Section/Delete/"+ item.Id)'"  title="Eliminar">
+                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "Section", new {id=item.Id })'" title="Eliminar">
                                         <span class="fa fa-trash"></span>
                                     </button>
                                 </td>
@@ -163,9 +164,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
         </div>
     </div>
+
+    <div class="modal fade " id="SectionExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Importar Dominio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="false">&times;</span></button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <input type="file" id="file" class="form-control1" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btnUpload" data-dismiss="modal">Subir Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/ExcelJson.js"></script>
+
     <div class="align-content-md-center">
         @{Html.RenderPartial("_Paginador", Model); }
     </div>
+
+
 </body>
 </html>
 

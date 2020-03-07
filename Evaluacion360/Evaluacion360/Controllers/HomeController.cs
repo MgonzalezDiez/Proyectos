@@ -14,17 +14,17 @@ namespace Evaluacion360.Controllers
         {
             return View();
         }
-        [AuthorizeUser(IdOperacion: 3)]
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
-        [AuthorizeUser(IdOperacion: 4)]
+        
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Página de Contacto.";
 
             return View();
         }

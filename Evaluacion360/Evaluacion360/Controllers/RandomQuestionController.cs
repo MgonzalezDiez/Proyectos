@@ -16,16 +16,17 @@ namespace Evaluacion360.Controllers
         string mensaje = string.Empty;
 
         // GET: RandomQuestion
-        [AuthorizeUser(IdOperacion: 5)]
+        [AuthorizeUser(IdOperacion: 4)]
         public ActionResult List(int pagina = 1)
         {
+            Usuarios tUser = (Usuarios)Session["User"];
             int CantidadRegitrosPorPagina = 0;
             CantidadRegitrosPorPagina = 10;
 
             var oRQ = new List<RQViewModel>();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
-                oRQ = (from Rq in Db.Preguntas_Aleatorias
+                oRQ = (from Rq in Db.Preguntas_Aleatorias orderby Rq.Codigo_Seccion, Rq.Numero_Pregunta
                             select new RQViewModel
                             {
                                 Codigo_Seccion = Rq.Codigo_Seccion,
@@ -47,7 +48,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: RandomQuestion/Create
-        [AuthorizeUser(IdOperacion: 5)]
+        [AuthorizeUser(IdOperacion: 4)]
         public ActionResult Create(string mensaje)
         {
             ViewBag.Sections = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion", "");
@@ -79,20 +80,18 @@ namespace Evaluacion360.Controllers
                 if (ModelState.IsValid)
                 {
                     #region Graba Datos
-                    using (var bd = new BD_EvaluacionEntities())
+                    using var bd = new BD_EvaluacionEntities();
+                    var oRQ = new Preguntas_Aleatorias
                     {
-                        var oRQ = new Preguntas_Aleatorias
-                        {
-                            Codigo_Seccion = Rq.Codigo_Seccion.ToUpper(),
-                            Numero_Pregunta = Rq.Numero_Pregunta,
-                            Texto_Pregunta = Rq.Texto_Pregunta,
-                            Ponderacion_P = Rq.Ponderacion_P
-                        };
-                        bd.Preguntas_Aleatorias.Add(oRQ);
-                        bd.SaveChanges();
+                        Codigo_Seccion = Rq.Codigo_Seccion.ToUpper(),
+                        Numero_Pregunta = Rq.Numero_Pregunta,
+                        Texto_Pregunta = Rq.Texto_Pregunta,
+                        Ponderacion_P = Rq.Ponderacion_P
+                    };
+                    bd.Preguntas_Aleatorias.Add(oRQ);
+                    bd.SaveChanges();
 
-                        mensaje = "Ok";
-                    }
+                    mensaje = "Ok";
                     #endregion
                 }
                 else
@@ -138,7 +137,7 @@ namespace Evaluacion360.Controllers
             {
                 if (mensaje == "Ok")
                 {
-                    ViewBag.Message = "Pregunta Aleatoria modificada exitosamente";
+                    ViewBag.Message = "Pregunta modificada exitosamente";
                     ViewBag.Status = true;
                 }
                 else if (mensaje != "Ok")
@@ -151,19 +150,17 @@ namespace Evaluacion360.Controllers
             {
                 ViewBag.Sections = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion");
                 var oRQ = new RQViewModel();
-                using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
-                {
-                    oRQ = (from Rq in Db.Preguntas_Aleatorias
-                           where Rq.Codigo_Seccion == codSection && Rq.Numero_Pregunta == askNo
-                           select new RQViewModel
-                           {
-                               Codigo_Seccion = Rq.Codigo_Seccion,
-                               Numero_Pregunta = Rq.Numero_Pregunta,
-                               Texto_Pregunta = Rq.Texto_Pregunta,
-                               Ponderacion_P = Rq.Ponderacion_P
-                           }).FirstOrDefault();
-                    return View(oRQ);
-                }
+                using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+                oRQ = (from Rq in Db.Preguntas_Aleatorias
+                       where Rq.Codigo_Seccion == codSection && Rq.Numero_Pregunta == askNo
+                       select new RQViewModel
+                       {
+                           Codigo_Seccion = Rq.Codigo_Seccion,
+                           Numero_Pregunta = Rq.Numero_Pregunta,
+                           Texto_Pregunta = Rq.Texto_Pregunta,
+                           Ponderacion_P = Rq.Ponderacion_P
+                       }).FirstOrDefault();
+                return View(oRQ);
             }
             catch (Exception e)
             {
@@ -187,8 +184,8 @@ namespace Evaluacion360.Controllers
                     oRQ.Texto_Pregunta = Rq.Texto_Pregunta;
                     oRQ.Ponderacion_P = Rq.Ponderacion_P;
                     Db.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
-                    mensaje = "Ok";
                     Db.SaveChanges();
+                    mensaje = "Ok";
                 }
                 return RedirectToAction("Edit", "RandomQuestion", new { codSection = Rq.Codigo_Seccion, askNo = Rq.Numero_Pregunta, mensaje });
             }
@@ -203,14 +200,14 @@ namespace Evaluacion360.Controllers
 
         // GET: RandomQuestion/Delete/5
         [AuthorizeUser(IdOperacion: 5)]
-        public ActionResult Delete(string id, string mensaje)
+        public ActionResult Delete(string codSection, int askNo, string mensaje)
         {
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
             {
                 if (mensaje == "Ok")
                 {
-                    ViewBag.Message = "Pregunta Aleatoria Eliminada exitosamente";
+                    ViewBag.Message = "Pregunta Eliminada exitosamente";
                     ViewBag.Status = true;
                 }
                 else
@@ -225,7 +222,7 @@ namespace Evaluacion360.Controllers
                 using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
                 {
                     oRQ = (from Rq in Db.Preguntas_Aleatorias
-                           where Rq.Codigo_Seccion == id
+                           where Rq.Codigo_Seccion == codSection && Rq.Numero_Pregunta == askNo
                            select new RQViewModel
                            {
                                Codigo_Seccion = Rq.Codigo_Seccion,
@@ -251,27 +248,25 @@ namespace Evaluacion360.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var Db = new BD_EvaluacionEntities())
-                    {
-                        Preguntas_Aleatorias oRQ = Db.Preguntas_Aleatorias.Where(i => i.Codigo_Seccion == Rq.Codigo_Seccion && i.Numero_Pregunta == Rq.Numero_Pregunta).SingleOrDefault();
+                    using var Db = new BD_EvaluacionEntities();
+                    Preguntas_Aleatorias oRQ = Db.Preguntas_Aleatorias.Where(i => i.Codigo_Seccion == Rq.Codigo_Seccion && i.Numero_Pregunta == Rq.Numero_Pregunta).SingleOrDefault();
 
-                        Db.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
-                        Db.SaveChanges();
-                        mensaje = "Ok";
-                    }
-                    return RedirectToAction("Delete", "RandomQuestion", new { mensaje });
+                    Db.Entry(oRQ).State = System.Data.Entity.EntityState.Deleted;
+                    Db.SaveChanges();
+                    mensaje = "Ok";
                 }
                 else
                 {
                     mensaje = "El modelo no es válido, Contactar con el administrador";
-                    return RedirectToAction("Delete", "RandomQuestion", new { mensaje });
+                    //return RedirectToAction("Delete", "RandomQuestion", new { sectionId = Rq.Codigo_Seccion, askNo = Rq.Numero_Pregunta, mensaje });
                 }
             }
             catch (Exception e)
             {
                 mensaje = "Ocurrió el siguiente error " + e.Message +  " Contactar al administrador";
-                return RedirectToAction("Delete", "RandomQuestion", new { mensaje });
+                //return RedirectToAction("Delete", "RandomQuestion", new { sectionId = Rq.Codigo_Seccion, askNo = Rq.Numero_Pregunta, mensaje });
             }
+            return RedirectToAction("Delete", "RandomQuestion", new { codSection = Rq.Codigo_Seccion, askNo = Rq.Numero_Pregunta, mensaje });
         }
     }
 }

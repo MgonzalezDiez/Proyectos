@@ -99,7 +99,9 @@ namespace Evaluacion360.Controllers
             ViewBag.SectionState = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", 1);
             ViewBag.Sections = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion", "");
             ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
+            ViewBag.Users = new SelectList(Tools.LeerUsuarios(), "Codigo_Usuario", "Nombre_Usuario", "");
             ViewBag.EvState = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
+
 
             if (mensaje != null && mensaje != "")
             {
@@ -222,14 +224,12 @@ namespace Evaluacion360.Controllers
             ViewBag.SectionState = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             try
             {
-                using (var Db = new BD_EvaluacionEntities())
-                {
-                    var oAEQ = Db.Auto_Evaluacion_Preguntas.Find(model.Numero_Evaluacion, model.Codigo_Proceso, model.Codigo_Seccion, model.Numero_Pregunta);
-                    oAEQ.Nota = model.Nota;
-                    Db.Entry(oAEQ).State = System.Data.Entity.EntityState.Modified;
-                    Mensaje = "Ok";
-                    Db.SaveChanges();
-                }
+                using var Db = new BD_EvaluacionEntities();
+                var oAEQ = Db.Auto_Evaluacion_Preguntas.Find(model.Numero_Evaluacion, model.Codigo_Proceso, model.Codigo_Seccion, model.Numero_Pregunta);
+                oAEQ.Nota = model.Nota;
+                Db.Entry(oAEQ).State = System.Data.Entity.EntityState.Modified;
+                Mensaje = "Ok";
+                Db.SaveChanges();
             }
             catch (Exception e)
             {
@@ -293,14 +293,12 @@ namespace Evaluacion360.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var bd = new BD_EvaluacionEntities())
-                    {
-                        var oAEQ = bd.Auto_Evaluacion_Preguntas.Find(numEval, codProc,codSecc, numAsk);
+                    using var bd = new BD_EvaluacionEntities();
+                    var oAEQ = bd.Auto_Evaluacion_Preguntas.Find(numEval, codProc, codSecc, numAsk);
 
-                        bd.Entry(oAEQ).State = System.Data.Entity.EntityState.Deleted;
-                        bd.SaveChanges();
-                        Mensaje = "Ok";
-                    }
+                    bd.Entry(oAEQ).State = System.Data.Entity.EntityState.Deleted;
+                    bd.SaveChanges();
+                    Mensaje = "Ok";
                 }
                 else
                 {

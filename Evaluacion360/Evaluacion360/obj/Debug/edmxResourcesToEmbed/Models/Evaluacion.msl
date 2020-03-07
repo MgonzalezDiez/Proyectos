@@ -93,6 +93,7 @@
     <EntitySetMapping Name="Evaluacion_Preguntas_Cargos">
       <EntityTypeMapping TypeName="BD_EvaluacionModel.Evaluacion_Preguntas_Cargos">
         <MappingFragment StoreEntitySet="Evaluacion_Preguntas_Cargos">
+          <ScalarProperty Name="Codigo_Usuario" ColumnName="Codigo_Usuario" />
           <ScalarProperty Name="Nota" ColumnName="Nota" />
           <ScalarProperty Name="Numero_Pregunta" ColumnName="Numero_Pregunta" />
           <ScalarProperty Name="Codigo_seccion" ColumnName="Codigo_seccion" />
@@ -133,16 +134,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Preguntas_Aleatorias">
-      <EntityTypeMapping TypeName="BD_EvaluacionModel.Preguntas_Aleatorias">
-        <MappingFragment StoreEntitySet="Preguntas_Aleatorias">
-          <ScalarProperty Name="Ponderacion_P" ColumnName="Ponderacion_P" />
-          <ScalarProperty Name="Texto_Pregunta" ColumnName="Texto_Pregunta" />
-          <ScalarProperty Name="Numero_Pregunta" ColumnName="Numero_Pregunta" />
-          <ScalarProperty Name="Codigo_Seccion" ColumnName="Codigo_Seccion" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Preguntas_Cargos">
       <EntityTypeMapping TypeName="BD_EvaluacionModel.Preguntas_Cargos">
         <MappingFragment StoreEntitySet="Preguntas_Cargos">
@@ -167,17 +158,6 @@
         <MappingFragment StoreEntitySet="Rol_Operacion">
           <ScalarProperty Name="IdOperacion" ColumnName="IdOperacion" />
           <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Secciones">
-      <EntityTypeMapping TypeName="BD_EvaluacionModel.Secciones">
-        <MappingFragment StoreEntitySet="Secciones">
-          <ScalarProperty Name="IdState" ColumnName="IdState" />
-          <ScalarProperty Name="Ponderacion_S" ColumnName="Ponderacion_S" />
-          <ScalarProperty Name="Nombre_Seccion" ColumnName="Nombre_Seccion" />
-          <ScalarProperty Name="Codigo_Seccion" ColumnName="Codigo_Seccion" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -209,5 +189,26 @@
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="Crea_Evaluaciones" FunctionName="BD_EvaluacionModel.Store.Crea_Evaluaciones" />
     <FunctionImportMapping FunctionImportName="ObtenerDV" FunctionName="BD_EvaluacionModel.Store.ObtenerDV" />
+    <EntitySetMapping Name="Secciones">
+      <EntityTypeMapping TypeName="BD_EvaluacionModel.Secciones">
+        <MappingFragment StoreEntitySet="Secciones">
+          <ScalarProperty Name="IdState" ColumnName="IdState" />
+          <ScalarProperty Name="Ponderacion_S" ColumnName="Ponderacion_S" />
+          <ScalarProperty Name="Nombre_Seccion" ColumnName="Nombre_Seccion" />
+          <ScalarProperty Name="Codigo_Seccion" ColumnName="Codigo_Seccion" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Preguntas_Aleatorias">
+      <EntityTypeMapping TypeName="BD_EvaluacionModel.Preguntas_Aleatorias">
+        <MappingFragment StoreEntitySet="Preguntas_Aleatorias">
+          <ScalarProperty Name="Ponderacion_P" ColumnName="Ponderacion_P" />
+          <ScalarProperty Name="Texto_Pregunta" ColumnName="Texto_Pregunta" />
+          <ScalarProperty Name="Numero_Pregunta" ColumnName="Numero_Pregunta" />
+          <ScalarProperty Name="Codigo_Seccion" ColumnName="Codigo_Seccion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -45,7 +45,7 @@ namespace Evaluacion360.Controllers
                             Id = secc.Id,
                             Codigo_Seccion = secc.Codigo_Seccion,
                             Nombre_Seccion = secc.Nombre_Seccion,
-                            Ponderacion_S = secc.Ponderacion_S,
+                            Ponderacion_S = secc.Ponderacion_S ?? 0,
                             IdState = sta.StateDescription
                         }).ToList();
             var TotalRegistros = oSection.Count();
@@ -80,7 +80,21 @@ namespace Evaluacion360.Controllers
                     ViewBag.Status = false;
                 }
             }
-            return View();
+
+            var oSection = new SectionViewModel();
+            using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
+            {
+                oSection = (from secc in Db.Secciones
+                            where secc.Codigo_Seccion == codSecc
+                            select new SectionViewModel
+                            {
+                                Codigo_Seccion = secc.Codigo_Seccion,
+                                Nombre_Seccion = secc.Nombre_Seccion,
+                                Ponderacion_S = secc.Ponderacion_S ?? 0,
+                                IdState = secc.IdState
+                            }).FirstOrDefault();
+            }
+            return View(oSection);
         }
         [HttpPost]
         [AuthorizeUser(IdOperacion: 4)]
@@ -113,7 +127,7 @@ namespace Evaluacion360.Controllers
                             var oSection = new Secciones
                             {
                                 Codigo_Seccion = section.Codigo_Seccion.ToUpper(),
-                                Nombre_Seccion = section.Nombre_Seccion.ToUpper(),
+                                Nombre_Seccion = section.Nombre_Seccion,
                                 Ponderacion_S = section.Ponderacion_S,
                                 IdState = 1
                             };
@@ -135,8 +149,8 @@ namespace Evaluacion360.Controllers
                         {
                             Mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
                         }
-                        Mensaje += " Contacte al Administrador";
                     }
+                    Mensaje += " Contacte al Administrador";
                 }
             }
             catch (Exception e)
@@ -145,12 +159,12 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("List", "Section", new {codSecc = section.Codigo_Seccion, Mensaje });
+            return RedirectToAction("Create", "Section", new { codSecc = section.Codigo_Seccion, Mensaje });
         }
 
         // GET: User/Details/5
         [AuthorizeUser(IdOperacion: 4)]
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
             ViewBag.SectionState = new SelectList(Utils.Tools.LeerEstados(), "IdState", "StateDescription", "");
             var oSection = new SectionViewModel();
@@ -163,7 +177,7 @@ namespace Evaluacion360.Controllers
                             {
                                 Codigo_Seccion = secc.Codigo_Seccion,
                                 Nombre_Seccion = secc.Nombre_Seccion,
-                                Ponderacion_S = secc.Ponderacion_S,
+                                Ponderacion_S = secc.Ponderacion_S ?? 0,
                                 IdState = secc.IdState
                             }).FirstOrDefault();
             }
@@ -173,7 +187,7 @@ namespace Evaluacion360.Controllers
 
         // GET: User/Edit/5
         [AuthorizeUser(IdOperacion: 4)]
-        public ActionResult Edit(int id, string mensaje)
+        public ActionResult Edit(int? id, string mensaje)
         {
             ViewBag.SectionState = new SelectList(Utils.Tools.LeerEstados(), "IdState", "StateDescription", "");
             ViewBag.Status = false;
@@ -192,16 +206,16 @@ namespace Evaluacion360.Controllers
             }
             try
             {
-                var oSection = new SectionViewModel();
+                var oSection = new SectionEditViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oSection = (from secc in Db.Secciones
                             where secc.Id == id
-                            select new SectionViewModel
+                            select new SectionEditViewModel
                             {
                                 Id = secc.Id,
                                 Codigo_Seccion = secc.Codigo_Seccion,
                                 Nombre_Seccion = secc.Nombre_Seccion,
-                                Ponderacion_S = secc.Ponderacion_S,
+                                Ponderacion_S = secc.Ponderacion_S ?? 0,
                                 IdState = secc.IdState
                             }).FirstOrDefault();
                 return View(oSection);
@@ -224,19 +238,17 @@ namespace Evaluacion360.Controllers
             ViewBag.SectionState = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             try
             {
-                using (var Db = new BD_EvaluacionEntities())
+                using var Db = new BD_EvaluacionEntities();
+                var oSection = Db.Secciones.Find(model.Codigo_Seccion.Trim());
+                oSection.Nombre_Seccion = model.Nombre_Seccion.ToUpper();
+                oSection.Ponderacion_S = model.Ponderacion_S;
+                if (model.IdState > 0)
                 {
-                    var oSection = Db.Secciones.Find(model.Codigo_Seccion.Trim());
-                    oSection.Nombre_Seccion = model.Nombre_Seccion.ToUpper();
-                    oSection.Ponderacion_S = model.Ponderacion_S;
-                    if (model.IdState > 0)
-                    {
-                        oSection.IdState = model.IdState;
-                    }
-                    Db.Entry(oSection).State = System.Data.Entity.EntityState.Modified;
-                    Mensaje = "Ok";
-                    Db.SaveChanges();
+                    oSection.IdState = model.IdState;
                 }
+                Db.Entry(oSection).State = System.Data.Entity.EntityState.Modified;
+                Mensaje = "Ok";
+                Db.SaveChanges();
             }
             catch (Exception e)
             {
@@ -244,12 +256,12 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("Edit", "Section", new { id = model.Id, Mensaje });
+            return RedirectToAction("Edit", "Section", new { Mensaje });
         }
 
         // GET: User/Delete/5
         [AuthorizeUser(IdOperacion: 4)]
-        public ActionResult Delete(int id, string mensaje)
+        public ActionResult Delete(int? id, string mensaje)
         {
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
@@ -265,18 +277,20 @@ namespace Evaluacion360.Controllers
                     ViewBag.Status = false;
                 }
             }
+
             try
             {
-                var oSection = new SectionViewModel();
+                var oSection = new SectionEditViewModel();
                 using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
                 {
                     oSection = (from secc in Db.Secciones
                                 where secc.Id == id
-                                select new SectionViewModel
+                                select new SectionEditViewModel
                                 {
+                                    Id = secc.Id,
                                     Codigo_Seccion = secc.Codigo_Seccion,
                                     Nombre_Seccion = secc.Nombre_Seccion,
-                                    Ponderacion_S = secc.Ponderacion_S,
+                                    Ponderacion_S = secc.Ponderacion_S ?? 0,
                                     IdState = secc.IdState
                                 }).FirstOrDefault();
                 }
@@ -296,15 +310,15 @@ namespace Evaluacion360.Controllers
         [HttpPost]
         [AuthorizeUser(IdOperacion: 4)]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(SectionViewModel svm)
+        public ActionResult Delete(SectionEditViewModel svm)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!ValidaDominios(svm.Codigo_Seccion))
                 {
-                    using (var bd = new BD_EvaluacionEntities())
+                    if (ModelState.IsValid)
                     {
-
+                        using var bd = new BD_EvaluacionEntities();
                         var oUser = bd.Secciones.Find(svm.Codigo_Seccion);
                         oUser.IdState = 3;
 
@@ -312,18 +326,22 @@ namespace Evaluacion360.Controllers
                         bd.SaveChanges();
                         Mensaje = "Ok";
                     }
+                    else
+                    {
+                        string errors = string.Empty;
+                        foreach (var item in ModelState.Values)
+                        {
+                            if (item.Errors.Count > 0)
+                            {
+                                Mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                            }
+                            Mensaje += " Contacte al Administrador";
+                        }
+                    }
                 }
                 else
                 {
-                    string errors = string.Empty;
-                    foreach (var item in ModelState.Values)
-                    {
-                        if (item.Errors.Count > 0)
-                        {
-                            Mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
-                        }
-                        Mensaje += " Contacte al Administrador";
-                    }
+                    Mensaje = "Este dominio tiene preguntas asociadas, No se puede eliminar";
                 }
             }
             catch (Exception e)
@@ -359,6 +377,35 @@ namespace Evaluacion360.Controllers
             using BD_EvaluacionEntities Bd = new BD_EvaluacionEntities();
             var existe = Bd.Secciones.Where(a => a.Codigo_Seccion == SectionCode).FirstOrDefault();
             return existe == null;
+        }
+
+        [NonAction]
+        public bool ValidaDominios(string codSecc)
+        {
+            using BD_EvaluacionEntities bd = new BD_EvaluacionEntities();
+
+            int total = 0;
+
+            var query = (from se in bd.Secciones
+                         join pa in bd.Preguntas_Aleatorias on se.Codigo_Seccion equals pa.Codigo_Seccion
+                         where se.Codigo_Seccion == codSecc
+                         select pa.Codigo_Seccion);
+            total = query.Count();
+
+            query = (from se in bd.Secciones
+                     join pc in bd.Preguntas_Cargos on se.Codigo_Seccion equals pc.Codigo_seccion
+                     where se.Codigo_Seccion == codSecc
+                     select pc.Codigo_seccion);
+            total += query.Count();
+
+            if (total > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

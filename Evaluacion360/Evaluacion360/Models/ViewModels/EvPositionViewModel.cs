@@ -17,8 +17,7 @@ namespace Evaluacion360.Models.ViewModels
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:0.0}", ApplyFormatInEditMode = true)]
-        [RegularExpression(@"^\d+\,\d{0,1}$")]
-        [Range(0, 99.9)]
+        [Range(typeof(decimal), "00,0", "100")]
         [Display(Name = "Poderación")]
         public decimal Ponderacion { get; set; }
 

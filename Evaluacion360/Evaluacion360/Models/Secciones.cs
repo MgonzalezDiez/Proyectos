@@ -17,7 +17,7 @@ namespace Evaluacion360.Models
         public int Id { get; set; }
         public string Codigo_Seccion { get; set; }
         public string Nombre_Seccion { get; set; }
-        public decimal Ponderacion_S { get; set; }
+        public Nullable<decimal> Ponderacion_S { get; set; }
         public int IdState { get; set; }
     }
 }

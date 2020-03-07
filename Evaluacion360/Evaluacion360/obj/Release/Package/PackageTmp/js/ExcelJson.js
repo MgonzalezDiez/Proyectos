@@ -1,11 +1,12 @@
-﻿$(document).on('click', '#btnUpload', function () {
+﻿
+$(document).on('click', '#btnUpload', function () {
     if (window.FormData !== undefined) {
         var fileUpload = $("#file").get(0);
         if ($("#file").get(0).files.length == 0) {
             const msg = document.querySelector('#mensaje');
             msg.innerHTML =
                 `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >
-                <strong style="font-size:medium">${item.Nombre_Seccion}</strong>
+                <strong style="font-size:medium">Debe seleccionar archivo para realizar esta operación</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -45,8 +46,8 @@
                             thead.innerHTML = '';
                             thead.innerHTML = `
                             <tr >
-                                <th>Codigo Sección</th>
-                                <th>Nombre Sección</th>
+                                <th>Codigo Dominio</th>
+                                <th>Nombre Dominio</th>
                                 <th>Ponderación</th>
                                 <th>Estado</th>
                             </tr >`
@@ -62,10 +63,11 @@
                             <td>${item.IdState == 1 ? 'Vigente' : 'No vigente'}</td>
                         </tr>`
                             });
-                            let res2 = document.querySelector('#titulo');
-                            res2.innerHTML = `Secciones Importadas desde Excel`;
                         }
                     });
+                    let res2 = document.querySelector('#titulo');
+                    res2.innerHTML = `Dominios Importados desde Excel`;
+                    hideLoader();
                 }
                 else {
                     let msg = document.querySelector('#mensaje');
@@ -106,13 +108,13 @@
         $('#loading').show();
     }
     function hideLoader() {
-        $('#loading').fadeOut();
+        $('#loading').hide();
     }
-    $(document).ready(function () {
-        hideLoader();
-    })
-});
 
+});
+$(document).ready(function () {
+    hideLoader();
+})
 $(document).on('click', '#btnExcelRQ', function () {
     if (window.FormData !== undefined) {
         var fileUpload = $("#file").get(0);
@@ -147,7 +149,7 @@ $(document).on('click', '#btnExcelRQ', function () {
                     thead.innerHTML = '';
                     thead.innerHTML = `
                             <tr >
-                                <th>Codigo Sección</th>
+                                <th>Codigo Dominio</th>
                                 <th>Número de Pregunta</th>
                                 <th>Texto de Pregunta</th>
                                 <th>Ponderación</th>
@@ -167,7 +169,6 @@ $(document).on('click', '#btnExcelRQ', function () {
                             return;
                         }
                         else {
-                            //$.each(JSON.parse(result), function (i, itemRQ) {
                             res.innerHTML += `
                             <tr>
                                 <td>${itemRQ.Codigo_Seccion}</td>
@@ -178,7 +179,7 @@ $(document).on('click', '#btnExcelRQ', function () {
                         }
                     })
                     let res2 = document.querySelector('#titulo');
-                    res2.innerHTML = `Preguntas Aleatorias Importadas desde Excel`;
+                    res2.innerHTML = `Preguntas Importadas desde Excel`;
                 }
                 else {
                     let msg = document.querySelector('#mensaje');
@@ -204,7 +205,9 @@ $(document).on('click', '#btnExcelRQ', function () {
                         </div>`
             },
         });
+        hideLoader();
     } else {
+        hideLoader();
         let msg = document.querySelector('#mensaje');
         msg.innerHTML =
             `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >

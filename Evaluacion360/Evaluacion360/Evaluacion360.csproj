@@ -286,6 +286,7 @@
     <Compile Include="Controllers\AutoEvaluationQuestionController.cs" />
     <Compile Include="Controllers\AutoEvaluationController.cs" />
     <Compile Include="Controllers\ExcelController.cs" />
+    <Compile Include="Controllers\NormaulUserController.cs" />
     <Compile Include="Controllers\PositionQuestionController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\RandomQuestionController.cs" />
@@ -307,6 +308,11 @@
       <DependentUpon>Evaluacion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Estado_Evaluaciones.cs">
+      <DependentUpon>Evaluacion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Evaluacion.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>Evaluacion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Evaluaciones_Cargos.cs">
@@ -472,6 +478,18 @@
     <Content Include="Css-Pool\fontawesome-all.css" />
     <Content Include="Css-Pool\style.css" />
     <Content Include="js\ExcelJson.js" />
+    <Content Include="Scripts\cldr.js" />
+    <Content Include="Scripts\cldr\event.js" />
+    <Content Include="Scripts\cldr\supplemental.js" />
+    <Content Include="Scripts\cldr\unresolved.js" />
+    <Content Include="Scripts\globalize.js" />
+    <Content Include="Scripts\globalize\currency.js" />
+    <Content Include="Scripts\globalize\date.js" />
+    <Content Include="Scripts\globalize\message.js" />
+    <Content Include="Scripts\globalize\number.js" />
+    <Content Include="Scripts\globalize\plural.js" />
+    <Content Include="Scripts\globalize\relative-time.js" />
+    <Content Include="Scripts\globalize\unit.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -494,6 +512,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Importados\" />
+    <Folder Include="Views\NormaulUser\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -516,7 +535,6 @@
     <Content Include="Views\RandomQuestion\Details.cshtml" />
     <Content Include="Views\RandomQuestion\Edit.cshtml" />
     <Content Include="Views\RandomQuestion\Delete.cshtml" />
-    <Content Include="Views\Section\ImportExcel.cshtml" />
     <Content Include="Views\Shared\_Paginador.cshtml" />
     <Content Include="Views\User\UserCreate.cshtml" />
     <Content Include="Views\User\UserEdit.cshtml" />
@@ -541,6 +559,8 @@
     <Content Include="Views\EvaluationProcesses\Create.cshtml" />
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\EvaluationProcesses\GenerarProcesoEvaluacion.cshtml" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>

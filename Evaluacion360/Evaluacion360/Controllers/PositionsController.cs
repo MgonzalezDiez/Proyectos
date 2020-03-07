@@ -5,7 +5,6 @@ using Evaluacion360.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Evaluacion360.Controllers
@@ -13,6 +12,7 @@ namespace Evaluacion360.Controllers
     public class PositionsController : Controller
     {
         string mensaje;
+        int userType;
         // GET: Positions
         [AuthorizeUser(IdOperacion: 4)]
         public ActionResult List(string mensaje, int pagina = 1)
@@ -33,8 +33,10 @@ namespace Evaluacion360.Controllers
                     ViewBag.Status = false;
                 }
             }
+
+            userType = Convert.ToInt32(System.Web.HttpContext.Current.Session["TipoUsuario"]);
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
-            ViewBag.Cargos = new SelectList(Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
 
             var oPos = new List<PositionListViewModel>();
             using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
@@ -141,20 +143,18 @@ namespace Evaluacion360.Controllers
                 if (ModelState.IsValid)
                 {
                     #region Graba Datos
-                    using (var bd = new BD_EvaluacionEntities())
+                    using var bd = new BD_EvaluacionEntities();
+                    var oPos = new Cargos
                     {
-                        var oPos = new Cargos
-                        {
-                            Codigo_Cargo = model.Codigo_Cargo,
-                            Nombre_Cargo = model.Nombre_Cargo,
-                            Fondo = model.Fondo,
-                            Ciclo = model.Ciclo,
-                            IdState = model.IdState
-                        };
-                        bd.Cargos.Add(oPos);
-                        bd.SaveChanges();
-                        mensaje = "Ok";
-                    }
+                        Codigo_Cargo = model.Codigo_Cargo,
+                        Nombre_Cargo = model.Nombre_Cargo,
+                        Fondo = model.Fondo,
+                        Ciclo = model.Ciclo,
+                        IdState = model.IdState
+                    };
+                    bd.Cargos.Add(oPos);
+                    bd.SaveChanges();
+                    mensaje = "Ok";
                     #endregion
                 }
                 else
@@ -182,7 +182,8 @@ namespace Evaluacion360.Controllers
         // GET: Positions/Edit/5
         public ActionResult Edit(string id, string mensaje)
         {
-            ViewBag.Cargos = new SelectList(Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
@@ -227,26 +228,25 @@ namespace Evaluacion360.Controllers
         [HttpPost]
         public ActionResult Edit(PositionViewModel model)
         {
-            ViewBag.Cargos = new SelectList(Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             string codCcargo = model.Codigo_Cargo;
             try
             {
-                
-                using (var Db = new BD_EvaluacionEntities())
+
+                using var Db = new BD_EvaluacionEntities();
+                var oPos = Db.Cargos.Find(model.Codigo_Cargo);
+                oPos.Nombre_Cargo = model.Nombre_Cargo.ToUpper();
+                oPos.Fondo = model.Fondo;
+                oPos.Ciclo = model.Ciclo;
+                if (model.IdState > 0)
                 {
-                    var oPos = Db.Cargos.Find(model.Codigo_Cargo);
-                    oPos.Nombre_Cargo = model.Nombre_Cargo.ToUpper();
-                    oPos.Fondo = model.Fondo;
-                    oPos.Ciclo = model.Ciclo;
-                    if (model.IdState > 0)
-                    {
-                        oPos.IdState = model.IdState;
-                    }
-                    Db.Entry(oPos).State = System.Data.Entity.EntityState.Modified;
-                    mensaje = "Ok";
-                    Db.SaveChanges();
+                    oPos.IdState = model.IdState;
                 }
+                Db.Entry(oPos).State = System.Data.Entity.EntityState.Modified;
+                mensaje = "Ok";
+                Db.SaveChanges();
             }
             catch (Exception e)
             {
@@ -260,7 +260,8 @@ namespace Evaluacion360.Controllers
         // GET: Positions/Delete/5
         public ActionResult Delete(string id, string mensaje)
         {
-            ViewBag.Cargos = new SelectList(Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
@@ -305,21 +306,20 @@ namespace Evaluacion360.Controllers
         [HttpPost]
         public ActionResult Delete(PositionViewModel model)
         {
-            ViewBag.Cargos = new SelectList(Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             try
             {
-                using (var Db = new BD_EvaluacionEntities())
-                {
-                    var oPos = Db.Cargos.Find(model.Codigo_Cargo);
-                    oPos.Nombre_Cargo = model.Nombre_Cargo.ToUpper();
-                    oPos.Fondo = model.Fondo;
-                    oPos.Ciclo = model.Ciclo;
-                    oPos.IdState = 3;
-                    Db.Entry(oPos).State = System.Data.Entity.EntityState.Modified;
-                    mensaje = "Ok";
-                    Db.SaveChanges();
-                }            
+                using var Db = new BD_EvaluacionEntities();
+                var oPos = Db.Cargos.Find(model.Codigo_Cargo);
+                //oPos.Nombre_Cargo = model.Nombre_Cargo.ToUpper();
+                //oPos.Fondo = model.Fondo;
+                //oPos.Ciclo = model.Ciclo;
+                oPos.IdState = 3;
+                Db.Entry(oPos).State = System.Data.Entity.EntityState.Modified;
+                Db.SaveChanges();
+                mensaje = "Ok";
             }
             catch (Exception e)
             {

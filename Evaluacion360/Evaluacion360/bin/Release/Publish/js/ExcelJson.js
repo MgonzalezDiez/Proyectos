@@ -45,8 +45,8 @@
                             thead.innerHTML = '';
                             thead.innerHTML = `
                             <tr >
-                                <th>Codigo Sección</th>
-                                <th>Nombre Sección</th>
+                                <th>Codigo Dominio</th>
+                                <th>Nombre Dominio</th>
                                 <th>Ponderación</th>
                                 <th>Estado</th>
                             </tr >`
@@ -63,7 +63,7 @@
                         </tr>`
                             });
                             let res2 = document.querySelector('#titulo');
-                            res2.innerHTML = `Secciones Importadas desde Excel`;
+                            res2.innerHTML = `Dominios Importados desde Excel`;
                         }
                     });
                 }
@@ -147,7 +147,7 @@ $(document).on('click', '#btnExcelRQ', function () {
                     thead.innerHTML = '';
                     thead.innerHTML = `
                             <tr >
-                                <th>Codigo Sección</th>
+                                <th>Codigo Dominio</th>
                                 <th>Número de Pregunta</th>
                                 <th>Texto de Pregunta</th>
                                 <th>Ponderación</th>
@@ -167,7 +167,6 @@ $(document).on('click', '#btnExcelRQ', function () {
                             return;
                         }
                         else {
-                            //$.each(JSON.parse(result), function (i, itemRQ) {
                             res.innerHTML += `
                             <tr>
                                 <td>${itemRQ.Codigo_Seccion}</td>

@@ -105,7 +105,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        @Html.EditorFor(model => model.Nombre_Seccion, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Nombre de Sección", @required = true, @maxlength = 50, @ErrorMessage = "bbb", style = "width:70%; text-transform: uppercase", autofocus = "autofocus" } })
+                        @Html.EditorFor(model => model.Nombre_Seccion, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Nombre de Sección", @required = true, @maxlength = 100, @ErrorMessage = "bbb", style = "width:70%; text-transform: uppercase", autofocus = "autofocus" } })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
-                        @Html.EditorFor(model => model.Ponderacion_S, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @placeholder = "00,0", @required = true, @maxlength = 18, @ErrorMessage = "bbb", style = "width:70%" } })
+                        @Html.EditorFor(model => model.Ponderacion_S, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @maxlength="4", @min = "00.0", @max = "100", @step = "00.1", @placeholder = "00.0", @required = true, style = "width:70%" } })
                         <div class="clearfix"></div>
                     </div>
                 </div>

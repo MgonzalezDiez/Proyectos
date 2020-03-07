@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Eval360.local" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Desarrollo\ C\#\\Evaluacion\ 360\ v8\\Proyectos\\Evaluacion360\\Evaluacion360\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^D:\\Desarrollo\ C\#\\Evaluacion\ 360\ v8\\Proyectos\\Evaluacion360\\Evaluacion360\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="CnnStr-Web.config Connection String" description="" value="Data Source=MGONZALEZD_NTBK;Integrated Security=true;Initial Catalog=BD_Evaluacion" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\Desarrollo\ C\#\\Evaluacion\ 360\ v8\\Proyectos\\Evaluacion360\\Evaluacion360\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CnnStr']/@connectionString" />
+  </parameter>
+  <parameter name="Presentacion.Properties.Settings.ImportacionesConnectionString-Web.config Connection String" description="" value="Data Source=MGONZALEZD_NTBK;Initial Catalog=BD_Evaluacion;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\Desarrollo\ C\#\\Evaluacion\ 360\ v8\\Proyectos\\Evaluacion360\\Evaluacion360\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Presentacion.Properties.Settings.ImportacionesConnectionString']/@connectionString" />
+  </parameter>
+  <parameter name="BD_EvaluacionEntities-Web.config Connection String" description="" value="metadata=res://*/Models.Evaluacion.csdl|res://*/Models.Evaluacion.ssdl|res://*/Models.Evaluacion.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=mgonzalezd_ntbk;Initial Catalog=BD_Evaluacion;User ID=sa;Password=SqlAdmin&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\Desarrollo\ C\#\\Evaluacion\ 360\ v8\\Proyectos\\Evaluacion360\\Evaluacion360\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='BD_EvaluacionEntities']/@connectionString" />
+  </parameter>
+</parameters>

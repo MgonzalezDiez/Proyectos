@@ -14,12 +14,15 @@ namespace Evaluacion360.Controllers
     public class EvaluationPositionController : Controller
     {
         string mensaje = string.Empty;
+        int userType;
+       
 
         // GET: EvaluationPosition
         public ActionResult List(int pagina = 1)
         {
+            userType = Convert.ToInt32( Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Status = true;
-            ViewBag.Cargos = new SelectList(Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
 
             int CantidadRegitrosPorPagina = 10;
@@ -30,7 +33,7 @@ namespace Evaluacion360.Controllers
                    join car in Db.Cargos on cev.Codigo_Cargo equals car.Codigo_Cargo
                    join cae in Db.Cargos on cev.Cod_Cargo_Evaluado equals cae.Codigo_Cargo
                    join sta in Db.Estado_Componentes on cev.IdState equals sta.IdState
-                   orderby car.Nombre_Cargo
+                   orderby car.Nombre_Cargo, cae.Nombre_Cargo
                    select new EvPositionListViewModel
                    {
                        Codigo_Cargo = cev.Codigo_Cargo,
@@ -54,15 +57,16 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: EvaluationPosition/Details/5
-        public ActionResult Details(string id, string id2)
+        public ActionResult Details(string codCargo, string codCargoEval)
         {
-            ViewBag.Cargos = new SelectList(Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
 
             var oEP = new EvPositionViewModel();
             using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
             oEP = (from evp in Db.Cargos_Evaluadores
-                   where evp.Codigo_Cargo == id && evp.Cod_Cargo_Evaluado == id2
+                   where evp.Codigo_Cargo == codCargo && evp.Cod_Cargo_Evaluado == codCargoEval
                    select new EvPositionViewModel
                    {
                        Codigo_Cargo = evp.Codigo_Cargo,
@@ -76,8 +80,9 @@ namespace Evaluacion360.Controllers
         // GET: EvaluationPosition/Create
         public ActionResult Create(string mensaje)
         {
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Status = true;
-            ViewBag.Cargos = new SelectList(Utils.Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", 1);
 
             try
@@ -155,9 +160,10 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: EvaluationPosition/Edit/5
-        public ActionResult Edit(string cargo, string cargoEv, string mensaje)
+        public ActionResult Edit(string codCargo, string codCargoEval, string mensaje)
         {
-            ViewBag.Cargos = new SelectList(Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
 
             ViewBag.Status = false;
@@ -179,7 +185,7 @@ namespace Evaluacion360.Controllers
                 var oEP = new EvPositionViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oEP = (from evp in Db.Cargos_Evaluadores
-                       where evp.Codigo_Cargo == cargo && evp.Cod_Cargo_Evaluado == cargoEv
+                       where evp.Codigo_Cargo == codCargo && evp.Cod_Cargo_Evaluado == codCargoEval
                        select new EvPositionViewModel
                        {
                            Codigo_Cargo = evp.Codigo_Cargo,
@@ -196,7 +202,7 @@ namespace Evaluacion360.Controllers
                 mensaje = "Ocurrió el siguiente error"
                           + e.Message
                           + " Contacte al Administrador";
-                return View(cargo, cargoEv, mensaje);
+                return View(codCargo, codCargoEval, mensaje);
             }
         }
 
@@ -206,15 +212,13 @@ namespace Evaluacion360.Controllers
         {
             try
             {
-                using (var Db = new BD_EvaluacionEntities())
-                {
-                    var oEP = Db.Cargos_Evaluadores.Find(EvPosition.Codigo_Cargo, EvPosition.Cod_Cargo_Evaluado);
-                    oEP.Ponderacion = EvPosition.Ponderacion;
-                    oEP.IdState = EvPosition.IdState;
-                    Db.Entry(oEP).State = System.Data.Entity.EntityState.Modified;
-                    mensaje = "Ok";
-                    Db.SaveChanges();
-                }
+                using var Db = new BD_EvaluacionEntities();
+                var oEP = Db.Cargos_Evaluadores.Find(EvPosition.Codigo_Cargo, EvPosition.Cod_Cargo_Evaluado);
+                oEP.Ponderacion = EvPosition.Ponderacion;
+                oEP.IdState = EvPosition.IdState;
+                Db.Entry(oEP).State = System.Data.Entity.EntityState.Modified;
+                mensaje = "Ok";
+                Db.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -229,9 +233,11 @@ namespace Evaluacion360.Controllers
         // GET: EvaluationPosition/Delete/5
         public ActionResult Delete(string  codCargo, string codCargoEval, string mensaje)
         {
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Status = true;
-            ViewBag.Cargos = new SelectList(Utils.Tools.LeerCargos(), "Codigo_Cargo", "Nombre_Cargo", "");
+            ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
+
             int cant = ViewBag.Cargos.Items.Count;
             string[] PosEv = new string[cant];
             for (int i = 0; i < cant; i++)
@@ -287,15 +293,13 @@ namespace Evaluacion360.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var bd = new BD_EvaluacionEntities())
-                    {
-                        var oUser = bd.Cargos_Evaluadores.Find(evPos.Codigo_Cargo, evPos.Cod_Cargo_Evaluado);
-                        oUser.IdState = 3;
+                    using var bd = new BD_EvaluacionEntities();
+                    var oUser = bd.Cargos_Evaluadores.Find(evPos.Codigo_Cargo, evPos.Cod_Cargo_Evaluado);
+                    oUser.IdState = 3;
 
-                        bd.Entry(oUser).State = System.Data.Entity.EntityState.Modified;
-                        bd.SaveChanges();
-                        mensaje = "Ok";
-                    }
+                    bd.Entry(oUser).State = System.Data.Entity.EntityState.Modified;
+                    bd.SaveChanges();
+                    mensaje = "Ok";
                 }
                 else
                 {

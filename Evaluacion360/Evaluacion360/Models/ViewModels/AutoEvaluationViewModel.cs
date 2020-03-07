@@ -27,9 +27,9 @@ namespace Evaluacion360.Models.ViewModels
 
         public string Metas { get; set; }
 
-        public Nullable<decimal> Nota_Final_AE { get; set; }
-
         public string Estado_AE { get; set; }
+
+        public Nullable<decimal> Nota_Final_AE { get; set; }
 
     }
 
@@ -52,6 +52,9 @@ namespace Evaluacion360.Models.ViewModels
         public string Metas { get; set; }
 
         public string Estado_AE { get; set; }
+
+        public decimal Nota_Final_AE { get; set; }
+
 
     }
 }
