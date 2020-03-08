@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
+edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>ftp://107.180.46.188/evaluacion360.asinet.cl</_PublishTargetUrl>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAZHhs3TlAJk6A4l5j3sE//QAAAAACAAAAAAAQZgAAAAEAACAAAAC1ywEJWEgTnSUilxzM/i3kViBuqBqfobabeNjr2hT33wAAAAAOgAAAAAIAACAAAADo21nR1ymoi5F/0+34rJhkIqQmFP2I8Ekjdcl4bnW27iAAAAAe09wEWaY/xejDpR/r+1izG3VkIvPCQYKMwW6lXIvMm0AAAABvdc2KcD1Bb/OfWELybyfvFd56KACETLj9oz9MlVv/ClA9L1oXHQdRkFkYFlb8UOH64DHZVOp6aAv3VEzoH5yL</EncryptedPassword>
+  </PropertyGroup>
+</Project>

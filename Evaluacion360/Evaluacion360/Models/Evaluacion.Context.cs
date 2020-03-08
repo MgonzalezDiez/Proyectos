@@ -39,13 +39,13 @@ namespace Evaluacion360.Models
         public virtual DbSet<Evaluacion_Resultado_Cargos> Evaluacion_Resultado_Cargos { get; set; }
         public virtual DbSet<Evaluaciones_Cargos> Evaluaciones_Cargos { get; set; }
         public virtual DbSet<Operacion> Operacion { get; set; }
-        public virtual DbSet<Preguntas_Cargos> Preguntas_Cargos { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Rol_Operacion> Rol_Operacion { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
         public virtual DbSet<Procesos_Evaluacion> Procesos_Evaluacion { get; set; }
-        public virtual DbSet<Secciones> Secciones { get; set; }
         public virtual DbSet<Preguntas_Aleatorias> Preguntas_Aleatorias { get; set; }
+        public virtual DbSet<Secciones> Secciones { get; set; }
+        public virtual DbSet<Preguntas_Cargos> Preguntas_Cargos { get; set; }
     
         public virtual int Crea_Evaluaciones(string codigoUsuario, string proceso)
         {

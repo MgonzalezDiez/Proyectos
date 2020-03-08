@@ -148,7 +148,7 @@
     <Property Name="Codigo_Seccion" Type="nchar" MaxLength="20" Nullable="false" />
     <Property Name="Numero_Pregunta" Type="int" Nullable="false" />
     <Property Name="Texto_Pregunta" Type="nvarchar" MaxLength="500" Nullable="false" />
-    <Property Name="Ponderacion_P" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="Ponderacion_P" Type="decimal" Precision="4" Scale="1" Nullable="false" />
   </EntityType>
   <EntityType Name="Preguntas_Cargos">
     <Key>

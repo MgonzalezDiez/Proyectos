@@ -1,5 +1,4 @@
-﻿
-$(document).on('click', '#btnUpload', function () {
+﻿$(document).on('click', '#btnUpload', function () {
     if (window.FormData !== undefined) {
         var fileUpload = $("#file").get(0);
         if ($("#file").get(0).files.length == 0) {
@@ -13,14 +12,14 @@ $(document).on('click', '#btnUpload', function () {
             </div>`
             return;
         }
-        showLoader();
-        eliminarFilas();
+
         var files = "";
         files = fileUpload.files;
         var fileData = new FormData();
         for (var i = 0; i < files.length; i++) {
             fileData.append(files[i].name, files[i]);
         }
+        showLoader();
         $.ajax({
             url: '/Excel/Index',
             type: "POST",
@@ -52,6 +51,7 @@ $(document).on('click', '#btnUpload', function () {
                             return;
                         }
                         else {
+
                             //let thead = document.querySelector('thead');
                             //thead.innerHTML = '';
                             //thead.innerHTML = `
@@ -63,14 +63,15 @@ $(document).on('click', '#btnUpload', function () {
                             //</tr >`
                             let res = document.querySelector('#res');
                             res.innerHTML = '';
-                            //$.each(JSON.parse(result), function (i, item) {
-                            res.innerHTML += `
+                            $.each(JSON.parse(result), function (i, item) {
+                                res.innerHTML += `
                             <tr>
                                 <td>${item.Codigo_Seccion}</td>
                                 <td>${item.Nombre_Seccion}</td>
                                 <td>${item.Ponderacion_S}</td>
                                 <td>${item.IdState == 1 ? 'Vigente' : 'No vigente'}</td>
                             </tr>`
+                            })
                         }
                     });
                     let res2 = document.querySelector('#titulo');
@@ -113,22 +114,25 @@ $(document).on('click', '#btnUpload', function () {
     }
     function showLoader() {
         $('#loading').show();
-    }
-    function hideLoader() {
-        $('#loading').hide();
-    }
-    $(document).ready(function () {
-        hideLoader();
-    });
-    function eliminaFilas() {
-        var n = 0;
-        $("#res tbody tr").each(function () {
-            n++;
-        });
-        for (i = n - 1; i > 1; i--) {
-            $("#res tbody tr:eq('" + i + "')").remove();
-        };
     };
+
+    function hideLoader() {
+        $('#loading').fadeOut();
+    };
+
+    //function eliminaFilas() {
+    //    var n = 0;
+    //    $("#res tbody tr").each(function () {
+    //        n++;
+    //    });
+    //    for (i = n - 1; i > 1; i--) {
+    //        $("#res tbody tr:eq('" + i + "')").remove();
+    //    };
+    //}
+
+    //$(document).ready(function () {
+    //    hideLoader();
+    //})
 });
 
 
@@ -162,15 +166,6 @@ $(document).on('click', '#btnExcelRQ', function () {
             success: function (result) {
                 showLoader();
                 if (result != null || result != false) {
-                    let thead = document.querySelector('thead');
-                    thead.innerHTML = '';
-                    thead.innerHTML = `
-                            <tr >
-                                <th>Codigo Dominio</th>
-                                <th>Número de Pregunta</th>
-                                <th>Texto de Pregunta</th>
-                                <th>Ponderación</th>
-                            </tr >`
                     let res = document.querySelector('#res');
                     res.innerHTML = '';
                     $.each(JSON.parse(result), function (i, itemRQ) {
@@ -203,7 +198,7 @@ $(document).on('click', '#btnExcelRQ', function () {
                     let msg = document.querySelector('#mensaje');
                     msg.innerHTML =
                         `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >
-                            <strong style="font-size:medium">Algo salió mal.Por favor Contacte con el Administrador</strong>
+                            <strong style="font-size:medium">${itemRQ.Texto_Pregunta}</strong>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -241,9 +236,7 @@ $(document).on('click', '#btnExcelRQ', function () {
     function hideLoader() {
         $('#loading').hide();
     }
-    $(document).ready(function () {
-        hideLoader();
-    })
+
 
     function eliminarFilas() {
         //OBTIENE EL NÚMERO DE FILAS DE LA TABLA

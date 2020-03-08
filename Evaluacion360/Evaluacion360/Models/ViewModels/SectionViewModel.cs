@@ -5,7 +5,7 @@ namespace Evaluacion360.Models.ViewModels
     public class SectionViewModel
     {
         [Required(ErrorMessage = "Debe Ingresar Código de Dominio")]
-        [MaxLength(10)]
+        [MaxLength(20)]
         public string Codigo_Seccion { get; set; }
 
         [Required]

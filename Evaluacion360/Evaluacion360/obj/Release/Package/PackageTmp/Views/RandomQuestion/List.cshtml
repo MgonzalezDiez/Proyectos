@@ -13,9 +13,10 @@
     <meta name="viewport" content="width=device-width" />
     <title>Listado de Preguntas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    @*<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />*@
+
     <script type="application/x-javascript">
 
         addEventListener("load", function()
@@ -23,10 +24,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             false);
             function hideURLbar()
             { window.scrollTo(0,1); }
+
+        window.setTimeout(function () {
+                $(".alert-danger").fadeTo(5000, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 5000);
     </script>
 
     <!-- Bootstrap Core CSS -->
     <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+    <link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />
 
     <!-- Custom CSS -->
     <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
@@ -34,13 +42,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Graph CSS -->
     <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" type='text/css' />
     <link href="~/Css/jquery-ui.css" rel="stylesheet" />
-    @*<link href="~/Css-Modernizer/style.css" rel="stylesheet" />*@
     <!-- jQuery -->
     <script src="~/js/jquery-2.1.4.min.js"></script>
     <!-- //jQuery -->
     <!-- tables -->
     <link rel="stylesheet" type="text/css" href="~/Css/table-style.css" />
     @*<link rel="stylesheet" type="text/css" href="~/Css/basictable.css" />*@
+
+    <link href="~/Css/table-style.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/basictable.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/datatables.css" rel="stylesheet" />
 
     <script src="~/js/jquery.basictable.min.js"></script>
     <script src="~/js/datatables.js"></script>
@@ -139,18 +150,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- //lined-icons -->
 </head>
 <body>
+    <div id="mensaje">
+    </div>
+
     <div class="agile-grids">
-        <!-- tables -->
         <div class="agile-tables">
             <div class="-table-info">
                 <div class="modal-header">
                     <h1 class="center-block">Preguntas</h1>
                     <span>
                         <button class="btn btn-danger btn-sm" onclick="location.href='@Url.Content("~/RandomQuestion/Create/")'">Crear Pregunta</button>
+                        @*<button class="btn btn-dark btn-sm" type="button" data-toggle="modal" data-target="#SectionExcel">Importar Excel</button>*@
                         <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Content("~/Home/Index/")'">Volver al Menú</button>
                     </span>
                 </div>
-                <table id="table">
+                <table id="table" >
                     <thead>
                         <tr>
                             <th> @Html.DisplayName("Código Dominio")</th>
@@ -193,12 +207,38 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         }
                     </tbody>
                 </table>
+                <div class="container">
+                    <div id="loading" class="text-center" style="display:none">
+                        <img src="~/Content/ajax-loader.gif" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <br />
+
+    <div class="modal fade " id="SectionExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Importar Preguntas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="false">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" id="file" class="form-control1" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btnExcelRQ" data-dismiss="modal">Subir Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="align-content-md-center">
         @{Html.RenderPartial("_Paginador", Model); }
     </div>
+    <script src="~/js/ExcelJson.js"></script>
 </body>
 </html>
 

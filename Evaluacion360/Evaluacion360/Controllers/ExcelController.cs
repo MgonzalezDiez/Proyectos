@@ -57,7 +57,6 @@ namespace Evaluacion360.Controllers
                         fname = Path.Combine(directoryFullPathInput, fname);
                         file.SaveAs(fname);
 
-                        
                         excelModel = ReadSectionExcel(fname);
                         var val1 = excelModel.Exists(n => n.Nombre_Seccion == "Error");
                         if (excelModel != null && !val1)
@@ -94,7 +93,7 @@ namespace Evaluacion360.Controllers
         }
         #endregion
 
-        #region Lee Secciones Excel
+        #region Lee y Crea Secciones Excel
         public List<SectionExcelModel> ReadSectionExcel(string FilePath)
         {
             List<SectionExcelModel> excelData = new List<SectionExcelModel>();
@@ -215,9 +214,18 @@ namespace Evaluacion360.Controllers
 
                         excelModel = ReadRQExcel(fname);
 
-                        JavaScriptSerializer ser = new JavaScriptSerializer();
-                        ExcelJson = ser.Serialize(excelModel);
-                        return Json(ExcelJson, JsonRequestBehavior.AllowGet);
+                        var val1 = excelModel.Exists(n => n.Codigo_Seccion == "Error");
+                        if (excelModel != null && !val1)
+                        {
+                            JavaScriptSerializer ser = new JavaScriptSerializer();
+                            ExcelJson = ser.Serialize(excelModel);
+                        }
+                        else
+                        {
+                            JavaScriptSerializer ser = new JavaScriptSerializer();
+                            ExcelJson = ser.Serialize(excelModel);
+                            return Json(ExcelJson, JsonRequestBehavior.AllowGet);
+                        }
                     }
                     if (excelModel.Count > 0)
                     {
@@ -257,25 +265,53 @@ namespace Evaluacion360.Controllers
                         {
                             if (wrkSheet.Cells[row, 1].Value != null)
                             {
+                                var CodSec = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper();
+                                int res = Tools.ValidaDominios(CodSec);
+                                if (res == 0)
+                                {
+                                    using (BD_EvaluacionEntities db = new BD_EvaluacionEntities())
+                                    {
+                                        var oSec = new Secciones
+                                        {
+                                            Codigo_Seccion = CodSec,
+                                            Nombre_Seccion = CodSec,
+                                            Ponderacion_S = decimal.Parse("30,0"),
+                                            IdState = 1
+                                        };
+                                        db.Secciones.Add(oSec);
+                                        db.SaveChanges();
+                                    }
+                                }
                                 var oRQ = new Preguntas_Aleatorias
                                 {
-                                    Codigo_Seccion = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper(),
+                                    Codigo_Seccion = CodSec,
                                     Numero_Pregunta = Convert.ToInt32(wrkSheet.Cells[row, 2].Value.ToString().Trim()),
                                     Texto_Pregunta = wrkSheet.Cells[row, 3].Value.ToString().Trim(),
                                     Ponderacion_P = decimal.Parse(wrkSheet.Cells[row, 4].Value.ToString().Trim())
                                 };
-                                bd.Preguntas_Aleatorias.Add(oRQ);
+                                res = Tools.ValidaPreguntas(CodSec, oRQ.Numero_Pregunta);
+                                if(res == 0)
+                                {
+                                    bd.Preguntas_Aleatorias.Add(oRQ);
+                                    bd.SaveChanges();
+                                }
+                                else
+                                {
+                                    bd.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
+                                    bd.SaveChanges();
+                                    
+                                }
+                                
                                 excelData.Add(new RQExcelModel()
                                 {
-                                    Codigo_Seccion = oRQ.Codigo_Seccion,
+                                    Codigo_Seccion = CodSec,
                                     Numero_Pregunta = oRQ.Numero_Pregunta,
                                     Texto_Pregunta = oRQ.Texto_Pregunta,
                                     Ponderacion_P = oRQ.Ponderacion_P
                                 });
-                                //bd.SaveChanges();
                             }
                         }
-                        bd.SaveChanges();
+                        //bd.SaveChanges();
                     }
                     catch (Exception ex)
                     {
@@ -286,7 +322,7 @@ namespace Evaluacion360.Controllers
                         {
 
                             Codigo_Seccion = "Error",
-                            Texto_Pregunta = mensaje + " Valide la información a Ingresar o Contátese con el administrador",
+                            Texto_Pregunta = mensaje + " Valide la información a Ingresar o Contáctese con el administrador",
                             Numero_Pregunta = 0,
                             Ponderacion_P = 0
                         });
@@ -314,6 +350,6 @@ namespace Evaluacion360.Controllers
         }
         #endregion
 
-        
+
     }
 }

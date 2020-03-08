@@ -45,7 +45,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     @*<link href="~/Css/morris.css" rel="stylesheet" type="text/css" />*@
     <!-- Graph CSS -->
     <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
-
     <link href="~/Css/jquery-ui.css" rel="stylesheet" />
     <!-- jQuery -->
     <script src="~/js/jquery-2.1.4.min.js"></script>
@@ -98,7 +97,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="col-md-9">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
-                            @Html.EditorFor(model => model.Codigo_Seccion, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Código de Dominio", @required = true, @maxlength = 10, style = "text-transform: uppercase", autofocus = "autofocus" } })
+                            @Html.EditorFor(model => model.Codigo_Seccion, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Código de Dominio", @required = true, @maxlength = 20, style = "text-transform: uppercase", autofocus = "autofocus" } })
                             <div class="clearfix"></div>
                         </div>
                     </div>

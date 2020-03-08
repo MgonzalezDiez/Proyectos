@@ -56,6 +56,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <script src="~/js/jquery.basictable.min.js"></script>
     <script src="~/js/datatables.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#table').basictable();
@@ -117,12 +118,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="agile-grids">
         <!-- tables -->
         <div class="agile-tables">
-            <div class="-table-info">
+            <div class="w3l-table-info">
                 <div class="modal-header">
                     <h1 class="center-block">Dominios @ViewBag.Alto</h1>
                     <span>
                         <button class="btn btn-danger btn-sm" onclick="location.href='@Url.Content("~/Section/Create/")'">Crear Dominio</button>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#SectionExcel">Importar Excel</button>
+                        @*<button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#SectionExcel">Importar Excel</button>*@
                         <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Content("~/Home/Index/")'">Volver al Menú</button>
                     </span>
                 </div>

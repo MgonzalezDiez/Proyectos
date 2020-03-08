@@ -238,6 +238,6 @@
     <Property Name="Codigo_Seccion" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
     <Property Name="Numero_Pregunta" Type="Int32" Nullable="false" />
     <Property Name="Texto_Pregunta" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="Ponderacion_P" Type="Decimal" Nullable="false" Precision="3" Scale="1" />
+    <Property Name="Ponderacion_P" Type="Decimal" Nullable="false" Precision="4" Scale="1" />
   </EntityType>
 </Schema>

@@ -58,11 +58,9 @@ namespace Evaluacion360.Controllers
                 };
                 return View(Modelo);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                mensaje = "Ocurrió el siguiente error "
-                    + e.Message
-                    + " Contacte al admnistrador";
+                mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
                 return View(new { mensaje });
             }
         }
@@ -124,11 +122,11 @@ namespace Evaluacion360.Controllers
                     mensaje = "El modelo no es válido" + Environment.NewLine + "Contactar al administrador";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                mensaje = "Ocurrió el siguiente error" + e.Message + "Contactar al administrador";
+                mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
             }
-            return RedirectToAction("List", "PositionQuestion", new { mensaje });
+            return RedirectToAction("Create", "PositionQuestion", new { mensaje });
         }
 
         // GET: PostionQuestion/Details/5
@@ -199,9 +197,10 @@ namespace Evaluacion360.Controllers
                        }).FirstOrDefault();
                 return View(oPQ);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + e.Message);
+                mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
+                return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + mensaje);
             }
         }
 
@@ -238,9 +237,9 @@ namespace Evaluacion360.Controllers
                 }
                 return RedirectToAction("Edit", "PositionQuestion", new { mensaje });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                mensaje = "Ocurrió el siguiente error" + e.Message + "Contactar al administrador";
+                mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
                 return RedirectToAction("Edit", "Position", new { mensaje });
             }
         }
@@ -287,9 +286,10 @@ namespace Evaluacion360.Controllers
                 }
                 return View(oPosQ);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return RedirectToAction("~/Home/Error/UnAuthorizedOperation?Error = " + e.Message);
+                mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
+                return RedirectToAction("~/Home/Error/UnAuthorizedOperation?Error = " + mensaje);
             }
         }
 
@@ -325,9 +325,9 @@ namespace Evaluacion360.Controllers
                     return RedirectToAction("Delete", "PositionQuestion", new { oPq = Pq, mensaje });
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                mensaje = "Ocurrió el siguiente error" + e.Message + "Contactar al administrador";
+                mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
                 return RedirectToAction("Delete", "PositionQuestion", new { oPq = Pq, mensaje });
             }
         }

@@ -153,11 +153,9 @@ namespace Evaluacion360.Controllers
                     Mensaje += " Contacte al Administrador";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Mensaje = "Ocurrió el siguiente error"
-                          + e.Message
-                          + " Contacte al Administrador";
+                Mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
             }
             return RedirectToAction("Create", "Section", new { codSecc = section.Codigo_Seccion, Mensaje });
         }
@@ -220,11 +218,9 @@ namespace Evaluacion360.Controllers
                             }).FirstOrDefault();
                 return View(oSection);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Mensaje = "Ocurrió el siguiente error"
-                          + e.Message
-                          + " Contacte al Administrador";
+                Mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
                 return View(id.ToString(), Mensaje);
 
             }
@@ -250,11 +246,9 @@ namespace Evaluacion360.Controllers
                 Mensaje = "Ok";
                 Db.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Mensaje = "Ocurrió el siguiente error"
-                          + e.Message
-                          + " Contacte al Administrador";
+                Mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
             }
             return RedirectToAction("Edit", "Section", new { Mensaje });
         }
@@ -297,11 +291,9 @@ namespace Evaluacion360.Controllers
                 ViewBag.DomState = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", 3);
                 return View(oSection);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Mensaje = "Ocurrió el siguiente error"
-                          + e.Message
-                          + " Contacte al Administrador";
+                Mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
                 return View(id.ToString(), Mensaje);
             }
         }
@@ -344,11 +336,9 @@ namespace Evaluacion360.Controllers
                     Mensaje = "Este dominio tiene preguntas asociadas, No se puede eliminar";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Mensaje = "Ocurrió el siguiente error"
-                          + e.Message
-                          + " Contacte al Administrador";
+                Mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
             }
             return RedirectToAction("Delete", "Section", new { id = svm.Id, Mensaje });
 

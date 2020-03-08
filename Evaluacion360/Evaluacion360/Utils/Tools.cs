@@ -349,7 +349,18 @@ namespace Evaluacion360.Utils
             }
             return 0;
         }
-        
+
+        public static int ValidaPreguntas(string codSec, int askNo)
+        {
+            BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+            var data = Db.Preguntas_Aleatorias.Where(x => x.Codigo_Seccion == codSec && x.Numero_Pregunta == askNo).FirstOrDefault();
+            if (!(data == null))
+            {
+                return 1;
+            }
+            return 0;
+        }
+
 
         public static string CalcularDV(int Rut)
         {
