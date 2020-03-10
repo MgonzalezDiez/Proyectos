@@ -130,7 +130,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <table id="table">
                     <thead>
                         <tr>
-                            <th> @Html.DisplayName("Id")</th>
+                            <th> @Html.Hidden("Id")</th>
                             <th> @Html.DisplayName("Codigo Dominio")</th>
                             <th> @Html.DisplayName("Nombre Dominio")</th>
                             <th> @Html.DisplayName("Ponderación")</th>
@@ -142,7 +142,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         @foreach (var item in Model.Secciones)
                         {
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                <td>@Html.HiddenFor(modelItem => item.Id)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Codigo_Seccion)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Nombre_Seccion)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ponderacion_S)</td>

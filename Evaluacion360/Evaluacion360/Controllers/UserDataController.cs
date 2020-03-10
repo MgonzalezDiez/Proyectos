@@ -117,32 +117,6 @@ namespace Evaluacion360.Controllers
             return View(dUsuarios);
         }
 
-        //// GET: Datos_Usuarios/Delete/5
-        //public ActionResult Delete(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Datos_Usuarios dUsuarios = db.Datos_Usuarios.Find(id);
-        //    if (dUsuarios == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(dUsuarios);
-        //}
-
-        //// POST: Datos_Usuarios/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(string id)
-        //{
-        //    Datos_Usuarios dUsuarios = db.Datos_Usuarios.Find(id);
-        //    db.Datos_Usuarios.Remove(dUsuarios);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

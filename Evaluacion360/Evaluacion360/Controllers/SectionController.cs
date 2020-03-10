@@ -39,7 +39,7 @@ namespace Evaluacion360.Controllers
             oSection = (from secc in Db.Secciones
                         join sta in Db.Estado_Componentes on secc.IdState equals sta.IdState
                         where secc.IdState == 1
-                        orderby secc.Id
+                        orderby secc.Codigo_Seccion
                         select new SectionListViewModel
                         {
                             Id = secc.Id,

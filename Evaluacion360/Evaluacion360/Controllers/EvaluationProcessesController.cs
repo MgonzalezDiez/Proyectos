@@ -357,14 +357,13 @@ namespace Evaluacion360.Controllers
             var CodUsu = new SqlParameter("@CodigoUsuario", ePG.Codigo_Usuario);
             var CodProc = new SqlParameter("@Proceso", ePG.Codigo_Proceso);
 
-            var affectedRows = Db.Database.ExecuteSqlCommand("Crea_Evaluaciones @CodigoUsuario, @Proceso", CodUsu , CodProc );
-            //var affectedRows = Db.Database.ExecuteSqlCommand ("usp_CreateAuthor @AuthorName = {0}, @Email= {1}",  "author", "email");
-            Mensaje = "NoOk";
+            var affectedRows = Db.Database.ExecuteSqlCommand("Crea_Evaluaciones @CodigoUsuario = {0}, @Proceso = {1}", CodUsu.Value, CodProc.Value );
+            Mensaje = "Error";
             if (affectedRows > 0)
             {
                 Mensaje = "Ok";
             }
-            return View(new { codUsu= ePG.Codigo_Usuario, proceso = ePG.Codigo_Proceso, Mensaje });
+            return View(new { codUsu = ePG.Codigo_Usuario, codProc = ePG.Codigo_Proceso, Mensaje });
         }
 
     }

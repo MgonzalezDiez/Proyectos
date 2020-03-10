@@ -13,9 +13,9 @@ namespace Evaluacion360.Controllers
 {
     public class AutoEvaluationController : Controller
     {
-        string Mensaje;
+        private string Mensaje = string.Empty;
         // GET: EvaluacionPreguntas
-        [AuthorizeUser(IdOperacion: 4)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult List(int pagina = 1)
         {
             ActionResult result = null;
@@ -63,7 +63,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: EvaluacionPreguntas/Details/5
-        [AuthorizeUser(IdOperacion: 4)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Details(AutoEvaluationViewModel AE)
         {
             ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
@@ -93,6 +93,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: EvaluacionPreguntas/Create
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Create(string mensaje)
         {
             ViewBag.Status = true;
@@ -115,6 +116,7 @@ namespace Evaluacion360.Controllers
         }
 
         // POST: EvaluacionPreguntas/Create
+        [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
         public ActionResult Create(AutoEvaluationViewModel ae)
         {
@@ -169,7 +171,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: EvaluacionPreguntas/Edit/5
-        [AuthorizeUser(IdOperacion: 4)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Edit(int numEval, int codProc, string codUsu, string mensaje)
         {
             ViewBag.Status = true;
@@ -220,7 +222,7 @@ namespace Evaluacion360.Controllers
         }
 
         // POST: EvaluacionPreguntas/Edit/5
-        [AuthorizeUser(IdOperacion: 4)]
+        [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
         public ActionResult Edit(AutoEvaluationViewModel model)
         {
@@ -251,7 +253,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: EvaluacionPreguntas/Delete/5
-        [AuthorizeUser(IdOperacion: 4)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Delete(int numEval, int codProc, string codUsu, string mensaje)
         {
             ViewBag.Status = true;
@@ -303,7 +305,7 @@ namespace Evaluacion360.Controllers
         }
 
         // POST: EvaluacionPreguntas/Delete/5
-        [AuthorizeUser(IdOperacion: 4)]
+        [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
         public ActionResult Delete(int numEval, int codProc, string codUsu)
         {

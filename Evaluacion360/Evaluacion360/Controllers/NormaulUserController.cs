@@ -19,7 +19,7 @@ namespace Evaluacion360.Controllers
         //string connectionString = "datasource=127.0.0.1;port=3306;username=root;password=;database=BD_Evaluacion;";
 
 
-        [AuthorizeUser(IdOperacion: 3)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult List(int pagina = 1)
         {
             ActionResult result = null;
@@ -70,7 +70,7 @@ namespace Evaluacion360.Controllers
         }
 
         [HttpGet]
-        [AuthorizeUser(IdOperacion: 3)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Create(string mensaje)
         {
             ViewBag.Status = true;
@@ -95,7 +95,7 @@ namespace Evaluacion360.Controllers
         }
 
         [HttpPost]
-        [AuthorizeUser(IdOperacion: 3)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Create(UsuarioViewModel user)
         {
             Usuarios oUser = (Usuarios)Session["User"];
@@ -193,7 +193,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: User/Details/5
-        [AuthorizeUser(IdOperacion: 3)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Details(string Id)
         {
             try
@@ -256,7 +256,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: User/Edit/3
-        [AuthorizeUser(IdOperacion: 3)]
+        [AuthorizeUser(IdOperacion: 5)]
         [ValidateInput(false)]
         public ActionResult Edit(string Id, string mensaje)
         {
@@ -335,7 +335,7 @@ namespace Evaluacion360.Controllers
 
         // POST: User/Edit/5
         [HttpPost]
-        [AuthorizeUser(IdOperacion: 3)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Edit(UserEditViewModel model)
         {
             try
@@ -420,7 +420,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: User/Delete/5
-        [AuthorizeUser(IdOperacion: 3)]
+        [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Delete(string id, string mensaje)
         {
             if (mensaje != null && mensaje.Trim() != "")
@@ -464,7 +464,7 @@ namespace Evaluacion360.Controllers
 
         // POST: User/Delete/5
         [HttpPost]
-        [AuthorizeUser(IdOperacion: 3)]
+        [AuthorizeUser(IdOperacion: 5)]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(UserDeleteViewModel udvm)
         {
