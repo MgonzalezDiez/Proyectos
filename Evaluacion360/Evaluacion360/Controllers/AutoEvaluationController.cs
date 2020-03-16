@@ -30,17 +30,17 @@ namespace Evaluacion360.Controllers
                 oAE = (from EvQ in Db.Auto_Evaluaciones
                        join pro in Db.Procesos_Evaluacion on EvQ.Codigo_Proceso equals pro.Codigo_Proceso
                        join usr in Db.Usuarios on EvQ.Codigo_Usuario equals usr.Codigo_Usuario
-                               select new AutoEvaluationListViewModel
-                               {
-                                   Numero_Evaluacion = EvQ.Numero_Evaluacion,
-                                   Codigo_Proceso = EvQ.Codigo_Proceso,
-                                   NombreProceso = pro.Nombre_Proceso,
-                                   Codigo_Usuario = EvQ.Codigo_Usuario,
-                                   Nombre_Usuario = usr.Nombre_Usuario,
-                                   Fecha = EvQ.Fecha,
-                                   Metas = EvQ.Metas,
-                                   Estado_AE = EvQ.Estado_AE
-                               }).ToList();
+                       select new AutoEvaluationListViewModel
+                       {
+                           Numero_Evaluacion = EvQ.Numero_Evaluacion,
+                           Codigo_Proceso = EvQ.Codigo_Proceso,
+                           NombreProceso = pro.Nombre_Proceso,
+                           Codigo_Usuario = EvQ.Codigo_Usuario,
+                           Nombre_Usuario = usr.Nombre_Usuario,
+                           Fecha = EvQ.Fecha,
+                           Metas = EvQ.Metas,
+                           Estado_AE = EvQ.Estado_AE
+                       }).ToList();
 
                 var TotalRegistros = oAE.Count();
                 List<AutoEvaluationListViewModel> lista = oAE.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();
@@ -97,8 +97,11 @@ namespace Evaluacion360.Controllers
         public ActionResult Create(string mensaje)
         {
             ViewBag.Status = true;
+            Usuarios oUser = (Usuarios)Session["User"];
             ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
             ViewBag.EvState = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
+            ViewBag.Sections = new SelectList(Tools.DominiosPorUsuario(oUser.Codigo_Usuario), "Codigo_Seccion", "Nombre_Seccion");
+
             if (mensaje != null && mensaje != "")
             {
                 if (mensaje == "Ok")
@@ -112,8 +115,11 @@ namespace Evaluacion360.Controllers
                     ViewBag.Status = false;
                 }
             }
+
             return View();
+
         }
+
 
         // POST: EvaluacionPreguntas/Create
         [AuthorizeUser(IdOperacion: 5)]
@@ -167,7 +173,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return View( new { ae.Numero_Evaluacion, Mensaje });
+            return View(new { ae.Numero_Evaluacion, Mensaje });
         }
 
         // GET: EvaluacionPreguntas/Edit/5
@@ -196,19 +202,19 @@ namespace Evaluacion360.Controllers
                 var oAE = new AutoEvaluationViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oAE = (from ae in Db.Auto_Evaluaciones
-                            where ae.Numero_Evaluacion == numEval && ae.Codigo_Proceso == codProc && ae.Codigo_Usuario == codUsu
+                       where ae.Numero_Evaluacion == numEval && ae.Codigo_Proceso == codProc && ae.Codigo_Usuario == codUsu
                        select new AutoEvaluationViewModel
-                            {
-                                Numero_Evaluacion = ae.Numero_Evaluacion,
-                                Codigo_Proceso = ae.Codigo_Proceso,
-                                Codigo_Usuario = ae.Codigo_Usuario,
-                                Fecha = ae.Fecha,
-                                Logros = ae.Logros,
-                                Metas = ae.Metas,
-                                Nota_Final_AE = ae.Nota_Final_AE == null ? 0 : ae.Nota_Final_AE,
-                                Estado_AE = ae.Estado_AE,
+                       {
+                           Numero_Evaluacion = ae.Numero_Evaluacion,
+                           Codigo_Proceso = ae.Codigo_Proceso,
+                           Codigo_Usuario = ae.Codigo_Usuario,
+                           Fecha = ae.Fecha,
+                           Logros = ae.Logros,
+                           Metas = ae.Metas,
+                           Nota_Final_AE = ae.Nota_Final_AE == null ? 0 : ae.Nota_Final_AE,
+                           Estado_AE = ae.Estado_AE,
 
-                            }).FirstOrDefault();
+                       }).FirstOrDefault();
                 return View(oAE);
             }
             catch (Exception e)
@@ -249,7 +255,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("Edit", "Section", new { numEval = model.Numero_Evaluacion, codProc = model.Codigo_Proceso, codUsu = model.Codigo_Usuario, Mensaje });
+            return RedirectToAction("Create", "AutoEvaluationQuestion"); //, new { numEval = model.Numero_Evaluacion, codProc = model.Codigo_Proceso, codUsu = model.Codigo_Usuario, Mensaje });
         }
 
         // GET: EvaluacionPreguntas/Delete/5
@@ -279,19 +285,19 @@ namespace Evaluacion360.Controllers
                 var oAE = new AutoEvaluationViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oAE = (from ae in Db.Auto_Evaluaciones
-                        where ae.Numero_Evaluacion == numEval && ae.Codigo_Proceso == codProc && ae.Codigo_Usuario == codUsu                         
-                        select new AutoEvaluationViewModel
-                        {
-                            Numero_Evaluacion = ae.Numero_Evaluacion,
-                            Codigo_Proceso = ae.Codigo_Proceso,
-                            Codigo_Usuario = ae.Codigo_Usuario,
-                            Fecha = ae.Fecha,
-                            Logros = ae.Logros,
-                            Metas = ae.Metas,
-                            Nota_Final_AE = ae.Nota_Final_AE == null ? 0: ae.Nota_Final_AE,
-                            Estado_AE = ae.Estado_AE,
-                            
-                        }).FirstOrDefault();
+                       where ae.Numero_Evaluacion == numEval && ae.Codigo_Proceso == codProc && ae.Codigo_Usuario == codUsu
+                       select new AutoEvaluationViewModel
+                       {
+                           Numero_Evaluacion = ae.Numero_Evaluacion,
+                           Codigo_Proceso = ae.Codigo_Proceso,
+                           Codigo_Usuario = ae.Codigo_Usuario,
+                           Fecha = ae.Fecha,
+                           Logros = ae.Logros,
+                           Metas = ae.Metas,
+                           Nota_Final_AE = ae.Nota_Final_AE == null ? 0 : ae.Nota_Final_AE,
+                           Estado_AE = ae.Estado_AE,
+
+                       }).FirstOrDefault();
 
                 return View(oAE);
             }

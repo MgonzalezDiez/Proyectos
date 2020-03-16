@@ -11,11 +11,13 @@ namespace Evaluacion360.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Preguntas_Aleatorias
     {
         public string Codigo_Seccion { get; set; }
         public int Numero_Pregunta { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Texto_Pregunta { get; set; }
         public decimal Ponderacion_P { get; set; }
     }

@@ -331,7 +331,7 @@ namespace Evaluacion360.Controllers
         public ActionResult GenerarProcesoEvaluacion(string codUsu, string codProc, string mensaje)
         {
             ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
-            ViewBag.Usuarios = new SelectList(Tools.LeerUsuarios(), "Codigo_Usuario", "Nombre_Usuario", 1);
+            ViewBag.Usuarios = new SelectList(Tools.LeerUsuarios(""), "Codigo_Usuario", "Nombre_Usuario", 1);
 
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")

@@ -33,7 +33,7 @@ namespace Evaluacion360.Controllers
                    join car in Db.Cargos on cev.Codigo_Cargo equals car.Codigo_Cargo
                    join cae in Db.Cargos on cev.Cod_Cargo_Evaluado equals cae.Codigo_Cargo
                    join sta in Db.Estado_Componentes on cev.IdState equals sta.IdState
-                   orderby cae.Nombre_Cargo
+                   orderby car.Nombre_Cargo
                    select new EvPositionListViewModel
                    {
                        Codigo_Cargo = cev.Codigo_Cargo,

@@ -12,10 +12,11 @@ namespace Evaluacion360.Models.ViewModels
     {
         [Required]
         public int Numero_Evaluacion { get; set; }
-        
+        //public string NombreEvaluacion { get; set; }
+
         [Required]
         public int Codigo_Proceso { get; set; }
-        
+
         [Required]
         public string Codigo_Usuario { get; set; }
 

@@ -118,7 +118,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-sticky-note"></i></span>
                         @Html.HiddenFor(model => model.Texto_Pregunta)
-                        @Html.EditorFor(model => model.Texto_Pregunta, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Texto de Pregunta", @required = "required", @maxlength = 50, @ErrorMessage = "bbb", style = "text-transform: uppercase" } })
+                        @Html.EditorFor(model => model.Texto_Pregunta, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Texto de Pregunta", @required = "required", @maxlength = 500, style = "text-transform: uppercase" } })
                     </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-percent"></i></span>
                         @*@Html.HiddenFor(model => model.Ponderacion_P)*@
-                        @Html.EditorFor(model => model.Ponderacion_P, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @maxlength="4", @min = "00.0", max = "100", step = "00.1", @placeholder = "00,0", @required = "required"} })
+                        @Html.EditorFor(model => model.Ponderacion_P, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @maxlength="4", @min = "00.0", @max = "100", @step = "00.1", @placeholder = "00,0", @required = "required"} })
                     </div>
                 </div>
             </div>

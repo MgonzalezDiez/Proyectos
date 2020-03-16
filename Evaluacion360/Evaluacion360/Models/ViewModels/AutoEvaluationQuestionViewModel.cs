@@ -11,27 +11,41 @@ namespace Evaluacion360.Models.ViewModels
     public class AutoEvaluationQuestionViewModel        
     {
         [Required]
-        [Key]
         public int Numero_Evaluacion { get; set; }
+        //public string NombreEvaluacion { get; set; }
 
         [Required]
-        [Key]
         public int Codigo_Proceso { get; set; }
+        public string NombreProceso { get; set; }
 
         [Required]
-        [Key]
+        public string Codigo_Usuario { get; set; }
+        public string NombreUsuario { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public Nullable<DateTime> Fecha { get; set; }
+
+        public string Logros { get; set; }
+
+        public string Metas { get; set; }
+
+        public string Estado_AE { get; set; }
+        public string StateDescription { get; set; }
+
+        public Nullable<decimal> Nota_Final_AE { get; set; }
+
         public string Codigo_Seccion { get; set; }
 
-        [Required]
-        [Key]
         public int Numero_Pregunta { get; set; }
+        public string TextoPregunta { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:0.0}", ApplyFormatInEditMode = true)]
-        [RegularExpression(@"^\d+\,\d{0,1}$")]
-        [Range(0, 99.9)]
-        [Display(Name = "Nota")]
-        [Required]
-        public decimal Nota { get; set; }
+        //[DisplayFormat(DataFormatString = "{0:0.0}", ApplyFormatInEditMode = true)]
+        //[RegularExpression(@"^\d+\,\d{0,1}$")]
+        //[Range(1, 7.0)]
+        //[Display(Name = "Nota")]
+        //[Required]
+        public Nullable<decimal> Nota { get; set; }
 
     }
 
@@ -43,5 +57,39 @@ namespace Evaluacion360.Models.ViewModels
         public int Numero_Pregunta { get; set; }
         public decimal Nota { get; set; }
         public string Estado_AE { get; set; }
+    }
+
+    public class AutoEvQuestionScoreViewModel
+    {
+        public string Codigo_Seccion { get; set; }
+        public int Numero_Pregunta { get; set; }
+        public string TextoPregunta { get; set; }
+        public Nullable<decimal> Nota { get; set; }
+    }
+
+    public class CreateAutoEvaluationQuestionViewModel
+    {
+        public int Numero_Evaluacion { get; set; }
+
+        public int Codigo_Proceso { get; set; }
+
+        public string Codigo_Usuario { get; set; }
+
+        public Nullable<DateTime> Fecha { get; set; }
+
+        public string Logros { get; set; }
+
+        public string Metas { get; set; }
+
+        public string Estado_AE { get; set; }
+
+        public Nullable<decimal> Nota_Final_AE { get; set; }
+
+        public string Codigo_Seccion { get; set; }
+
+        public int Numero_Pregunta { get; set; }
+
+        public Nullable<decimal> Nota { get; set; }
+
     }
 }

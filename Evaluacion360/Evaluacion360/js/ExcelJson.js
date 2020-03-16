@@ -29,15 +29,7 @@
             success: function (result) {
                 showLoader();
                 if (result != null || result != false) {
-                    //let thead = document.querySelector('thead');
-                    //thead.innerHTML = '';
-                    //thead.innerHTML = `
-                    //    <tr >
-                    //        <th>Codigo Dominio</th>
-                    //        <th>Nombre Dominio</th>
-                    //        <th>Ponderación</th>
-                    //        <th>Estado</th>
-                    //    </tr >`
+                    
                     $.each(JSON.parse(result), function (i, item) {
                         if (item.Codigo_Seccion == "Error") {
                             let msg = document.querySelector('#mensaje');
@@ -52,15 +44,6 @@
                         }
                         else {
 
-                            //let thead = document.querySelector('thead');
-                            //thead.innerHTML = '';
-                            //thead.innerHTML = `
-                            //<tr >
-                            //    <th>Codigo Dominio</th>
-                            //    <th>Nombre Dominio</th>
-                            //    <th>Ponderación</th>
-                            //    <th>Estado</th>
-                            //</tr >`
                             let res = document.querySelector('#res');
                             res.innerHTML = '';
                             $.each(JSON.parse(result), function (i, item) {
@@ -119,20 +102,6 @@
     function hideLoader() {
         $('#loading').fadeOut();
     };
-
-    //function eliminaFilas() {
-    //    var n = 0;
-    //    $("#res tbody tr").each(function () {
-    //        n++;
-    //    });
-    //    for (i = n - 1; i > 1; i--) {
-    //        $("#res tbody tr:eq('" + i + "')").remove();
-    //    };
-    //}
-
-    //$(document).ready(function () {
-    //    hideLoader();
-    //})
 });
 
 

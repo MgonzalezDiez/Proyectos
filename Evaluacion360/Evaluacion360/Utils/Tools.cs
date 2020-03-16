@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Services;
+using System;
+using System.Web.Script.Serialization;
 
 namespace Evaluacion360.Utils
 {
@@ -70,7 +72,88 @@ namespace Evaluacion360.Utils
             using SqlConnection Cnn = new SqlConnection(CnnStr);
             using SqlCommand cmd = new SqlCommand
             {
-                CommandText = "Select Codigo_Seccion, Nombre_Seccion from Secciones Where IdState = 1 Order by Id",
+                CommandText = "Select Codigo_Seccion, Nombre_Seccion from Secciones Where IdState = 1 Order by Nombre_Seccion",
+                Connection = Cnn
+            };
+            Cnn.Open();
+            using (SqlDataReader sec = cmd.ExecuteReader())
+            {
+                if (sec.HasRows)
+                {
+                    while (sec.Read())
+                    {
+                        Secciones scc = new Secciones()
+                        {
+                            Codigo_Seccion = sec.GetString(0),
+                            Nombre_Seccion = sec.GetString(1)
+                        };
+                        Section.Add(scc);
+                    }
+                }
+            }
+            return Section;
+        }
+
+        //public static IEnumerable <Preguntas_Aleatorias>QuestionsByUser(int numEval, int codProc, string sectionCode)
+        //{
+        //    List<Preguntas_Aleatorias> RandomQ = new List<Preguntas_Aleatorias>();
+        //    string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+        //    string sql = "select aep.Numero_Pregunta, pal.Texto_Pregunta from Auto_Evaluacion_Preguntas aep " +
+        //                 "join Auto_Evaluaciones aev on aep.Codigo_Proceso = aev.Codigo_Proceso " +
+        //                 "join Preguntas_Aleatorias pal on aep.Codigo_seccion = pal.Codigo_Seccion and aep.Numero_Pregunta = pal.Numero_Pregunta " +
+        //                 "where aep.Numero_Evaluacion = " + numEval + " and aep.Codigo_Proceso = " + codProc + " and aep.Codigo_seccion = '" + sectionCode + "'";
+        //    using SqlConnection Cnn = new SqlConnection(CnnStr);
+        //    using SqlCommand cmd = new SqlCommand
+        //    {
+        //        CommandText = sql,
+        //        Connection = Cnn
+        //    };
+        //    Cnn.Open();
+        //    using (SqlDataReader sec = cmd.ExecuteReader())
+        //    {
+        //        if (sec.HasRows)
+        //        {
+        //            try
+        //            {
+        //                while (sec.Read())
+        //                {
+        //                    Preguntas_Aleatorias scc = new Preguntas_Aleatorias()
+        //                    {
+        //                        Numero_Pregunta = sec.GetInt32(0),
+        //                        Texto_Pregunta = sec.GetString(1)
+        //                    };
+
+        //                    RandomQ.Add(scc);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                string mensaje = ex.InnerException.InnerException.Message;
+        //                RandomQ.Add(new Preguntas_Aleatorias()
+        //                {
+        //                    Codigo_Seccion = "Error",
+        //                    Texto_Pregunta = mensaje + " Valide la información"
+        //                });
+        //            }
+        //        }
+        //        return RandomQ;
+        //    }
+        //}
+
+        public static IEnumerable<Secciones> DominiosPorUsuario(string codUsuario)
+        {
+            List<Secciones> Section = new List<Secciones>();
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            string sql = "Select Distinct Sec.Codigo_Seccion, Sec.Nombre_Seccion from Secciones Sec " +
+                         "Join Auto_Evaluacion_Preguntas AEP on Sec.Codigo_Seccion = AEP.Codigo_Seccion " +
+                         "Join Auto_Evaluaciones AEv on AEP.Numero_Evaluacion = AEv.Numero_Evaluacion and AEP.Codigo_Proceso = AEV.Codigo_Proceso " +
+                         "Where Codigo_Usuario = '" + codUsuario + "'";
+
+
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using SqlCommand cmd = new SqlCommand
+            {
+                CommandText = sql,
                 Connection = Cnn
             };
             Cnn.Open();
@@ -159,14 +242,19 @@ namespace Evaluacion360.Utils
             return Proc;
         }
 
-        public static IEnumerable<Usuarios> LeerUsuarios()
+        public static IEnumerable<Usuarios> LeerUsuarios(string CodUser)
         {
             List<Usuarios> Proc = new List<Usuarios>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            string sql = "Select Codigo_Usuario, Nombre_Usuario from Usuarios";
+            if (CodUser != null && CodUser != "")
+            {
+                sql += " where codigo_usuario = '" + CodUser + "'";
+            }
             using SqlConnection Cnn = new SqlConnection(CnnStr);
             using SqlCommand cmd = new SqlCommand
             {
-                CommandText = "Select Codigo_Usuario, Nombre_Usuario from Usuarios",
+                CommandText = sql,
                 Connection = Cnn
             };
             Cnn.Open();
@@ -242,36 +330,34 @@ namespace Evaluacion360.Utils
         {
             List<Evaluacion_Preguntas_Cargos> Proc = new List<Evaluacion_Preguntas_Cargos>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            using (SqlConnection Cnn = new SqlConnection(CnnStr))
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using SqlCommand cmd = new SqlCommand
             {
-                using SqlCommand cmd = new SqlCommand
-                {
-                    CommandText = "Select * from Procesos_Evaluacion Where " +
+                CommandText = "Select * from Procesos_Evaluacion Where " +
                     "Numero_Evaluacion = " + NumEva + " And " +
                     "Codigo_Proceso = " + CodPro + " And " +
                     "Codigo_seccion = " + CodSec + " And " +
                     "Cod_Cargo_Evaluado = " + CodCarE + " And " +
                     "Cod_Usuario_Evaluado = " + CodUsEval + " And " +
                     "Numero_Pregunta = " + NumPre,
-                    Connection = Cnn
-                };
-                Cnn.Open();
-                using (SqlDataReader pos = cmd.ExecuteReader())
+                Connection = Cnn
+            };
+            Cnn.Open();
+            using (SqlDataReader pos = cmd.ExecuteReader())
+            {
+                while (pos.Read())
                 {
-                    while (pos.Read())
+                    Evaluacion_Preguntas_Cargos pro = new Evaluacion_Preguntas_Cargos()
                     {
-                        Evaluacion_Preguntas_Cargos pro = new Evaluacion_Preguntas_Cargos()
-                        {
-                            Numero_Evaluacion = pos.GetInt32(0),
-                            Codigo_Proceso = pos.GetInt32(1),
-                            Codigo_seccion = pos.GetString(2),
-                            Numero_Pregunta = pos.GetInt32(5)
-                        };
-                        Proc.Add(pro);
-                    }
+                        Numero_Evaluacion = pos.GetInt32(0),
+                        Codigo_Proceso = pos.GetInt32(1),
+                        Codigo_seccion = pos.GetString(2),
+                        Numero_Pregunta = pos.GetInt32(5)
+                    };
+                    Proc.Add(pro);
                 }
-                return Proc;
             }
+            return Proc;
         }
 
         public static IEnumerable<Preguntas_Aleatorias> LeerPreguntasAleatorias(string codSec, int askNo)
@@ -279,72 +365,69 @@ namespace Evaluacion360.Utils
             string texto;
             List<Preguntas_Aleatorias> PA = new List<Preguntas_Aleatorias>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            using (SqlConnection Cnn = new SqlConnection(CnnStr))
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using SqlCommand cmd = new SqlCommand();
+            texto = "Select * from Preguntas_Aleatorias ";
+            if (codSec != "")
             {
-                using SqlCommand cmd = new SqlCommand();
-                texto = "Select * from Preguntas_Aleatorias ";
-                if (codSec != "")
-                {
-                    texto += " where Codigo_Seccion = '" + codSec + "'";
-                }
-                if (askNo > 0)
-                {
-                    texto += " and Numero_Pregunta = " + askNo;
-                }
-
-                cmd.CommandText = texto;
-                cmd.Connection = Cnn;
-                Cnn.Open();
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        Preguntas_Aleatorias rq = new Preguntas_Aleatorias()
-                        {
-                            Numero_Pregunta = dr.GetInt32(1),
-                            Texto_Pregunta = dr.GetString(2),
-                            Ponderacion_P = dr.GetDecimal(3)
-                        };
-                        PA.Add(rq);
-                    }
-                }
-                return PA;
+                texto += " where Codigo_Seccion = '" + codSec + "'";
             }
+            if (askNo > 0)
+            {
+                texto += " and Numero_Pregunta = " + askNo;
+            }
+
+            cmd.CommandText = texto;
+            cmd.Connection = Cnn;
+            Cnn.Open();
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    Preguntas_Aleatorias rq = new Preguntas_Aleatorias()
+                    {
+                        Numero_Pregunta = dr.GetInt32(1),
+                        Texto_Pregunta = dr.GetString(2),
+                        Ponderacion_P = dr.GetDecimal(3)
+                    };
+                    PA.Add(rq);
+                }
+            }
+            return PA;
         }
 
         public static IEnumerable<Estado_Evaluaciones> LeerEstadoEvaluaciones()
         {
             List<Estado_Evaluaciones> Position = new List<Estado_Evaluaciones>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            using (SqlConnection Cnn = new SqlConnection(CnnStr))
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using SqlCommand cmd = new SqlCommand
             {
-                using SqlCommand cmd = new SqlCommand
+                CommandText = "Select IdState, StateDescription from Estado_Evaluaciones",
+                Connection = Cnn
+            };
+            Cnn.Open();
+            using (SqlDataReader pos = cmd.ExecuteReader())
+            {
+                while (pos.Read())
                 {
-                    CommandText = "Select IdState, StateDescription from Estado_Evaluaciones",
-                    Connection = Cnn
-                };
-                Cnn.Open();
-                using (SqlDataReader pos = cmd.ExecuteReader())
-                {
-                    while (pos.Read())
+                    Estado_Evaluaciones sev = new Estado_Evaluaciones()
                     {
-                        Estado_Evaluaciones sev = new Estado_Evaluaciones()
-                        {
-                            IdState = pos.GetString(0),
-                            StateDescription = pos.GetString(1)
-                        };
-                        Position.Add(sev);
-                    }
+                        IdState = pos.GetString(0),
+                        StateDescription = pos.GetString(1)
+                    };
+                    Position.Add(sev);
                 }
-                return Position;
             }
+            return Position;
         }
 
         public static int ValidaDominios(string codSec)
         {
             BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
             var data = Db.Secciones.Where(x => x.Codigo_Seccion == codSec).FirstOrDefault();
-            if (!(data == null)){
+            if (!(data == null))
+            {
                 return data.IdState;
             }
             return 0;
