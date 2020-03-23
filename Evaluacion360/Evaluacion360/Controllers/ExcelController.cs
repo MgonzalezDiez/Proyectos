@@ -269,18 +269,16 @@ namespace Evaluacion360.Controllers
                                 int res = Tools.ValidaDominios(CodSec);
                                 if (res == 0)
                                 {
-                                    using (BD_EvaluacionEntities db = new BD_EvaluacionEntities())
+                                    using BD_EvaluacionEntities db = new BD_EvaluacionEntities();
+                                    var oSec = new Secciones
                                     {
-                                        var oSec = new Secciones
-                                        {
-                                            Codigo_Seccion = CodSec,
-                                            Nombre_Seccion = CodSec,
-                                            Ponderacion_S = decimal.Parse("30,0"),
-                                            IdState = 1
-                                        };
-                                        db.Secciones.Add(oSec);
-                                        db.SaveChanges();
-                                    }
+                                        Codigo_Seccion = CodSec,
+                                        Nombre_Seccion = CodSec,
+                                        Ponderacion_S = decimal.Parse("30,0"),
+                                        IdState = 1
+                                    };
+                                    db.Secciones.Add(oSec);
+                                    db.SaveChanges();
                                 }
                                 var oRQ = new Preguntas_Aleatorias
                                 {

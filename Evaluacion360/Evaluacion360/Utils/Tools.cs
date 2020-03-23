@@ -94,52 +94,7 @@ namespace Evaluacion360.Utils
             return Section;
         }
 
-        //public static IEnumerable <Preguntas_Aleatorias>QuestionsByUser(int numEval, int codProc, string sectionCode)
-        //{
-        //    List<Preguntas_Aleatorias> RandomQ = new List<Preguntas_Aleatorias>();
-        //    string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-        //    string sql = "select aep.Numero_Pregunta, pal.Texto_Pregunta from Auto_Evaluacion_Preguntas aep " +
-        //                 "join Auto_Evaluaciones aev on aep.Codigo_Proceso = aev.Codigo_Proceso " +
-        //                 "join Preguntas_Aleatorias pal on aep.Codigo_seccion = pal.Codigo_Seccion and aep.Numero_Pregunta = pal.Numero_Pregunta " +
-        //                 "where aep.Numero_Evaluacion = " + numEval + " and aep.Codigo_Proceso = " + codProc + " and aep.Codigo_seccion = '" + sectionCode + "'";
-        //    using SqlConnection Cnn = new SqlConnection(CnnStr);
-        //    using SqlCommand cmd = new SqlCommand
-        //    {
-        //        CommandText = sql,
-        //        Connection = Cnn
-        //    };
-        //    Cnn.Open();
-        //    using (SqlDataReader sec = cmd.ExecuteReader())
-        //    {
-        //        if (sec.HasRows)
-        //        {
-        //            try
-        //            {
-        //                while (sec.Read())
-        //                {
-        //                    Preguntas_Aleatorias scc = new Preguntas_Aleatorias()
-        //                    {
-        //                        Numero_Pregunta = sec.GetInt32(0),
-        //                        Texto_Pregunta = sec.GetString(1)
-        //                    };
-
-        //                    RandomQ.Add(scc);
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                string mensaje = ex.InnerException.InnerException.Message;
-        //                RandomQ.Add(new Preguntas_Aleatorias()
-        //                {
-        //                    Codigo_Seccion = "Error",
-        //                    Texto_Pregunta = mensaje + " Valide la información"
-        //                });
-        //            }
-        //        }
-        //        return RandomQ;
-        //    }
-        //}
-
+       
         public static IEnumerable<Secciones> DominiosPorUsuario(string codUsuario)
         {
             List<Secciones> Section = new List<Secciones>();
@@ -433,6 +388,14 @@ namespace Evaluacion360.Utils
             return 0;
         }
 
+        public static IEnumerable<Estado_Evaluaciones> EvaluationState()
+        {
+            BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+            IEnumerable< Estado_Evaluaciones> evState = Db.Estado_Evaluaciones.ToList();
+
+            return evState;
+        }
+
         public static int ValidaPreguntas(string codSec, int askNo)
         {
             BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
@@ -443,6 +406,7 @@ namespace Evaluacion360.Utils
             }
             return 0;
         }
+
 
 
         public static string CalcularDV(int Rut)

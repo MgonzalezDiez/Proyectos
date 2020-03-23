@@ -1,4 +1,4 @@
-﻿@model Evaluacion360.Models.ViewModels.PQViewModel
+﻿@model Evaluacion360.Models.ViewModels.PositionQuestionViewModel
 
 @{
 
@@ -125,7 +125,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-question"></i></span>
-                            @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, "Seleccione Pregunta", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, "Seleccione Pregunta", new { type = "text", @class = "form-control2", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         </div>
                     </div>
                 </div>

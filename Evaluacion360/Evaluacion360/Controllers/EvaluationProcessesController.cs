@@ -4,6 +4,8 @@ using Evaluacion360.Models.ViewModels;
 using Evaluacion360.Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
@@ -22,22 +24,24 @@ namespace Evaluacion360.Controllers
             int CantidadRegitrosPorPagina = 0;
             CantidadRegitrosPorPagina = 10;
 
-            var oEP = new List<EvProcsViewModel>();
+            var oEP = new List<EvaluationProcessViewModel>();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
-                oEP = (from ep in Db.Procesos_Evaluacion orderby ep.Nombre_Proceso, ep.Ano_Proceso, ep.Mes_Proceso
-                       select new EvProcsViewModel 
+                oEP = (from ep in Db.Procesos_Evaluacion 
+                       join ee in Db.Estado_Evaluaciones on ep.Estado_PE equals ee.IdState
+                       orderby ep.Nombre_Proceso, ep.Ano_Proceso, ep.Mes_Proceso
+                       select new EvaluationProcessViewModel  
                        {
                            Codigo_Proceso = ep.Codigo_Proceso,
                            Nombre_Proceso = ep.Nombre_Proceso,
                            Ano_Proceso = ep.Ano_Proceso,
                            Mes_Proceso = ep.Mes_Proceso,
                            Retroalimentacion = ep.Retroalimentacion,
-                           Estado_PE = ep.Estado_PE
+                           Estado_PE = ee.StateDescription
                        }).ToList();
             }
             var TotalRegistros = oEP.Count();
-            List<EvProcsViewModel> lista = oEP.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();
+            List<EvaluationProcessViewModel> lista = oEP.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();
             var Modelo = new ListEvProcsViewModel
             {
                 Secciones = lista,
@@ -50,14 +54,15 @@ namespace Evaluacion360.Controllers
 
         // GET: EvaluationProcesses/Details/5
         [AuthorizeUser(IdOperacion: 5)]
-        public ActionResult Details(int id)
+        public ActionResult Details(int codProc = 0)
         {
-            var oEP = new EvProcsViewModel();
+            ViewBag.StateEval = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
+            var oEP = new EvaluationProcessViewModel();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
                 oEP = (from ep in Db.Procesos_Evaluacion
-                       where ep.Codigo_Proceso == id
-                       select new EvProcsViewModel
+                       where ep.Codigo_Proceso == codProc
+                       select new EvaluationProcessViewModel
                        {
                            Codigo_Proceso = ep.Codigo_Proceso,
                            Nombre_Proceso = ep.Nombre_Proceso,
@@ -72,7 +77,7 @@ namespace Evaluacion360.Controllers
         // GET: EvaluationProcesses/Create
         [HttpGet]
         [AuthorizeUser(IdOperacion: 5)]
-        public ActionResult Create(int? codProc, string mensaje)
+        public ActionResult Create(int codProc = 0, string mensaje = "")
         {
             ViewBag.StateEval = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", 1);
@@ -91,13 +96,13 @@ namespace Evaluacion360.Controllers
                     ViewBag.Status = false;
                 }
             }
-            if (codProc != null && codProc != 0)
+            if (codProc != 0)
             {
-                var oPE = new EvProcsViewModel();
+                var oPE = new EvaluationProcessViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oPE = (from pe in Db.Procesos_Evaluacion
                         where pe.Codigo_Proceso == codProc 
-                        select new EvProcsViewModel
+                        select new EvaluationProcessViewModel
                         {
                             Codigo_Proceso = pe.Codigo_Proceso,
                             Nombre_Proceso = pe.Nombre_Proceso,
@@ -118,7 +123,7 @@ namespace Evaluacion360.Controllers
         // POST: EvaluationProcesses/Create
         [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
-        public ActionResult Create(EvProcsViewModel ep)
+        public ActionResult Create(EvaluationProcessViewModel ep)
         {
             ViewBag.StateEval = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", 1);
@@ -169,8 +174,10 @@ namespace Evaluacion360.Controllers
 
         // GET: EvaluationProcesses/Edit/5
         [AuthorizeUser(IdOperacion: 5)]
-        public ActionResult Edit(int codProc, string mensaje)
+        public ActionResult Edit(int codProc = 0, string mensaje = "")
         {
+            ViewBag.StateEval = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
+            ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", 1);
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
             {
@@ -187,11 +194,11 @@ namespace Evaluacion360.Controllers
             }
             try
             {
-                var oEP = new EvProcsViewModel();
+                var oEP = new EvaluationProcessViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oEP = (from ep in Db.Procesos_Evaluacion
                        where ep.Codigo_Proceso == codProc
-                       select new EvProcsViewModel
+                       select new EvaluationProcessViewModel
                        {
                            Codigo_Proceso = ep.Codigo_Proceso,
                            Nombre_Proceso = ep.Nombre_Proceso,
@@ -215,12 +222,12 @@ namespace Evaluacion360.Controllers
         // POST: EvaluationProcesses/Edit/5
         [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
-        public ActionResult Edit(int codProc, EvProcsViewModel ep)
+        public ActionResult Edit( EvaluationProcessViewModel ep)
         {
             try
             {
                 using var Db = new BD_EvaluacionEntities();
-                Procesos_Evaluacion oEP = Db.Procesos_Evaluacion.Find(codProc);
+                Procesos_Evaluacion oEP = Db.Procesos_Evaluacion.Find(ep.Codigo_Proceso);
 
                 oEP.Nombre_Proceso = ep.Nombre_Proceso;
                 oEP.Ano_Proceso = ep.Ano_Proceso;
@@ -236,13 +243,14 @@ namespace Evaluacion360.Controllers
                     + e.Message
                     + " Contactar al administrador";
             }
-            return View(new { codProc, Mensaje });
+            return View(new { ep.Codigo_Proceso, Mensaje });
         }
 
         // GET: EvaluationProcesses/Delete/5
         [AuthorizeUser(IdOperacion: 5)]
-        public ActionResult Delete(int codProc, string mensaje)
+        public ActionResult Delete(int codProc = 0, string mensaje = "")
         {
+            ViewBag.StateEval = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
             {
@@ -259,18 +267,20 @@ namespace Evaluacion360.Controllers
             }
             try
             {
-                var oEP = new EvProcsViewModel();
+                var oEP = new EvaluationProcessViewModel();
                 using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
                 {
                     oEP = (from ep in Db.Procesos_Evaluacion
+                           join ee in Db.Estado_Evaluaciones on ep.Estado_PE equals ee.IdState
                            where ep.Codigo_Proceso == codProc
-                           select new EvProcsViewModel
+                           select new EvaluationProcessViewModel
                            {
                                Codigo_Proceso = ep.Codigo_Proceso,
                                Nombre_Proceso = ep.Nombre_Proceso,
                                Ano_Proceso = ep.Ano_Proceso,
                                Mes_Proceso = ep.Mes_Proceso,
-                               Retroalimentacion = ep.Retroalimentacion
+                               Retroalimentacion = ep.Retroalimentacion,
+                               Estado_PE = ep.Estado_PE
                            }).FirstOrDefault();
                 }
                 return View(oEP);
@@ -287,7 +297,7 @@ namespace Evaluacion360.Controllers
         // POST: EvaluationProcesses/Delete/5
         [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
-        public ActionResult Delete(int codProc, EvProcsViewModel ep)
+        public ActionResult Delete(int codProc = 0)
         {
             try
             {
@@ -295,11 +305,7 @@ namespace Evaluacion360.Controllers
                 {
                     using var Db = new BD_EvaluacionEntities();
                     var oEP = Db.Procesos_Evaluacion.Find(codProc);
-                    oEP.Nombre_Proceso = ep.Nombre_Proceso.ToUpper();
-                    oEP.Ano_Proceso = ep.Ano_Proceso;
-                    oEP.Mes_Proceso = ep.Mes_Proceso;
-                    oEP.Retroalimentacion = ep.Retroalimentacion;
-                    oEP.IdState = ep.IdState;
+                    oEP.IdState = 3;
                     Db.Entry(oEP).State = System.Data.Entity.EntityState.Modified;
                     Db.SaveChanges();
                     Mensaje = "Ok";
@@ -322,16 +328,14 @@ namespace Evaluacion360.Controllers
                 Mensaje = "Ocurrió el siguiente error " 
                         + e.Message 
                         + " Contactar al administrador";
-                //return RedirectToAction("Delete", "RandomQuestion", new { Mensaje });
             }
             return View(new { codProc, Mensaje });
         }
 
         [HttpGet]
-        public ActionResult GenerarProcesoEvaluacion(string codUsu, string codProc, string mensaje)
+        public ActionResult GenerarProcesoEvaluacion(string codProc, string mensaje)
         {
             ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
-            ViewBag.Usuarios = new SelectList(Tools.LeerUsuarios(""), "Codigo_Usuario", "Nombre_Usuario", 1);
 
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
@@ -353,18 +357,87 @@ namespace Evaluacion360.Controllers
         [HttpPost]
         public ActionResult GenerarProcesoEvaluacion(EvProcsGeneration ePG)
         {
-            var Db = new BD_EvaluacionEntities();
-            var CodUsu = new SqlParameter("@CodigoUsuario", ePG.Codigo_Usuario);
-            var CodProc = new SqlParameter("@Proceso", ePG.Codigo_Proceso);
-
-            var affectedRows = Db.Database.ExecuteSqlCommand("Crea_Evaluaciones @CodigoUsuario = {0}, @Proceso = {1}", CodUsu.Value, CodProc.Value );
-            Mensaje = "Error";
-            if (affectedRows > 0)
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(CnnStr))
+            
+            using (SqlCommand cmd = new SqlCommand("Crea_Evaluaciones_Todos", conn))
             {
-                Mensaje = "Ok";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Proceso", ePG.Codigo_Proceso);
+
+                SqlParameter parRes = new SqlParameter
+                {
+                    ParameterName = "@Result",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size=1000,
+                    Direction = ParameterDirection.Output,
+                    Value = ""
+                };
+                cmd.Parameters.Add(parRes);
+
+                conn.Open();
+                cmd.ExecuteScalar();
+
+                Mensaje = cmd.Parameters["@Result"].Value.ToString();
+                conn.Close();
             }
-            return View(new { codUsu = ePG.Codigo_Usuario, codProc = ePG.Codigo_Proceso, Mensaje });
+
+            return RedirectToAction("GenerarProcesoEvaluacion", "EvaluationProcesses", new { codProc = ePG.Codigo_Proceso, Mensaje });
         }
 
+        [HttpGet]
+        public ActionResult GenerarProcesoEvaluacionUno(string codUsu, string codProc, string mensaje)
+        {
+            ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
+            ViewBag.Usuarios = new SelectList(Tools.LeerUsuarios(""), "Codigo_Usuario", "Nombre_Usuario", 1);
+
+            ViewBag.Status = false;
+            if (mensaje != null && mensaje != "")
+            {
+                if (mensaje == "Ok")
+                {
+                    ViewBag.Message = "Generación de Procesos de Evaluación por usuario Terminado exitosamente";
+                    ViewBag.Status = true;
+                }
+                else
+                {
+                    ViewBag.Message = mensaje;
+                    ViewBag.Status = false;
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GenerarProcesoEvaluacionUno(EvProcsGenerationUno ePG)
+        {
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(CnnStr))
+
+            using (SqlCommand cmd = new SqlCommand("Crea_Evaluaciones_Uno", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CodigoUsuario", ePG.Codigo_Usuario);
+                cmd.Parameters.AddWithValue("@Proceso", ePG.Codigo_Proceso);
+
+                SqlParameter parRes = new SqlParameter
+                {
+                    ParameterName = "@Result",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 1000,
+                    Direction = ParameterDirection.Output,
+                    Value = ""
+                };
+                cmd.Parameters.Add(parRes);
+
+                conn.Open();
+                cmd.ExecuteScalar();
+
+                Mensaje = cmd.Parameters["@Result"].Value.ToString();
+                conn.Close();
+            }
+
+            return RedirectToAction("GenerarProcesoEvaluacionUno", "EvaluationProcesses", new { codUsu = ePG.Codigo_Usuario, codProc = ePG.Codigo_Proceso, Mensaje });
+        }
     }
 }

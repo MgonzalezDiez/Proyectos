@@ -68,17 +68,18 @@ namespace Evaluacion360.Controllers
         {
             try
             {
-                var oPos = new PositionViewModel();
+                var oPos = new PositionListViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oPos = (from car in Db.Cargos
+                        join ec in Db.Estado_Componentes on car.IdState equals ec.IdState
                         where car.Codigo_Cargo == id
-                        select new PositionViewModel
+                        select new PositionListViewModel
                         {
                             Codigo_Cargo = car.Codigo_Cargo,
                             Nombre_Cargo = car.Nombre_Cargo,
                             Fondo = car.Fondo,
                             Ciclo = car.Ciclo,
-                            IdState = car.IdState ?? 0
+                            IdState = ec.StateDescription
                         }).FirstOrDefault();
                 return View(oPos);
             }

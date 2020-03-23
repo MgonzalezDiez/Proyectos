@@ -24,7 +24,7 @@ namespace Evaluacion360.Models.ViewModels
 
     public class ListEPViewModel : BasePaginador
     {
-        public List<EvPositionListViewModel> Secciones { get; set; }
+        public List<EvaluatorPositionListViewModel> Secciones { get; set; }
     }
 
     public class ListPositionViewModel : BasePaginador
@@ -34,11 +34,16 @@ namespace Evaluacion360.Models.ViewModels
 
     public class ListEvProcsViewModel : BasePaginador
     {
-        public List<EvProcsViewModel> Secciones { get; set; }
+        public List<EvaluationProcessViewModel> Secciones { get; set; }
     }
 
     public class ListAutoEvaluationViewModel : BasePaginador
     {
         public List<AutoEvaluationListViewModel> Secciones { get; set; }
+    }
+
+    public class ListPositionEvaluationViewModel : BasePaginador
+    {
+        public List<PositionEvaluationsListViewModel> Secciones { get; set; }
     }
 }

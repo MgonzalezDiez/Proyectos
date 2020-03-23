@@ -91,20 +91,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             @Html.AntiForgeryToken()
             <div class="notification_header" style="text-align:center">
                 <h1 class="center-block">Generar Proceso de Evaluación</h1>
+                <p class="center-block" style="font-size:22px">Todos los usuarios</p>
             </div>
             <br />
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label ">Usuario</label>
-                <div class="col-md-9">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        @Html.DropDownListFor(model => model.Codigo_Usuario, (SelectList)ViewBag.Usuarios, "Seleccione Usuario para Evaluación", new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-
-
+            
             <div class="form-group has-feedback">
                 <label class="col-md-3 control-label">Proceso</label>
                 <div class="col-md-9">

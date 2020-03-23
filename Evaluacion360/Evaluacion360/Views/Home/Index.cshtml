@@ -51,9 +51,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <h1 style="font-size:x-large; align-content:flex-start"><a>Evaluación Docente</a></h1>
                 </div>
                 <!-- //logo -->
+
                 <div class="nav_w3ls ml-lg-5">
                     <nav>
-                        <ul class="nav nav-pills" style="font-size:small">
+                        <ul class="menu" style="font-size:small">
                             <li class="nav-item"><a class="nav-link" href="/Home/Index">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="~/Home/About/">About</a></li>
                             <li id="Admin">
@@ -69,18 +70,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <input type="checkbox" id="drop-3" />
                                 <ul>
                                     <li><a href="~/Positions/List" class="drop-text" style="font-size:xx-small">Cargos</a></li>
-                                    <li><a href="~/EvaluationPosition/List" class="drop-text" style="font-size:xx-small">Cargos Evaluadores</a></li>
+                                    <li><a href="~/EvaluatorPosition/List" class="drop-text" style="font-size:xx-small">Cargos Evaluadores</a></li>
                                     <li><a href="~/Section/List" class="drop-text" style="font-size:xx-small">Dominios</a></li>
                                     <li><a href="~/RandomQuestion/List" class="drop-text" style="font-size:xx-small">Preguntas</a></li>
-                                    <li><a href="~/EvaluationProcesses/List" class="drop-text" style="font-size:xx-small">Procesos de Evaluación</a></li>
                                     <li><a href="~/PositionQuestion/List" class="drop-text" style="font-size:xx-small">Preguntas por Cargo</a></li>
+                                    <li class="item-submenu">
+                                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="font-size:xx-small">Procesos de Evaluación</a>
+                                        <input type="checkbox" id="drop-3" />
+                                        <ul>
+                                            <li>
+                                                <a class="nav-link" href="~/EvaluationProcesses/GenerarProcesoEvaluacion" style="font-size:xx-small">Evaluar a todos</a>
+                                                <a class="nav-link" href="~/EvaluationProcesses/GenerarProcesoEvaluacionUno" style="font-size:xx-small">Evaluación Individual</a>
+                                            </li>
+                                        </ul>
+
+                                    </li>
                                 </ul>
                             </li>
                             <li id="NormalUser">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuario Evaluado</a>
                                 <input type="checkbox" id="drop-3" />
                                 <ul>
-                                    <li><a href="~/AutoEvaluationQuestion/Create" class="drop-text" style="font-size:xx-small">Responder Preguntas Evaluación</a></li>
+                                    <li><a href="~/AutoEvaluationQuestion/Create" class="drop-text" style="font-size:xx-small">Responder Preguntas Auto Evaluación</a></li>
+                                    <li><a href="~/EvaluationPosition/Create" class="drop-text" style="font-size:xx-small">Responder Preguntas por Cargo</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="~/Home/Contact">Contacto</a></li>

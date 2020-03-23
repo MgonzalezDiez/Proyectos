@@ -165,18 +165,19 @@ namespace Evaluacion360.Controllers
         public ActionResult Details(int? id)
         {
             ViewBag.SectionState = new SelectList(Utils.Tools.LeerEstados(), "IdState", "StateDescription", "");
-            var oSection = new SectionViewModel();
+            var oSection = new SectionListViewModel();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
 
                 oSection = (from secc in Db.Secciones
+                            join ecom in Db.Estado_Componentes on secc.IdState equals ecom.IdState
                             where secc.Id == id
-                            select new SectionViewModel
+                            select new SectionListViewModel
                             {
                                 Codigo_Seccion = secc.Codigo_Seccion,
                                 Nombre_Seccion = secc.Nombre_Seccion,
                                 Ponderacion_S = secc.Ponderacion_S ?? 0,
-                                IdState = secc.IdState
+                                IdState = ecom.StateDescription
                             }).FirstOrDefault();
             }
             return View(oSection);

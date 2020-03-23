@@ -18,6 +18,7 @@ namespace Evaluacion360.Models.ViewModels
         public int Numero_Pregunta { get; set; }
 
         [Required]
+        [DataType(DataType.MultilineText)]
         public string Texto_Pregunta { get; set; }
 
         [Required]

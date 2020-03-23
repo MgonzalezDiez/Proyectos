@@ -23,7 +23,7 @@ namespace Evaluacion360.Controllers
             CantidadRegitrosPorPagina = 10;
             try
             {
-                var oPQ = new List<PQListViewModel>();
+                var oPQ = new List<PositionQuestionListViewModel>();
                 using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
                 {
 
@@ -34,7 +34,7 @@ namespace Evaluacion360.Controllers
                            join sta in Db.Estado_Componentes on pos.IdState equals sta.IdState
                            join rq in Db.Preguntas_Aleatorias on pos.Codigo_seccion equals rq.Codigo_Seccion
                            orderby car.Nombre_Cargo, crg.Nombre_Cargo, sec.Nombre_Seccion, pos.Numero_Pregunta
-                           select new PQListViewModel
+                           select new PositionQuestionListViewModel
                            {
                                Codigo_Cargo = pos.Codigo_Cargo,
                                Nombre_Cargo = car.Nombre_Cargo,
@@ -48,7 +48,7 @@ namespace Evaluacion360.Controllers
                            }).ToList();
                 }
                 var TotalRegistros = oPQ.Count();
-                List<PQListViewModel> lista = oPQ.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();
+                List<PositionQuestionListViewModel> lista = oPQ.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();
                 var Modelo = new ListPQViewModel
                 {
                     Secciones = lista,
@@ -95,7 +95,7 @@ namespace Evaluacion360.Controllers
         // POST: PostionQuestion/Create
         [AuthorizeUser(IdOperacion: 6)]
         [HttpPost]
-        public ActionResult Create(PQViewModel Pq)
+        public ActionResult Create(PositionQuestionViewModel Pq)
         {
             try
             {
@@ -132,20 +132,21 @@ namespace Evaluacion360.Controllers
         // GET: PostionQuestion/Details/5
         [HttpGet]
         [AuthorizeUser(IdOperacion: 6)]
-        public ActionResult Details(string id1, string id2, string id3, int id4)
+        public ActionResult Details(string codCargo, string codCargoEval, string codSection, int questionNo)
         {
             userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.Section = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
+            ViewBag.RQuestion = new SelectList(Tools.LeerPreguntasAleatorias("", 0), "Numero_Pregunta", "Texto_Pregunta", "");
 
-            var oPQ = new PQViewModel();
+            var oPQ = new PositionQuestionViewModel();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
 
                 oPQ = (from Pq in Db.Preguntas_Cargos
-                       where Pq.Codigo_Cargo == id1 && Pq.Cod_Cargo_Evaluado == id2 && Pq.Codigo_seccion == id3.Trim() && Pq.Numero_Pregunta == id4
-                       select new PQViewModel
+                       where Pq.Codigo_Cargo == codCargo && Pq.Cod_Cargo_Evaluado == codCargoEval && Pq.Codigo_seccion == codSection.Trim() && Pq.Numero_Pregunta == questionNo
+                       select new PositionQuestionViewModel
                        {
                            Codigo_Cargo = Pq.Codigo_Cargo,
                            Cod_Cargo_Evaluado = Pq.Cod_Cargo_Evaluado,
@@ -159,13 +160,13 @@ namespace Evaluacion360.Controllers
 
         // GET: PostionQuestion/Edit/5
         [AuthorizeUser(IdOperacion: 6)]
-        public ActionResult Edit(string codCargo, string codCargoEval, string codSection, int askNo, string mensaje)
+        public ActionResult Edit(string codCargo, string codCargoEval, string codSection, int questionNo, string mensaje)
         {
             userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.Section = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
-            ViewBag.RQuestion = new SelectList(Tools.LeerPreguntasAleatorias(codSection, askNo), "Numero_Pregunta", "Texto_Pregunta", "");
+            ViewBag.RQuestion = new SelectList(Tools.LeerPreguntasAleatorias(codSection, questionNo), "Numero_Pregunta", "Texto_Pregunta", "");
 
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
@@ -183,11 +184,11 @@ namespace Evaluacion360.Controllers
             }
             try
             {
-                var oPQ = new PQViewModel();
+                var oPQ = new PositionQuestionViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oPQ = (from Pq in Db.Preguntas_Cargos
                        where Pq.Codigo_Cargo == codCargo && Pq.Cod_Cargo_Evaluado == codCargoEval && Pq.Codigo_seccion == codSection
-                       select new PQViewModel
+                       select new PositionQuestionViewModel
                        {
                            Codigo_Cargo = Pq.Codigo_Cargo,
                            Cod_Cargo_Evaluado = Pq.Cod_Cargo_Evaluado,
@@ -207,7 +208,7 @@ namespace Evaluacion360.Controllers
         // POST: PostionQuestion/Edit/5
         [AuthorizeUser(IdOperacion: 6)]
         [HttpPost]
-        public ActionResult Edit(PQViewModel Pq)
+        public ActionResult Edit(PositionQuestionViewModel Pq)
         {
             userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
@@ -246,13 +247,13 @@ namespace Evaluacion360.Controllers
 
         // GET: PostionQuestion/Delete/5
         [AuthorizeUser(IdOperacion: 6)]
-        public ActionResult Delete(string codCargo, string codCargoEval, string codSection, int askNo , string mensaje)
+        public ActionResult Delete(string codCargo, string codCargoEval, string codSection, int questionNo, string mensaje)
         {
             userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.Section = new SelectList(Tools.LeerSecciones(), "Codigo_seccion", "Nombre_Seccion", "");
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
-            ViewBag.RQuestion = new SelectList(Tools.LeerPreguntasAleatorias(codSection, askNo), "Numero_Pregunta", "Texto_Pregunta", "");
+            ViewBag.RQuestion = new SelectList(Tools.LeerPreguntasAleatorias(codSection, questionNo), "Numero_Pregunta", "Texto_Pregunta", "");
 
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
@@ -270,12 +271,12 @@ namespace Evaluacion360.Controllers
             }
             try
             {
-                var oPosQ = new PQViewModel();
+                var oPosQ = new PositionQuestionViewModel();
                 using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
                 {
                     oPosQ = (from Pq in Db.Preguntas_Cargos
-                             where Pq.Codigo_Cargo == codCargo && Pq.Cod_Cargo_Evaluado == codCargoEval && Pq.Codigo_seccion == codSection && Pq.Numero_Pregunta == askNo
-                             select new PQViewModel
+                             where Pq.Codigo_Cargo == codCargo && Pq.Cod_Cargo_Evaluado == codCargoEval && Pq.Codigo_seccion == codSection && Pq.Numero_Pregunta == questionNo
+                             select new PositionQuestionViewModel
                              {
                                  Codigo_Cargo = Pq.Codigo_Cargo,
                                  Cod_Cargo_Evaluado = Pq.Cod_Cargo_Evaluado,
@@ -296,7 +297,7 @@ namespace Evaluacion360.Controllers
         // POST: PostionQuestion/Delete/5
         [AuthorizeUser(IdOperacion: 6)]
         [HttpPost]
-        public ActionResult Delete(PQViewModel Pq)
+        public ActionResult Delete(PositionQuestionViewModel Pq)
         {
             userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");

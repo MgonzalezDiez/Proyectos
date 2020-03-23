@@ -206,19 +206,4 @@ $(document).on('click', '#btnExcelRQ', function () {
         $('#loading').hide();
     }
 
-
-    function eliminarFilas() {
-        //OBTIENE EL NÚMERO DE FILAS DE LA TABLA
-        var n = 0;
-        $("#res tbody tr").each(function () {
-            n++;
-        });
-        //BORRA LAS n-1 FILAS VISIBLES DE LA TABLA
-        //LAS BORRA DE LA ULTIMA FILA HASTA LA SEGUNDA
-        //DEJANDO LA PRIMERA FILA VISIBLE, MÁS LA FILA PLANTILLA OCULTA
-        for (i = n - 1; i > 1; i--) {
-            $("#res tbody tr:eq('" + i + "')").remove();
-        };
-    }
-
 })

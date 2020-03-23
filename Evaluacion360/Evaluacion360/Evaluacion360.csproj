@@ -135,9 +135,6 @@
     <Reference Include="Microsoft.SqlServer.Types, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SqlServer.DacFx.150.4573.2\lib\net46\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
-    <Reference Include="MySql.Data.EntityFramework, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
-    <Reference Include="MySql.Web, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Nest, Version=7.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
       <HintPath>..\packages\NEST.7.4.2\lib\net461\Nest.dll</HintPath>
     </Reference>
@@ -299,12 +296,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccessController.cs" />
-    <Compile Include="Controllers\EvaluationPositionController.cs" />
+    <Compile Include="Controllers\EvaluatorPositionController.cs" />
     <Compile Include="Controllers\EvaluationProcessesController.cs" />
     <Compile Include="Controllers\AutoEvaluationQuestionController.cs" />
     <Compile Include="Controllers\AutoEvaluationController.cs" />
     <Compile Include="Controllers\ExcelController.cs" />
     <Compile Include="Controllers\NormaulUserController.cs" />
+    <Compile Include="Controllers\PositionEvaluationsController.cs" />
     <Compile Include="Controllers\PositionQuestionController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\RandomQuestionController.cs" />
@@ -337,11 +335,12 @@
       <DependentUpon>Evaluacion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\AutoEvaluationQuestionViewModel.cs" />
-    <Compile Include="Models\ViewModels\EvPositionViewModel.cs" />
-    <Compile Include="Models\ViewModels\EvProcsViewModel.cs" />
+    <Compile Include="Models\ViewModels\EvaluatorPositionViewModel.cs" />
+    <Compile Include="Models\ViewModels\EvaluationProcessViewModel.cs" />
     <Compile Include="Models\ViewModels\ExcelViewModel.cs" />
+    <Compile Include="Models\ViewModels\PositionEvaluations.cs" />
     <Compile Include="Models\ViewModels\PositionViewModel.cs" />
-    <Compile Include="Models\ViewModels\PQViewModel.cs" />
+    <Compile Include="Models\ViewModels\PositionQuestionViewModel.cs" />
     <Compile Include="Models\ViewModels\RQViewModel.cs" />
     <Compile Include="Models\ViewModels\AutoEvaluationViewModel.cs" />
     <Compile Include="Utils\BasePaginador.cs" />
@@ -562,11 +561,11 @@
     <Content Include="Views\Excel\ListRQ.cshtml" />
     <Content Include="Views\AutoEvaluationQuestion\List.cshtml" />
     <Content Include="Views\AutoEvaluationQuestion\Create.cshtml" />
-    <Content Include="Views\EvaluationPosition\List.cshtml" />
-    <Content Include="Views\EvaluationPosition\Create.cshtml" />
-    <Content Include="Views\EvaluationPosition\Edit.cshtml" />
-    <Content Include="Views\EvaluationPosition\Delete.cshtml" />
-    <Content Include="Views\EvaluationPosition\Details.cshtml" />
+    <Content Include="Views\EvaluatorPosition\List.cshtml" />
+    <Content Include="Views\EvaluatorPosition\Create.cshtml" />
+    <Content Include="Views\EvaluatorPosition\Edit.cshtml" />
+    <Content Include="Views\EvaluatorPosition\Delete.cshtml" />
+    <Content Include="Views\EvaluatorPosition\Details.cshtml" />
     <Content Include="Views\Positions\List.cshtml" />
     <Content Include="Views\Positions\Details.cshtml" />
     <Content Include="Views\Positions\Create.cshtml" />
@@ -580,6 +579,11 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Perfil FTP.pubxml" />
+    <Content Include="Views\PositionEvaluations\List.cshtml" />
+    <Content Include="Views\EvaluationProcesses\Edit.cshtml" />
+    <Content Include="Views\EvaluationProcesses\Delete.cshtml" />
+    <Content Include="Views\EvaluationProcesses\Details.cshtml" />
+    <Content Include="Views\EvaluationProcesses\GenerarProcesoEvaluacionUno.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
