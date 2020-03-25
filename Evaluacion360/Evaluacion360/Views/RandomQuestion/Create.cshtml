@@ -92,7 +92,7 @@
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
-                            @Html.DropDownListFor(model => model.Codigo_Seccion, (SelectList)ViewBag.Sections, "Seleccione Dominio", new { type = "text", @required = "required",  @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            @Html.DropDownListFor(model => model.Codigo_Seccion, (SelectList)ViewBag.Sections, "Seleccione Dominio", new { type = "text", @required = "required", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
-                            @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Número de Pregunta", @required = "required" } })
+                            @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "Número de Pregunta", @required = "required" } })
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-sticky-note"></i></span>
-                            @Html.EditorFor(model => model.Texto_Pregunta,  new { htmlAttributes = new {  type = "text", @class = "form-control2", @placeholder = "Texto de Pregunta", @required = "required", @maxlength = 500 } })
+                            @Html.EditorFor(model => model.Texto_Pregunta, new { htmlAttributes = new { type = "text", @class = "form-control2", @placeholder = "Texto de Pregunta", @required = "required", @maxlength = 500 } })
                         </div>
                     </div>
                 </div>
@@ -143,6 +143,38 @@
             </div>
         </form>
     </div>
-    <script src="~/js/Utiles.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            //$('#codSec').change(function () {
+            $("#Codigo_seccion").change(function () {
+                $.get("/RandomQuestion/GetQuestionNo", { codSec: $("#Codigo_seccion").val() }, function (data, status) {
+                    $("#Numero_Pregunta").empty();
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, row) {
+                            $("#Numero_Pregunta").val = row.valorMaximo;
+                        })
+                    }
+                    else {
+                        var info = "No existen preguntas para este Dominio";
+                        let msg = document.querySelector('#Mensaje');
+                        msg.innerHTML =
+                            `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
+                                    <strong style="font-size:medium">${info}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>`;
+                        window.setTimeout(function () {
+                            $("#alertInfo").alert('close');
+                        }, 4000);
+                    }
+                })
+            });
+        });
+    </script>
+    @*<script src="~/js/Utiles.js"></script>*@
 </body>
 </html>

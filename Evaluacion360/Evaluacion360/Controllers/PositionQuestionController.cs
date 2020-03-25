@@ -23,6 +23,7 @@ namespace Evaluacion360.Controllers
             CantidadRegitrosPorPagina = 10;
             try
             {
+                #region Muestra Datos
                 var oPQ = new List<PositionQuestionListViewModel>();
                 using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
                 {
@@ -57,6 +58,7 @@ namespace Evaluacion360.Controllers
                     RegistrosPorPagina = CantidadRegitrosPorPagina
                 };
                 return View(Modelo);
+                #endregion
             }
             catch (Exception ex)
             {
@@ -67,7 +69,7 @@ namespace Evaluacion360.Controllers
 
         // GET: PostionQuestion/Create
         [AuthorizeUser(IdOperacion: 6)]
-        public ActionResult Create(string mensaje)
+        public ActionResult Create(string codCargo, string codCargoEval, string codSection, string mensaje)
         {
             userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
@@ -89,7 +91,24 @@ namespace Evaluacion360.Controllers
                     ViewBag.Status = false;
                 }
             }
-            return View();
+            #region Muestra Datos
+            var oPQ = new PositionQuestionViewModel();
+            var oSection = new SectionViewModel();
+            using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
+            {
+                oPQ = (from pcar in Db.Preguntas_Cargos
+                       where pcar.Codigo_Cargo == codCargo && pcar.Cod_Cargo_Evaluado == codCargoEval && pcar.Codigo_seccion == codSection
+                       select new PositionQuestionViewModel
+                       {
+                           Codigo_Cargo = pcar.Codigo_Cargo,
+                           Cod_Cargo_Evaluado = pcar.Cod_Cargo_Evaluado,
+                           Codigo_seccion = pcar.Codigo_seccion,
+                           Numero_Pregunta = pcar.Numero_Pregunta,
+                           IdState = pcar.IdState
+                       }).FirstOrDefault();
+            }
+            return View(oPQ);
+            #endregion
         }
 
         // POST: PostionQuestion/Create
@@ -115,18 +134,29 @@ namespace Evaluacion360.Controllers
                     bd.Preguntas_Cargos.Add(oPQ);
                     bd.SaveChanges();
                     mensaje = "Ok";
+                    return View(new { oPQ, mensaje });
                     #endregion
                 }
                 else
                 {
-                    mensaje = "El modelo no es válido" + Environment.NewLine + "Contactar al administrador";
+                    #region Errores de Modelo
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
+                    {
+                        if (item.Errors.Count > 0)
+                        {
+                            mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                        }
+                    }
+                    mensaje += " Contacte al Administrador";
+                    #endregion
                 }
             }
             catch (Exception ex)
             {
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
             }
-            return RedirectToAction("Create", "PositionQuestion", new { mensaje });
+            return RedirectToAction("Create", "PositionQuestion", new { codCargo = Pq.Codigo_Cargo, codCargoEval = Pq.Cod_Cargo_Evaluado, codSection = Pq.Codigo_seccion, mensaje });
         }
 
         // GET: PostionQuestion/Details/5
@@ -184,6 +214,7 @@ namespace Evaluacion360.Controllers
             }
             try
             {
+                #region Muestra Datos
                 var oPQ = new PositionQuestionViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oPQ = (from Pq in Db.Preguntas_Cargos
@@ -197,6 +228,7 @@ namespace Evaluacion360.Controllers
                            IdState = 1
                        }).FirstOrDefault();
                 return View(oPQ);
+                #endregion
             }
             catch (Exception ex)
             {
@@ -216,11 +248,12 @@ namespace Evaluacion360.Controllers
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             ViewBag.RQuestion = new SelectList(Tools.LeerPreguntasAleatorias(Pq.Codigo_seccion, Pq.Numero_Pregunta), "Numero_Pregunta", "Texto_Pregunta", "");
 
-
             try
             {
-                using (var Db = new BD_EvaluacionEntities())
+                if (ModelState.IsValid)
                 {
+                    #region Graba Datos
+                    using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                     Preguntas_Cargos oPq = Db.Preguntas_Cargos.Where(i => i.Codigo_Cargo == Pq.Codigo_Cargo && i.Cod_Cargo_Evaluado == Pq.Cod_Cargo_Evaluado && i.Codigo_seccion == Pq.Codigo_seccion && i.Numero_Pregunta == Pq.Numero_Pregunta).SingleOrDefault();
                     if (oPq != null)
                     {
@@ -234,14 +267,28 @@ namespace Evaluacion360.Controllers
                     {
                         mensaje = "El registro no se modificó";
                     }
-
+                    #endregion
                 }
-                return RedirectToAction("Edit", "PositionQuestion", new { mensaje });
+                else
+                {
+                    #region Errores de Modelo
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
+                    {
+                        if (item.Errors.Count > 0)
+                        {
+                            mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                        }
+                    }
+                    mensaje += " Contacte al Administrador";
+                    #endregion
+                }
+                return View(new { mensaje });
             }
             catch (Exception ex)
             {
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
-                return RedirectToAction("Edit", "Position", new { mensaje });
+                return RedirectToAction("Edit", "PositionQuestion", new {codCargo = Pq.Codigo_Cargo, codCargoEval = Pq.Cod_Cargo_Evaluado, codSection = Pq.Codigo_seccion, questionNo = Pq.Numero_Pregunta, mensaje });
             }
         }
 
@@ -271,6 +318,7 @@ namespace Evaluacion360.Controllers
             }
             try
             {
+                #region Muestra Datos
                 var oPosQ = new PositionQuestionViewModel();
                 using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
                 {
@@ -286,6 +334,7 @@ namespace Evaluacion360.Controllers
                              }).FirstOrDefault();
                 }
                 return View(oPosQ);
+                #endregion
             }
             catch (Exception ex)
             {
@@ -308,6 +357,7 @@ namespace Evaluacion360.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    #region Graba Datos
                     using (var Db = new BD_EvaluacionEntities())
                     {
                         //Preguntas_Cargos oPQ = Db.Preguntas_Cargos.Where(i => i.Codigo_Cargo == Pq.Codigo_Cargo && i.Cod_Cargo_Evaluado == Pq.Cod_Cargo_Evaluado && i.Codigo_seccion == Pq.Codigo_seccion && i.Numero_Pregunta == Pq.Numero_Pregunta).SingleOrDefault();
@@ -318,28 +368,51 @@ namespace Evaluacion360.Controllers
                         Db.SaveChanges();
                         mensaje = "Ok";
                     }
-                    return RedirectToAction("Delete", "PositionQuestion", new { oPq = Pq, mensaje });
+                    return RedirectToAction("Delete", "PositionQuestion", new { codCargo = Pq.Codigo_Cargo, codCargoEval = Pq.Cod_Cargo_Evaluado, codSection = Pq.Codigo_seccion, questionNo = Pq.Numero_Pregunta, mensaje });
+                    #endregion
                 }
                 else
                 {
-                    mensaje = "El modelo no es válido" + Environment.NewLine + "Contactar con el administrador";
-                    return RedirectToAction("Delete", "PositionQuestion", new { oPq = Pq, mensaje });
+                    #region Errores de Modelo
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
+                    {
+                        if (item.Errors.Count > 0)
+                        {
+                            mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                        }
+                    }
+                    mensaje += " Contacte al Administrador";
+                    #endregion
                 }
             }
             catch (Exception ex)
             {
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
-                return RedirectToAction("Delete", "PositionQuestion", new { oPq = Pq, mensaje });
             }
+            return View(new { codCargo = Pq.Codigo_Cargo, codCargoEval = Pq.Cod_Cargo_Evaluado, codSection = Pq.Codigo_seccion, questionNo = Pq.Numero_Pregunta, mensaje });
         }
 
-        public JsonResult GetPreguntas(string codSec)
+        #region Obtiene preguntas por sección
+        public JsonResult GetPreguntas(string codSec, bool ponderacion)
         {
+            List<Preguntas_Aleatorias> RQuestion = new List<Preguntas_Aleatorias>();
             BD_EvaluacionEntities db = new BD_EvaluacionEntities();
             db.Configuration.ProxyCreationEnabled = false;
-            List<Preguntas_Aleatorias> RQuestions = db.Preguntas_Aleatorias.Where(x => x.Codigo_Seccion == codSec).ToList();
-            return Json(RQuestions, JsonRequestBehavior.AllowGet);
+
+
+            if (ponderacion)
+            {
+                RQuestion = db.Preguntas_Aleatorias.Where(x => x.Codigo_Seccion == codSec && x.Ponderacion_P > 0).ToList();
+            }
+            else
+            {
+                RQuestion = db.Preguntas_Aleatorias.Where(x => x.Codigo_Seccion == codSec && x.Ponderacion_P == 0).ToList();
+            }
+
+            return Json(RQuestion, JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
 
     }

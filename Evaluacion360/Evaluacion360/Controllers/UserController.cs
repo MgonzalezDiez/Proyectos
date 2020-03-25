@@ -115,6 +115,7 @@ namespace Evaluacion360.Controllers
                 //Validación del Modelo
                 if (ModelState.IsValid)
                 {
+                    #region Valida si existe usuario
                     var UCodeExists = IsUserCodeExists(user.Codigo_Usuario);
                     if (!UCodeExists)
                     {
@@ -122,8 +123,10 @@ namespace Evaluacion360.Controllers
                         ViewBag.Status = false;
                         return View();
                     }
+                    #endregion
                     else
                     {
+                        #region Valida si existe Nombre de Usuario
                         var UserExists = IsUserExists(user.Nombre_Usuario);
                         if (!UserExists)
                         {
@@ -131,6 +134,7 @@ namespace Evaluacion360.Controllers
                             ViewBag.Status = false;
                             return View();
                         }
+                        #endregion
                         else
                         {
                             #region encripta Password 
@@ -221,6 +225,7 @@ namespace Evaluacion360.Controllers
                     {
                         dv = "";
                     }
+                    #region Recupera Datos a mostrar
                     DateTime dt = new DateTime();
                     oUser = (from usr in Db.Usuarios
                              join car in Db.Cargos on usr.Codigo_Cargo equals car.Codigo_Cargo
@@ -247,6 +252,7 @@ namespace Evaluacion360.Controllers
                                  Tipo_Contrato = lJo.Tipo_Contrato ?? string.Empty,
                                  Codigo_Contrato = lJo.Codigo_Contrato ?? string.Empty
                              }).FirstOrDefault();
+                    #endregion
                 }
                 return View(oUser);
             }
@@ -304,7 +310,7 @@ namespace Evaluacion360.Controllers
                 {
                     dv = "";
                 }
-
+                #region Llena datos para mostrar
                 DateTime dt = new DateTime();
                 eUser = (from usr in Db.Usuarios
                          join dUs in Db.Datos_Usuarios on usr.Codigo_Usuario equals dUs.Codigo_Usuario into leftJ
@@ -329,6 +335,7 @@ namespace Evaluacion360.Controllers
                              Codigo_Contrato = lJo.Codigo_Contrato ?? string.Empty
                          }).FirstOrDefault();
                 return View(eUser);
+                #endregion
             }
             catch (Exception e)
             {
@@ -374,7 +381,7 @@ namespace Evaluacion360.Controllers
                     {
                         Dat = null;
                     }
-
+                    #region Graba datos
                     Datos_Usuarios dUser = new Datos_Usuarios
                     {
                         Codigo_Usuario = model.Codigo_Usuario.ToUpper(),
@@ -398,7 +405,7 @@ namespace Evaluacion360.Controllers
                     }
                     mensaje = "Ok";
                     Db.SaveChanges();
-
+                    #endregion
                 }
                 else
                 {
@@ -441,6 +448,7 @@ namespace Evaluacion360.Controllers
             }
             try
             {
+                #region Carga datos a mostrar
                 var oUser = new UserDeleteViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oUser = (from usr in Db.Usuarios
@@ -457,6 +465,7 @@ namespace Evaluacion360.Controllers
                              IdState = sta.StateDescription
                          }).FirstOrDefault();
                 return View(oUser);
+                #endregion
             }
             catch (Exception)
             {
@@ -475,6 +484,7 @@ namespace Evaluacion360.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    #region Graba datos
                     using (var bd = new BD_EvaluacionEntities())
                     {
 
@@ -485,9 +495,11 @@ namespace Evaluacion360.Controllers
                         bd.SaveChanges();
                     }
                     mensaje = "Ok";
+                    #endregion
                 }
                 else
                 {
+                    #region Errores de Modelo
                     string errors = string.Empty;
                     foreach (var item in ModelState.Values)
                     {
@@ -497,6 +509,7 @@ namespace Evaluacion360.Controllers
                         }
                     }
                     mensaje += " Contacte al Administrador";
+                    #endregion
                 }
             }
             catch (Exception ex)

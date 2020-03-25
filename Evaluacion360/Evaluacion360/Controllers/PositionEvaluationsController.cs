@@ -14,7 +14,7 @@ namespace Evaluacion360.Controllers
     public class PositionEvaluationsController : Controller
     {
         private string Mensaje = string.Empty;
-        // GET: EvaluacionPreguntas
+        // GET: Evaluacion Cargos
         [AuthorizeUser(IdOperacion: 5)]
         public ActionResult List(int pagina = 1)
         {
@@ -23,6 +23,7 @@ namespace Evaluacion360.Controllers
             CantidadRegitrosPorPagina = 10;
             try
             {
+                #region Muestra Datos
                 Usuarios tUser = (Usuarios)Session["User"];
                 var oPE = new List<PositionEvaluationsListViewModel>();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
@@ -57,6 +58,7 @@ namespace Evaluacion360.Controllers
                     RegistrosPorPagina = CantidadRegitrosPorPagina
                 };
                 return View(Modelo);
+                #endregion
             }
             catch (Exception exc)
             {
@@ -75,6 +77,7 @@ namespace Evaluacion360.Controllers
             ViewBag.EvState = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
             try
             {
+                #region Muestra Datos
                 //Usuarios tUser = (Usuarios)Session["User"];
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
 
@@ -88,6 +91,7 @@ namespace Evaluacion360.Controllers
                 oAeq.Estado_AE = AE.Estado_AE;
                 Mensaje = "Ok";
                 return View(new { oAeq, Mensaje });
+                #endregion
             }
 
             catch (Exception ex)
@@ -125,7 +129,6 @@ namespace Evaluacion360.Controllers
 
         }
 
-
         // POST: EvaluacionPreguntas/Create
         [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
@@ -161,6 +164,7 @@ namespace Evaluacion360.Controllers
                 }
                 else
                 {
+                    #region Errores de Modelo
                     string errors = string.Empty;
                     foreach (var item in ModelState.Values)
                     {
@@ -170,6 +174,7 @@ namespace Evaluacion360.Controllers
                         }
                         Mensaje += " Contacte al Administrador";
                     }
+                    #endregion
                 }
             }
             catch (Exception e)
@@ -178,7 +183,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return View(new { ae.Numero_Evaluacion, Mensaje });
+            return RedirectToAction("Create", "PositionEvaluations", new { ae.Numero_Evaluacion, Mensaje });
         }
 
         // GET: EvaluacionPreguntas/Edit/5
@@ -204,6 +209,7 @@ namespace Evaluacion360.Controllers
             }
             try
             {
+                #region Muestra Datos
                 var oAE = new AutoEvaluationViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oAE = (from ae in Db.Auto_Evaluaciones
@@ -221,6 +227,7 @@ namespace Evaluacion360.Controllers
 
                        }).FirstOrDefault();
                 return View(oAE);
+                #endregion
             }
             catch (Exception e)
             {
@@ -243,16 +250,35 @@ namespace Evaluacion360.Controllers
 
             try
             {
-                using var Db = new BD_EvaluacionEntities();
-                var oAE = Db.Auto_Evaluaciones.Find(model.Numero_Evaluacion, model.Codigo_Proceso, model.Codigo_Usuario);
-                oAE.Fecha = model.Fecha;
-                oAE.Logros = model.Logros;
-                oAE.Metas = model.Metas;
-                oAE.Nota_Final_AE = model.Nota_Final_AE;
-                oAE.Estado_AE = model.Estado_AE;
-                Db.Entry(oAE).State = System.Data.Entity.EntityState.Modified;
-                Mensaje = "Ok";
-                Db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    #region Graba Datos
+                    using var Db = new BD_EvaluacionEntities();
+                    var oAE = Db.Auto_Evaluaciones.Find(model.Numero_Evaluacion, model.Codigo_Proceso, model.Codigo_Usuario);
+                    oAE.Fecha = model.Fecha;
+                    oAE.Logros = model.Logros;
+                    oAE.Metas = model.Metas;
+                    oAE.Nota_Final_AE = model.Nota_Final_AE;
+                    oAE.Estado_AE = model.Estado_AE;
+                    Db.Entry(oAE).State = System.Data.Entity.EntityState.Modified;
+                    Mensaje = "Ok";
+                    Db.SaveChanges();
+                    #endregion
+                }
+                else
+                {
+                    #region Errores de Modelo
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
+                    {
+                        if (item.Errors.Count > 0)
+                        {
+                            Mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                        }
+                    }
+                    Mensaje += " Contacte al Administrador";
+                    #endregion
+                }
             }
             catch (Exception e)
             {
@@ -260,7 +286,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("Create", "AutoEvaluationQuestion"); //, new { numEval = model.Numero_Evaluacion, codProc = model.Codigo_Proceso, codUsu = model.Codigo_Usuario, Mensaje });
+            return RedirectToAction("Edit", "PositionEvaluations", new { numEval = model.Numero_Evaluacion, codProc = model.Codigo_Proceso, codUsu = model.Codigo_Usuario, Mensaje });
         }
 
         // GET: EvaluacionPreguntas/Delete/5
@@ -287,6 +313,7 @@ namespace Evaluacion360.Controllers
             }
             try
             {
+                #region Muestra Datos
                 var oAE = new AutoEvaluationViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oAE = (from ae in Db.Auto_Evaluaciones
@@ -305,6 +332,7 @@ namespace Evaluacion360.Controllers
                        }).FirstOrDefault();
 
                 return View(oAE);
+                #endregion
             }
             catch (Exception e)
             {
@@ -328,15 +356,18 @@ namespace Evaluacion360.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    #region Graba Datos
                     using var bd = new BD_EvaluacionEntities();
                     var oAE = bd.Auto_Evaluaciones.Find(numEval, codProc, codUsu);
 
                     bd.Entry(oAE).State = System.Data.Entity.EntityState.Deleted;
                     bd.SaveChanges();
                     Mensaje = "Ok";
+                    #endregion
                 }
                 else
                 {
+                    #region Errores de Modelo
                     string errors = string.Empty;
                     foreach (var item in ModelState.Values)
                     {
@@ -346,6 +377,7 @@ namespace Evaluacion360.Controllers
                         }
                         Mensaje += " Contacte al Administrador";
                     }
+                    #endregion
                 }
             }
             catch (Exception e)
@@ -354,7 +386,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("Delete", "Section", new { numEval, codProc, codUsu, Mensaje });
+            return RedirectToAction("Delete", "PositionEvaluations", new { numEval, codProc, codUsu, Mensaje });
         }
     }
 }

@@ -40,11 +40,6 @@ namespace Evaluacion360.Models.ViewModels
         public int Numero_Pregunta { get; set; }
         public string TextoPregunta { get; set; }
 
-        //[DisplayFormat(DataFormatString = "{0:0.0}", ApplyFormatInEditMode = true)]
-        //[RegularExpression(@"^\d+\,\d{0,1}$")]
-        //[Range(1, 7.0)]
-        //[Display(Name = "Nota")]
-        //[Required]
         public Nullable<decimal> Nota { get; set; }
 
     }

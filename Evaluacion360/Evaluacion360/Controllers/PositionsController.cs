@@ -160,6 +160,7 @@ namespace Evaluacion360.Controllers
                 }
                 else
                 {
+                    #region Errores Modelo
                     string errors = string.Empty;
                     foreach (var item in ModelState.Values)
                     {
@@ -169,6 +170,7 @@ namespace Evaluacion360.Controllers
                         }
                         mensaje += " Contacte al Administrador";
                     }
+                    #endregion
                 }
             }
             catch (Exception e)
@@ -235,19 +237,37 @@ namespace Evaluacion360.Controllers
             string codCcargo = model.Codigo_Cargo;
             try
             {
-
-                using var Db = new BD_EvaluacionEntities();
-                var oPos = Db.Cargos.Find(model.Codigo_Cargo);
-                oPos.Nombre_Cargo = model.Nombre_Cargo.ToUpper();
-                oPos.Fondo = model.Fondo;
-                oPos.Ciclo = model.Ciclo;
-                if (model.IdState > 0)
+                if (ModelState.IsValid)
                 {
-                    oPos.IdState = model.IdState;
+                    #region Graba Datos
+                    using var Db = new BD_EvaluacionEntities();
+                    var oPos = Db.Cargos.Find(model.Codigo_Cargo);
+                    oPos.Nombre_Cargo = model.Nombre_Cargo.ToUpper();
+                    oPos.Fondo = model.Fondo;
+                    oPos.Ciclo = model.Ciclo;
+                    if (model.IdState > 0)
+                    {
+                        oPos.IdState = model.IdState;
+                    }
+                    Db.Entry(oPos).State = System.Data.Entity.EntityState.Modified;
+                    mensaje = "Ok";
+                    Db.SaveChanges();
+                    #endregion
                 }
-                Db.Entry(oPos).State = System.Data.Entity.EntityState.Modified;
-                mensaje = "Ok";
-                Db.SaveChanges();
+                else
+                {
+                    #region Errores de Modelo
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
+                    {
+                        if (item.Errors.Count > 0)
+                        {
+                            mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                        }
+                    }
+                    mensaje += " Contacte al Administrador";
+                    #endregion
+                }
             }
             catch (Exception e)
             {
@@ -312,15 +332,31 @@ namespace Evaluacion360.Controllers
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             try
             {
-                using var Db = new BD_EvaluacionEntities();
-                var oPos = Db.Cargos.Find(model.Codigo_Cargo);
-                //oPos.Nombre_Cargo = model.Nombre_Cargo.ToUpper();
-                //oPos.Fondo = model.Fondo;
-                //oPos.Ciclo = model.Ciclo;
-                oPos.IdState = 3;
-                Db.Entry(oPos).State = System.Data.Entity.EntityState.Modified;
-                Db.SaveChanges();
-                mensaje = "Ok";
+                if (ModelState.IsValid)
+                {
+                    #region Elimina Datos
+                    using var Db = new BD_EvaluacionEntities();
+                    var oPos = Db.Cargos.Find(model.Codigo_Cargo);
+                    oPos.IdState = 3;
+                    Db.Entry(oPos).State = System.Data.Entity.EntityState.Modified;
+                    Db.SaveChanges();
+                    mensaje = "Ok";
+                    #endregion
+                }
+                else
+                {
+                    #region Errores de Modelo
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
+                    {
+                        if (item.Errors.Count > 0)
+                        {
+                            mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                        }
+                    }
+                    mensaje += " Contacte al Administrador";
+                    #endregion
+                }
             }
             catch (Exception e)
             {
@@ -328,7 +364,7 @@ namespace Evaluacion360.Controllers
                     + e.Message
                     + " Contactar al administrador";
             }
-            return RedirectToAction("Delete", "Positions", new { id=model.Codigo_Cargo, mensaje });
+            return RedirectToAction("Delete", "Positions", new { id = model.Codigo_Cargo, mensaje });
         }
     }
 }

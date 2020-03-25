@@ -42,7 +42,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <script src="~/js/jquery.basictable.min.js"></script>
     <script src="~/js/datatables.js"></script>
-    <script type="text/javascript">
+    @*<script type="text/javascript">
         $(document).ready(function () {
             $('#table').basictable();
 
@@ -68,7 +68,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 tableWrapper: true
             });
         });
-    </script>
+    </script>*@
     <!-- //tables -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -104,27 +104,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <tbody>
                         @foreach (var item in Model.Secciones)
                         {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Numero_Evaluacion)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Codigo_Proceso)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Codigo_Seccion)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Numero_Pregunta)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Nota)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Estado_AE)</td>
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Numero_Evaluacion)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Codigo_Proceso)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Codigo_Seccion)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Numero_Pregunta)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Nota)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Estado_AE)</td>
 
-                            <td>
-                                <button class="btn btn-warning btn-sm" onclick="location.href='@Url.Action("Edit","RandomQuestion", new { id=item.Codigo_Seccion})'" title="Editar">
-                                    <span class="fa fa-pencil"></span>
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Details", "RandomQuestion", new {id=item.Codigo_Seccion})'" title="Detalles">
-                                    <span class="fa fa-eye"></span>
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="location.href='@Url.Action("Delete", "RandomQuestion", new { id=item.Codigo_Seccion})'" title="Eliminar">
-                                    <span class="fa fa-trash"></span>
-                                </button>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" onclick="location.href='@Url.Action("Edit","RandomQuestion", new { id=item.Codigo_Seccion})'" title="Editar">
+                                        <span class="fa fa-pencil"></span>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Details", "RandomQuestion", new {id=item.Codigo_Seccion})'" title="Detalles">
+                                        <span class="fa fa-eye"></span>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="location.href='@Url.Action("Delete", "RandomQuestion", new { id=item.Codigo_Seccion})'" title="Eliminar">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                     @if (Model.TotalDeRegistros > 0)
@@ -135,8 +135,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <th> @Html.DisplayName("Proceso")</th>
                                 <th> @Html.DisplayName("Sección")</th>
                                 <th> @Html.DisplayName("Pregunta")</th>
-                                <th>@Html.DisplayName("Nota")</th>
-                                <th>@Html.DisplayName("Estado")</th>
+                                <th> @Html.DisplayName("Nota")</th>
+                                <th> @Html.DisplayName("Estado")</th>
                                 <th> @Html.DisplayName("Acciones")</th>
                             </tr>
                         </tfoot>

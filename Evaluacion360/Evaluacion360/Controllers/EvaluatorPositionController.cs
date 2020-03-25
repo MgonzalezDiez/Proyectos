@@ -180,6 +180,7 @@ namespace Evaluacion360.Controllers
                     ViewBag.Status = false;
                 }
             }
+
             try
             {
                 var oEP = new EvaluatorPositionViewModel();
@@ -227,7 +228,7 @@ namespace Evaluacion360.Controllers
                         + " Contacte al Administrador";
 
             }
-            return RedirectToAction("Edit", "EvaluationPosition", new { id = EvPosition.Codigo_Cargo, id2 = EvPosition.Cod_Cargo_Evaluado, mensaje });
+            return RedirectToAction("Edit", "EvaluatorPosition", new { id = EvPosition.Codigo_Cargo, id2 = EvPosition.Cod_Cargo_Evaluado, mensaje });
         }
 
         // GET: EvaluationPosition/Delete/5
@@ -320,7 +321,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("Delete", "EvaluationPosition", new { codCargo=evPos.Codigo_Cargo, codCargoEval= evPos.Cod_Cargo_Evaluado, mensaje });
+            return RedirectToAction("Delete", "EvaluatorPosition", new { codCargo=evPos.Codigo_Cargo, codCargoEval= evPos.Cod_Cargo_Evaluado, mensaje });
         }
     }
 }

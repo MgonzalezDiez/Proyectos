@@ -5146,7 +5146,7 @@ input#disabledTextInput, select#disabledSelect {
 label.control-label {
     color: #000;
     font-size: 0.9em;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .form-group1 input[type="text"], .form-group1 textarea,

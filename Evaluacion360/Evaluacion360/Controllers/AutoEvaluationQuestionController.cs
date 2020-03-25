@@ -218,7 +218,7 @@ namespace Evaluacion360.Controllers
 
         // GET: EvaluacionPreguntas/Edit/5
         [AuthorizeUser(IdOperacion: 5)]
-        public ActionResult Edit(int numEval, int codProc, string codSecc, int numAsk, string mensaje)
+        public ActionResult Edit(int numEval, int codProc, string codSecc, int numQuest, string mensaje)
         {
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
@@ -240,7 +240,7 @@ namespace Evaluacion360.Controllers
                 var oAEQ = new AutoEvaluationQuestionViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oAEQ = (from aeq in Db.Auto_Evaluacion_Preguntas
-                        where aeq.Numero_Evaluacion == numEval && aeq.Codigo_Proceso == codProc && aeq.Codigo_seccion == codSecc && aeq.Numero_Pregunta == numAsk
+                        where aeq.Numero_Evaluacion == numEval && aeq.Codigo_Proceso == codProc && aeq.Codigo_seccion == codSecc && aeq.Numero_Pregunta == numQuest
                         select new AutoEvaluationQuestionViewModel
                         {
                             Numero_Evaluacion = aeq.Numero_Evaluacion,
@@ -256,7 +256,7 @@ namespace Evaluacion360.Controllers
                 Mensaje = "Ocurrió el siguiente error"
                           + e.Message
                           + " Contacte al Administrador";
-                return RedirectToAction("Edit", "AutoEvaluationQuestion", new { numEval, codProc, codSecc, numAsk, Mensaje });
+                return RedirectToAction("Edit", "AutoEvaluationQuestion", new { numEval, codProc, codSecc, numQuest, Mensaje });
             }
         }
 
@@ -318,7 +318,7 @@ namespace Evaluacion360.Controllers
 
         // GET: EvaluacionPreguntas/Delete/5
         [AuthorizeUser(IdOperacion: 5)]
-        public ActionResult Delete(int numEval, int codProc, string codSecc, int numAsk, string mensaje)
+        public ActionResult Delete(int numEval, int codProc, string codSecc, int numQuest, string mensaje)
         {
             ViewBag.Status = false;
             if (mensaje != null && mensaje != "")
@@ -339,7 +339,7 @@ namespace Evaluacion360.Controllers
                 var oAEQ = new AutoEvaluationQuestionViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oAEQ = (from aeq in Db.Auto_Evaluacion_Preguntas
-                        where aeq.Numero_Evaluacion == numEval && aeq.Codigo_Proceso == codProc && aeq.Codigo_seccion == codSecc && aeq.Numero_Pregunta == numAsk
+                        where aeq.Numero_Evaluacion == numEval && aeq.Codigo_Proceso == codProc && aeq.Codigo_seccion == codSecc && aeq.Numero_Pregunta == numQuest
                         select new AutoEvaluationQuestionViewModel
                         {
                             Numero_Evaluacion = aeq.Numero_Evaluacion,
@@ -356,21 +356,21 @@ namespace Evaluacion360.Controllers
                 Mensaje = "Ocurrió el siguiente error"
                           + e.Message
                           + " Contacte al Administrador";
-                return RedirectToAction("Delete", "AEQ", new { numEval, codProc, codSecc, numAsk, Mensaje });
+                return RedirectToAction("Delete", "AEQ", new { numEval, codProc, codSecc, numQuest, Mensaje });
             }
         }
 
         // POST: EvaluacionPreguntas/Delete/5
         [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
-        public ActionResult Delete(int numEval, int codProc, string codSecc, int numAsk)
+        public ActionResult Delete(int numEval, int codProc, string codSecc, int numQuest)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     using var bd = new BD_EvaluacionEntities();
-                    var oAEQ = bd.Auto_Evaluacion_Preguntas.Find(numEval, codProc, codSecc, numAsk);
+                    var oAEQ = bd.Auto_Evaluacion_Preguntas.Find(numEval, codProc, codSecc, numQuest);
 
                     bd.Entry(oAEQ).State = System.Data.Entity.EntityState.Deleted;
                     bd.SaveChanges();
@@ -395,7 +395,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("Delete", "Section", new { numEval, codProc, codSecc, numAsk, Mensaje });
+            return RedirectToAction("Delete", "Section", new { numEval, codProc, codSecc, numQuest, Mensaje });
         }
 
         [HttpPost]

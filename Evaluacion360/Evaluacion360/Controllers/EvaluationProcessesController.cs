@@ -243,7 +243,7 @@ namespace Evaluacion360.Controllers
                     + e.Message
                     + " Contactar al administrador";
             }
-            return View(new { ep.Codigo_Proceso, Mensaje });
+            return RedirectToAction("Edit", "EvaluationProcesses", new { ep.Codigo_Proceso, Mensaje });
         }
 
         // GET: EvaluationProcesses/Delete/5
@@ -329,7 +329,7 @@ namespace Evaluacion360.Controllers
                         + e.Message 
                         + " Contactar al administrador";
             }
-            return View(new { codProc, Mensaje });
+            return RedirectToAction("Delete", "EvaluationProcesses", new { codProc, Mensaje });
         }
 
         [HttpGet]
