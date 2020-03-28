@@ -20,10 +20,14 @@ namespace Evaluacion360.Models.ViewModels
         public string Codigo_seccion { get; set; }
 
         [Required]
-        [DataType(DataType.MultilineText)]
         public int Numero_Pregunta { get; set; }
 
         public int IdState { get; set; }
+    }
+
+    public class PositionQuestionAllViewModel
+    {
+        public List<PositionQuestionViewModel> PositionQuestion { get; set; }
     }
 
     public class PositionQuestionListViewModel

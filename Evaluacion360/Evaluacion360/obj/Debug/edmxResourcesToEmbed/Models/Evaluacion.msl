@@ -210,5 +210,30 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Calcula_Notas" FunctionName="BD_EvaluacionModel.Store.Calcula_Notas" />
+    <FunctionImportMapping FunctionImportName="Crea_Evaluaciones_Todos" FunctionName="BD_EvaluacionModel.Store.Crea_Evaluaciones_Todos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BD_EvaluacionModel.Crea_Evaluaciones_Todos_Result">
+          <ScalarProperty Name="ErrorNumber" ColumnName="ErrorNumber" />
+          <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
+          <ScalarProperty Name="ErrorSeverity" ColumnName="ErrorSeverity" />
+          <ScalarProperty Name="ErrorProcedure" ColumnName="ErrorProcedure" />
+          <ScalarProperty Name="ErrorLine" ColumnName="ErrorLine" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Crea_Evaluaciones_Uno" FunctionName="BD_EvaluacionModel.Store.Crea_Evaluaciones_Uno">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BD_EvaluacionModel.Crea_Evaluaciones_Uno_Result">
+          <ScalarProperty Name="ErrorNumber" ColumnName="ErrorNumber" />
+          <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
+          <ScalarProperty Name="ErrorSeverity" ColumnName="ErrorSeverity" />
+          <ScalarProperty Name="ErrorProcedure" ColumnName="ErrorProcedure" />
+          <ScalarProperty Name="ErrorLine" ColumnName="ErrorLine" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

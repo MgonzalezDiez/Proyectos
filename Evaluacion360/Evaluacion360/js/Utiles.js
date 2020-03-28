@@ -5,13 +5,40 @@
         btn.addEventListener('click', validarNotas, true);
     }
 
+    $("#decimales").on({"focus": function (event) {
+            $(event.target).select();
+        },
+        "keyup": function (event) {
+            $(event.target).val(function (index, value) {
+                return value.replace(/\D/g, "")
+                    .replace(/([0-9])([0-9]{1})$/, '$1.$2')
+                    .replace(/\B(?=(\d{5})+(?!\d)\.?)/g, ",");
+            });
+        }
+    });
+
     $(function () {
         $('#decimales').on('input', function () {
             var field = $(this);
             var car = $(this).val();
+            if (car > 100) {
+                let msg = document.querySelector('#mensaje');
+                msg.innerHTML =
+                    `<div class="alert alert-success alert-dismissible fade show" role="alert" id="alertInfo" >
+                                <strong style="font-size:medium">El valor no puede ser mayor a 100%</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>`;
+                window.setTimeout(function () {
+                    $("#alertInfo").alert('close');
+                }, 4000);
+                return
+            }
             len = car.length;
             if (car.charCodeAt(len - 1) > 57) {
                 car = car.replace(car.substring(len - 1), "");
+                
                 this.value = car;
                 return false;
             }
@@ -32,6 +59,20 @@
             if (existePto === false && existeCom === false) {
                 valor = document.getElementById('decimales').value;
                 valor = valor.replace(/[^0-9]/g, ',');
+                if (valor > 100) {
+                    let msg = document.querySelector('#mensaje');
+                    msg.innerHTML =
+                        `<div class="alert alert-success alert-dismissible fade show" role="alert" id="alertInfo" >
+                                <strong style="font-size:medium">Notas ingresadas al sistema de Evaluación</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>`;
+                    window.setTimeout(function () {
+                        $("#alertInfo").alert('close');
+                    }, 4000);
+                    return
+                }
                 document.getElementById('decimales').value = valor;
             }
             else {
@@ -90,7 +131,7 @@
 
     function validarNotas() {
 
-        notas = document.querySelectorAll('#nota'); // input.form-control1');
+        notas = document.querySelectorAll('#nota'); 
         len = notas.length;
         valido = true;
         [].slice.call(notas, 0, len + 1).forEach(function (nota) {

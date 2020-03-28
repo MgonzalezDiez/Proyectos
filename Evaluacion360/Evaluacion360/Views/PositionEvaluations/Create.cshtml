@@ -90,51 +90,51 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group has-feedback">
-                    <label class="col-md-3 control-label ">Cargo Evaluador</label>
+                    <label class="col-md-3 control-label ">Número Evaluación</label>
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
-                            @Html.DropDownListFor(model => model.Codigo_Cargo, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluador", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            @Html.DropDownListFor(model => model.Numero_Evaluacion, (SelectList)ViewBag.Cargos, "Seleccione Evaluación", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         </div>
                     </div>
                 </div>
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group has-feedback">
-                    <label class="col-md-3 control-label ">Cargo Evaluado</label>
+                    <label class="col-md-3 control-label ">Proceso</label>
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
-                            @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluado", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            @Html.DropDownListFor(model => model.Codigo_Proceso, (SelectList)ViewBag.Cargos, "Seleccione Proceso", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group has-feedback">
-                    <label class="col-md-3 control-label ">Dominio</label>
+                    <label class="col-md-3 control-label ">Usuario</label>
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-sticky-note"></i></span>
-                            @Html.DropDownListFor(model => model.Codigo_seccion, (SelectList)ViewBag.Section, "Seleccione Sección", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            @Html.DropDownListFor(model => model.Codigo_Usuario_Evaluado, (SelectList)ViewBag.Section, "Seleccione Usuario Evaluado", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group has-feedback">
-                    <label class="col-md-3 control-label ">Seleccione Pregunta</label>
+                    <label class="col-md-3 control-label ">Estado Evaluación</label>
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-question"></i></span>
-                            @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, "Seleccione Pregunta", new { type = "text", @class = "form-control2", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            @Html.DropDownListFor(model => model.Estado_EC, (SelectList)ViewBag.RQuestion, "Seleccione Estado Evaluación", new { type = "text", @class = "form-control2", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         </div>
                     </div>
                 </div>
                 <div class="form-group has-feedback">
-                    <label class="col-md-3 control-label ">Estado</label>
+                    <label class="col-md-3 control-label ">Nota Fila</label>
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-question"></i></span>
-                            @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.State, "Seleccione Estado de Pregunta", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            @Html.EditorFor(model => model.Nota_Final_EC, new { htmlAttributes = new { id = "nFinAE", @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Nota Final Auto Evaluación" } })
                         </div>
                     </div>
                 </div>

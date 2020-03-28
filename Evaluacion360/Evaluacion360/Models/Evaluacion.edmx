@@ -63,7 +63,7 @@
           </Key>
           <Property Name="Codigo_Cargo" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Cod_Cargo_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Ponderacion" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="Ponderacion" Type="decimal" Precision="4" Scale="1" Nullable="false" />
           <Property Name="IdState" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Datos_Usuarios">
@@ -216,9 +216,22 @@
           <Property Name="PASS" Type="nvarchar(max)" Nullable="false" />
           <Property Name="IdState" Type="int" Nullable="false" />
         </EntityType>
-        <Function Name="Crea_Evaluaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="Calcula_Notas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CodigoUsuario" Type="nvarchar" Mode="In" />
           <Parameter Name="Proceso" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Crea_Evaluaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodigoUsuario" Type="nvarchar" Mode="In" />
+          <Parameter Name="Proceso" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Crea_Evaluaciones_Todos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Proceso" Type="int" Mode="In" />
+          <Parameter Name="Result" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Crea_Evaluaciones_Uno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodigoUsuario" Type="nvarchar" Mode="In" />
+          <Parameter Name="Proceso" Type="int" Mode="In" />
+          <Parameter Name="Result" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="ObtenerDV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Rut" Type="int" Mode="In" />
@@ -268,7 +281,7 @@
           <EntitySet Name="Procesos_Evaluacion" EntityType="BD_EvaluacionModel.Procesos_Evaluacion" />
           <FunctionImport Name="Crea_Evaluaciones">
             <Parameter Name="CodigoUsuario" Mode="In" Type="String" />
-            <Parameter Name="Proceso" Mode="In" Type="String" />
+            <Parameter Name="Proceso" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ObtenerDV">
             <Parameter Name="Rut" Mode="In" Type="Int32" />
@@ -277,6 +290,19 @@
           <EntitySet Name="Preguntas_Aleatorias" EntityType="BD_EvaluacionModel.Preguntas_Aleatorias" />
           <EntitySet Name="Secciones" EntityType="BD_EvaluacionModel.Secciones" />
           <EntitySet Name="Preguntas_Cargos" EntityType="BD_EvaluacionModel.Preguntas_Cargos" />
+          <FunctionImport Name="Calcula_Notas">
+            <Parameter Name="CodigoUsuario" Mode="In" Type="String" />
+            <Parameter Name="Proceso" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Crea_Evaluaciones_Todos" ReturnType="Collection(BD_EvaluacionModel.Crea_Evaluaciones_Todos_Result)">
+            <Parameter Name="Proceso" Mode="In" Type="Int32" />
+            <Parameter Name="Result" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Crea_Evaluaciones_Uno" ReturnType="Collection(BD_EvaluacionModel.Crea_Evaluaciones_Uno_Result)">
+            <Parameter Name="CodigoUsuario" Mode="In" Type="String" />
+            <Parameter Name="Proceso" Mode="In" Type="Int32" />
+            <Parameter Name="Result" Mode="InOut" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Auto_Evaluacion_Preguntas">
           <Key>
@@ -336,7 +362,7 @@
           </Key>
           <Property Name="Codigo_Cargo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Cod_Cargo_Evaluado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Ponderacion" Type="Decimal" Nullable="false" Precision="3" Scale="1" />
+          <Property Name="Ponderacion" Type="Decimal" Nullable="false" Precision="4" Scale="1" />
           <Property Name="IdState" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Datos_Usuarios">
@@ -489,6 +515,22 @@
           <Property Name="Numero_Pregunta" Type="Int32" Nullable="false" />
           <Property Name="IdState" Type="Int32" Nullable="false" />
         </EntityType>
+        <ComplexType Name="Crea_Evaluaciones_Todos_Result">
+          <Property Type="Int32" Name="ErrorNumber" Nullable="true" />
+          <Property Type="Int32" Name="ErrorState" Nullable="true" />
+          <Property Type="Int32" Name="ErrorSeverity" Nullable="true" />
+          <Property Type="String" Name="ErrorProcedure" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="ErrorLine" Nullable="true" />
+          <Property Type="String" Name="ErrorMessage" Nullable="true" MaxLength="4000" />
+        </ComplexType>
+        <ComplexType Name="Crea_Evaluaciones_Uno_Result">
+          <Property Type="Int32" Name="ErrorNumber" Nullable="true" />
+          <Property Type="Int32" Name="ErrorState" Nullable="true" />
+          <Property Type="Int32" Name="ErrorSeverity" Nullable="true" />
+          <Property Type="String" Name="ErrorProcedure" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="ErrorLine" Nullable="true" />
+          <Property Type="String" Name="ErrorMessage" Nullable="true" MaxLength="4000" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -704,6 +746,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Calcula_Notas" FunctionName="BD_EvaluacionModel.Store.Calcula_Notas" />
+          <FunctionImportMapping FunctionImportName="Crea_Evaluaciones_Todos" FunctionName="BD_EvaluacionModel.Store.Crea_Evaluaciones_Todos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BD_EvaluacionModel.Crea_Evaluaciones_Todos_Result">
+                <ScalarProperty Name="ErrorNumber" ColumnName="ErrorNumber" />
+                <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
+                <ScalarProperty Name="ErrorSeverity" ColumnName="ErrorSeverity" />
+                <ScalarProperty Name="ErrorProcedure" ColumnName="ErrorProcedure" />
+                <ScalarProperty Name="ErrorLine" ColumnName="ErrorLine" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Crea_Evaluaciones_Uno" FunctionName="BD_EvaluacionModel.Store.Crea_Evaluaciones_Uno">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BD_EvaluacionModel.Crea_Evaluaciones_Uno_Result">
+                <ScalarProperty Name="ErrorNumber" ColumnName="ErrorNumber" />
+                <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
+                <ScalarProperty Name="ErrorSeverity" ColumnName="ErrorSeverity" />
+                <ScalarProperty Name="ErrorProcedure" ColumnName="ErrorProcedure" />
+                <ScalarProperty Name="ErrorLine" ColumnName="ErrorLine" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

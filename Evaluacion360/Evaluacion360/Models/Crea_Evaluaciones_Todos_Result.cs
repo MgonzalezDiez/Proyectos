@@ -10,13 +10,14 @@
 namespace Evaluacion360.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Preguntas_Aleatorias
+    public partial class Crea_Evaluaciones_Todos_Result
     {
-        public string Codigo_Seccion { get; set; }
-        public int Numero_Pregunta { get; set; }
-        public string Texto_Pregunta { get; set; }
-        public decimal Ponderacion_P { get; set; }
+        public Nullable<int> ErrorNumber { get; set; }
+        public Nullable<int> ErrorState { get; set; }
+        public Nullable<int> ErrorSeverity { get; set; }
+        public string ErrorProcedure { get; set; }
+        public Nullable<int> ErrorLine { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

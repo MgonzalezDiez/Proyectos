@@ -103,7 +103,7 @@ namespace Evaluacion360.Controllers
                 {
                     #region Graba Datos
                     using var bd = new BD_EvaluacionEntities();
-                    var oRQ = new Preguntas_Aleatorias
+                    Preguntas_Aleatorias oRQ = new Preguntas_Aleatorias
                     {
                         Codigo_Seccion = Rq.Codigo_Seccion.ToUpper(),
                         Numero_Pregunta = Rq.Numero_Pregunta,
@@ -137,7 +137,7 @@ namespace Evaluacion360.Controllers
                     + e.Message
                     + " Contactar al administrador";
             }
-            return View(new { mensaje });
+            return RedirectToAction("Create", "RandomQuestion", new { mensaje });
         }
 
         // GET: RandomQuestion/Details/5
@@ -210,17 +210,15 @@ namespace Evaluacion360.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
-                    {
-                        Preguntas_Aleatorias oRQ = Db.Preguntas_Aleatorias.Where(i => i.Codigo_Seccion == Rq.Codigo_Seccion && i.Numero_Pregunta == Rq.Numero_Pregunta).SingleOrDefault();
+                    using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+                    Preguntas_Aleatorias oRQ = Db.Preguntas_Aleatorias.Where(i => i.Codigo_Seccion == Rq.Codigo_Seccion && i.Numero_Pregunta == Rq.Numero_Pregunta).SingleOrDefault();
 
-                        oRQ.Numero_Pregunta = Rq.Numero_Pregunta;
-                        oRQ.Texto_Pregunta = Rq.Texto_Pregunta;
-                        oRQ.Ponderacion_P = Rq.Ponderacion_P;
-                        Db.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
-                        Db.SaveChanges();
-                        mensaje = "Ok";
-                    }
+                    oRQ.Numero_Pregunta = Rq.Numero_Pregunta;
+                    oRQ.Texto_Pregunta = Rq.Texto_Pregunta;
+                    oRQ.Ponderacion_P = Rq.Ponderacion_P;
+                    Db.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
+                    Db.SaveChanges();
+                    mensaje = "Ok";
                 }
                 else
                 {

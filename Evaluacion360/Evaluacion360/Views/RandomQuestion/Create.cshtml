@@ -77,6 +77,10 @@
     }
     @Html.AntiForgeryToken()
 
+    <div id="mensaje">
+
+    </div>
+
     <div class="panel-body" , style="background-color:#fff">
         <div class="notification_header" style="text-align:center">
             <h1 class="center-block">Crear Pregunta</h1>
@@ -103,7 +107,7 @@
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
-                            @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { disabled = "disabled", type = "text", @class = "form-control1", @placeholder = "Número de Pregunta", @required = "required" } })
+                            @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Número de Pregunta", @required = "required" } })
                         </div>
                     </div>
                 </div>
@@ -125,7 +129,7 @@
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                            @Html.EditorFor(model => model.Ponderacion_P, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @maxlength = "4", @min = "00.0", @max = "100", @step = "0.1", @placeholder = "00.0", @required = "required" } })
+                            @Html.EditorFor(model => model.Ponderacion_P, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @maxlength = "5", @min = "00.0", @max = "100", @step = "0.1", @placeholder = "00.0", @required = "required" } })
                         </div>
                     </div>
                 </div>
@@ -147,34 +151,41 @@
 
     <script>
         $(document).ready(function () {
-            //$('#codSec').change(function () {
-            $("#Codigo_seccion").change(function () {
-                $.get("/RandomQuestion/GetQuestionNo", { codSec: $("#Codigo_seccion").val() }, function (data, status) {
-                    $("#Numero_Pregunta").empty();
+            $("#Codigo_Seccion").change(function () {
+                var index = $("#Codigo_Seccion")[0].selectedIndex;
+                if (index != 0) {
+                    $.get("/RandomQuestion/GetQuestionNo", { codSec: $("#Codigo_Seccion").val() }, function (data, status) {
+                        $("#Numero_Pregunta").empty();
+                        if (data > 0) {
+                            document.getElementById('Numero_Pregunta').value = data;
+                        }
+                        else {
+                            var info = "No existen preguntas para este Dominio";
+                            let msg = document.querySelector('#Mensaje');
+                            msg.innerHTML =
+                                `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
+                                <strong style="font-size:medium">${info}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`;
+                            window.setTimeout(function () {
+                                $("#alertInfo").alert('close');
+                            }, 4000);
+                        }
+                    })
+                }
+            })
 
-                    if (data.length > 0) {
-                        $.each(data, function (index, row) {
-                            $("#Numero_Pregunta").val = row.valorMaximo;
-                        })
-                    }
-                    else {
-                        var info = "No existen preguntas para este Dominio";
-                        let msg = document.querySelector('#Mensaje');
-                        msg.innerHTML =
-                            `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
-                                    <strong style="font-size:medium">${info}</strong>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>`;
-                        window.setTimeout(function () {
-                            $("#alertInfo").alert('close');
-                        }, 4000);
-                    }
-                })
+            $("#Texto_Pregunta").on({
+                "focus": function (event) {
+                    $(event.target).select();
+                }
             });
+        
+
         });
     </script>
-    @*<script src="~/js/Utiles.js"></script>*@
+    <script src="~/js/Utiles.js"></script>
 </body>
 </html>

@@ -71,12 +71,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <form action="LogIn" method="post">
                     <div class="username">
                         <span class="username aligncenter"><i class="fa fa-user"></i></span>
-                        @Html.EditorFor(model => model.Nombre_Usuario, new { htmlAttributes = new { type = "text", @class = "password", @placeholder = "Usuario", @required = true, @ErrorMessage = "bbb" } })
+                        @Html.EditorFor(model => model.Nombre_Usuario, new { htmlAttributes = new { type = "text", @class = "password", placeholder = "Usuario", required = "required" } })
                         <div class="clearfix"></div>
                     </div>
                     <div class="password-agileits">
                         <span class="username aligncenter"><i class="fa fa-key fa-fw"></i></span>
-                        @Html.EditorFor(model => model.PASS, new { htmlAttributes = new { type = "password", @class = "password", @placeholder = "Password", @required = true, @ErrorMessage = "bbb" } })
+                        @Html.EditorFor(model => model.PASS, new { htmlAttributes = new { type = "password", @class = "password", placeholder = "Password", required = "required" } })
                         <div class="clearfix"></div>
                     </div>
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace Evaluacion360.Controllers
 {
@@ -93,10 +94,10 @@ namespace Evaluacion360.Controllers
             }
             #region Muestra Datos
             var oPQ = new PositionQuestionViewModel();
-            var oSection = new SectionViewModel();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
                 oPQ = (from pcar in Db.Preguntas_Cargos
+                       
                        where pcar.Codigo_Cargo == codCargo && pcar.Cod_Cargo_Evaluado == codCargoEval && pcar.Codigo_seccion == codSection
                        select new PositionQuestionViewModel
                        {
@@ -105,7 +106,7 @@ namespace Evaluacion360.Controllers
                            Codigo_seccion = pcar.Codigo_seccion,
                            Numero_Pregunta = pcar.Numero_Pregunta,
                            IdState = pcar.IdState
-                       }).FirstOrDefault();
+                       }).SingleOrDefault();
             }
             return View(oPQ);
             #endregion
@@ -114,49 +115,33 @@ namespace Evaluacion360.Controllers
         // POST: PostionQuestion/Create
         [AuthorizeUser(IdOperacion: 6)]
         [HttpPost]
-        public ActionResult Create(PositionQuestionViewModel Pq)
+        public JsonResult Create(List<PositionQuestionViewModel> ListJson)
         {
             try
             {
-                if (ModelState.IsValid)
+                #region Graba Datos
+                using var bd = new BD_EvaluacionEntities();
+                foreach (var item in ListJson)
                 {
-                    #region Graba Datos
-                    using var bd = new BD_EvaluacionEntities();
                     var oPQ = new Preguntas_Cargos
                     {
-                        Codigo_Cargo = Pq.Codigo_Cargo,
-                        Cod_Cargo_Evaluado = Pq.Cod_Cargo_Evaluado,
-                        Codigo_seccion = Pq.Codigo_seccion,
-                        Numero_Pregunta = Pq.Numero_Pregunta,
-                        IdState = Pq.IdState
+                        Codigo_Cargo = item.Codigo_Cargo,
+                        Cod_Cargo_Evaluado = item.Cod_Cargo_Evaluado,
+                        Codigo_seccion = item.Codigo_seccion,
+                        Numero_Pregunta = item.Numero_Pregunta,
+                        IdState = item.IdState
                     };
-
                     bd.Preguntas_Cargos.Add(oPQ);
-                    bd.SaveChanges();
-                    mensaje = "Ok";
-                    return View(new { oPQ, mensaje });
-                    #endregion
                 }
-                else
-                {
-                    #region Errores de Modelo
-                    string errors = string.Empty;
-                    foreach (var item in ModelState.Values)
-                    {
-                        if (item.Errors.Count > 0)
-                        {
-                            mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
-                        }
-                    }
-                    mensaje += " Contacte al Administrador";
-                    #endregion
-                }
+                bd.SaveChanges();
+                mensaje = "Ok";
+                #endregion
             }
             catch (Exception ex)
             {
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
             }
-            return RedirectToAction("Create", "PositionQuestion", new { codCargo = Pq.Codigo_Cargo, codCargoEval = Pq.Cod_Cargo_Evaluado, codSection = Pq.Codigo_seccion, mensaje });
+            return Json(mensaje);
         }
 
         // GET: PostionQuestion/Details/5
@@ -413,7 +398,5 @@ namespace Evaluacion360.Controllers
             return Json(RQuestion, JsonRequestBehavior.AllowGet);
         }
         #endregion
-
-
     }
 }

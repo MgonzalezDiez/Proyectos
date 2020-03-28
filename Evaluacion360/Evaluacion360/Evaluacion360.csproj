@@ -321,6 +321,12 @@
     <Compile Include="Models\Auto_Evaluacion_Resultado.cs">
       <DependentUpon>Evaluacion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Crea_Evaluaciones_Todos_Result.cs">
+      <DependentUpon>Evaluacion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Crea_Evaluaciones_Uno_Result.cs">
+      <DependentUpon>Evaluacion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Estado_Componentes.cs">
       <DependentUpon>Evaluacion.tt</DependentUpon>
     </Compile>

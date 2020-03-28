@@ -19,7 +19,7 @@
     <EntitySet Name="Procesos_Evaluacion" EntityType="BD_EvaluacionModel.Procesos_Evaluacion" />
     <FunctionImport Name="Crea_Evaluaciones">
       <Parameter Name="CodigoUsuario" Mode="In" Type="String" />
-      <Parameter Name="Proceso" Mode="In" Type="String" />
+      <Parameter Name="Proceso" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="ObtenerDV">
       <Parameter Name="Rut" Mode="In" Type="Int32" />
@@ -28,6 +28,19 @@
     <EntitySet Name="Preguntas_Aleatorias" EntityType="BD_EvaluacionModel.Preguntas_Aleatorias" />
     <EntitySet Name="Secciones" EntityType="BD_EvaluacionModel.Secciones" />
     <EntitySet Name="Preguntas_Cargos" EntityType="BD_EvaluacionModel.Preguntas_Cargos" />
+    <FunctionImport Name="Calcula_Notas">
+      <Parameter Name="CodigoUsuario" Mode="In" Type="String" />
+      <Parameter Name="Proceso" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Crea_Evaluaciones_Todos" ReturnType="Collection(BD_EvaluacionModel.Crea_Evaluaciones_Todos_Result)">
+      <Parameter Name="Proceso" Mode="In" Type="Int32" />
+      <Parameter Name="Result" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Crea_Evaluaciones_Uno" ReturnType="Collection(BD_EvaluacionModel.Crea_Evaluaciones_Uno_Result)">
+      <Parameter Name="CodigoUsuario" Mode="In" Type="String" />
+      <Parameter Name="Proceso" Mode="In" Type="Int32" />
+      <Parameter Name="Result" Mode="InOut" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Auto_Evaluacion_Preguntas">
     <Key>
@@ -87,7 +100,7 @@
     </Key>
     <Property Name="Codigo_Cargo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="Cod_Cargo_Evaluado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="Ponderacion" Type="Decimal" Nullable="false" Precision="3" Scale="1" />
+    <Property Name="Ponderacion" Type="Decimal" Nullable="false" Precision="4" Scale="1" />
     <Property Name="IdState" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Datos_Usuarios">
@@ -240,4 +253,20 @@
     <Property Name="Numero_Pregunta" Type="Int32" Nullable="false" />
     <Property Name="IdState" Type="Int32" Nullable="false" />
   </EntityType>
+  <ComplexType Name="Crea_Evaluaciones_Todos_Result">
+    <Property Type="Int32" Name="ErrorNumber" Nullable="true" />
+    <Property Type="Int32" Name="ErrorState" Nullable="true" />
+    <Property Type="Int32" Name="ErrorSeverity" Nullable="true" />
+    <Property Type="String" Name="ErrorProcedure" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="ErrorLine" Nullable="true" />
+    <Property Type="String" Name="ErrorMessage" Nullable="true" MaxLength="4000" />
+  </ComplexType>
+  <ComplexType Name="Crea_Evaluaciones_Uno_Result">
+    <Property Type="Int32" Name="ErrorNumber" Nullable="true" />
+    <Property Type="Int32" Name="ErrorState" Nullable="true" />
+    <Property Type="Int32" Name="ErrorSeverity" Nullable="true" />
+    <Property Type="String" Name="ErrorProcedure" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="ErrorLine" Nullable="true" />
+    <Property Type="String" Name="ErrorMessage" Nullable="true" MaxLength="4000" />
+  </ComplexType>
 </Schema>

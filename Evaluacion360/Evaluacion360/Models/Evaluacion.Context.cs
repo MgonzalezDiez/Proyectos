@@ -47,15 +47,15 @@ namespace Evaluacion360.Models
         public virtual DbSet<Secciones> Secciones { get; set; }
         public virtual DbSet<Preguntas_Cargos> Preguntas_Cargos { get; set; }
     
-        public virtual int Crea_Evaluaciones(string codigoUsuario, string proceso)
+        public virtual int Crea_Evaluaciones(string codigoUsuario, Nullable<int> proceso)
         {
             var codigoUsuarioParameter = codigoUsuario != null ?
                 new ObjectParameter("CodigoUsuario", codigoUsuario) :
                 new ObjectParameter("CodigoUsuario", typeof(string));
     
-            var procesoParameter = proceso != null ?
+            var procesoParameter = proceso.HasValue ?
                 new ObjectParameter("Proceso", proceso) :
-                new ObjectParameter("Proceso", typeof(string));
+                new ObjectParameter("Proceso", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Crea_Evaluaciones", codigoUsuarioParameter, procesoParameter);
         }
@@ -67,6 +67,41 @@ namespace Evaluacion360.Models
                 new ObjectParameter("Rut", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ObtenerDV", rutParameter, dv);
+        }
+    
+        public virtual int Calcula_Notas(string codigoUsuario, string proceso)
+        {
+            var codigoUsuarioParameter = codigoUsuario != null ?
+                new ObjectParameter("CodigoUsuario", codigoUsuario) :
+                new ObjectParameter("CodigoUsuario", typeof(string));
+    
+            var procesoParameter = proceso != null ?
+                new ObjectParameter("Proceso", proceso) :
+                new ObjectParameter("Proceso", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Calcula_Notas", codigoUsuarioParameter, procesoParameter);
+        }
+    
+        public virtual ObjectResult<Crea_Evaluaciones_Todos_Result> Crea_Evaluaciones_Todos(Nullable<int> proceso, ObjectParameter result)
+        {
+            var procesoParameter = proceso.HasValue ?
+                new ObjectParameter("Proceso", proceso) :
+                new ObjectParameter("Proceso", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Crea_Evaluaciones_Todos_Result>("Crea_Evaluaciones_Todos", procesoParameter, result);
+        }
+    
+        public virtual ObjectResult<Crea_Evaluaciones_Uno_Result> Crea_Evaluaciones_Uno(string codigoUsuario, Nullable<int> proceso, ObjectParameter result)
+        {
+            var codigoUsuarioParameter = codigoUsuario != null ?
+                new ObjectParameter("CodigoUsuario", codigoUsuario) :
+                new ObjectParameter("CodigoUsuario", typeof(string));
+    
+            var procesoParameter = proceso.HasValue ?
+                new ObjectParameter("Proceso", proceso) :
+                new ObjectParameter("Proceso", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Crea_Evaluaciones_Uno_Result>("Crea_Evaluaciones_Uno", codigoUsuarioParameter, procesoParameter, result);
         }
     }
 }
