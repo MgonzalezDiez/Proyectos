@@ -29,7 +29,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     @*<link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />*@
     <!-- Custom CSS -->
     <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
-    <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+    @*<link href="~/Css-Modernizer/style.css" rel="stylesheet" />*@
     <!-- Graph CSS -->
     <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" type='text/css' />
     <link href="~/Css/jquery-ui.css" rel="stylesheet" />
@@ -66,8 +66,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <table id="table">
                     <thead>
                         <tr>
-                            <th> @Html.DisplayName("Cargo Evaluador")</th>
                             <th> @Html.DisplayName("Cargo Evaluado")</th>
+                            <th> @Html.DisplayName("Cargo Evaluador")</th>
                             <th> @Html.DisplayName("Ponderación")</th>
                             <th> @Html.DisplayName("Estado")</th>
                             <th> @Html.DisplayName("Acciones")</th>
@@ -76,24 +76,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <tbody>
                         @foreach (var item in Model.Secciones)
                         {
-                            <tr>
-                                <td>@item.Nombre_Cargo </td>
-                                <td>@item.Nombre_Cargo_Evaluado</td>
-                                <td>@item.Ponderacion</td>
-                                <td>@item.IdState</td>
-                                <td>
-                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","EvaluatorPosition", new { codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado })'" title="Editar">
-                                        <span class="fa fa-pencil"></span>
-                                    </button>
-                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "EvaluatorPosition", new {codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado})'" title="Detalles">
-                                        <span class="fa fa-eye"></span>
-                                    </button>
-                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "EvaluatorPosition", new {codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado })'" title="Eliminar">
-                                        <span class="fa fa-trash"></span>
-                                    </button>
+                        <tr>
+                            <td>@item.Nombre_Cargo_Evaluado</td>
+                            <td>@item.Nombre_Cargo </td>
+                            <td>@item.Ponderacion</td>
+                            <td>@item.IdState</td>
+                            <td>
+                                <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit","EvaluatorPosition", new { codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado })'" title="Editar">
+                                    <span class="fa fa-pencil"></span>
+                                </button>
+                                <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "EvaluatorPosition", new {codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado})'" title="Detalles">
+                                    <span class="fa fa-eye"></span>
+                                </button>
+                                <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "EvaluatorPosition", new {codCargo=item.Codigo_Cargo, codCargoEval=item.Cod_Cargo_Evaluado })'" title="Eliminar">
+                                    <span class="fa fa-trash"></span>
+                                </button>
 
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

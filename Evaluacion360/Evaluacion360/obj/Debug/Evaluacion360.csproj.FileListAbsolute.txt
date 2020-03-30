@@ -1055,6 +1055,8 @@ D:\Desarrollo C#\Evaluacion 360 v8\Evaluacion360\Evaluacion360\obj\Debug\Evaluac
 D:\Desarrollo C#\Evaluacion 360 v8\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csproj.CopyComplete
 D:\Desarrollo C#\Evaluacion 360 v8\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.pdb
+D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csprojAssemblyReference.cache
+D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csproj.CoreCompileInputs.cache
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Evaluacion360.dll.config
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Evaluacion360.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Evaluacion360.pdb
@@ -1260,8 +1262,6 @@ D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\es\
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\es\System.Web.WebPages.resources.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\es\System.Web.WebPages.Deployment.resources.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\es\System.Web.WebPages.Razor.resources.dll
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csproj.CoreCompileInputs.cache
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csproj.CopyComplete
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.pdb
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csprojAssemblyReference.cache

@@ -28,14 +28,14 @@ namespace Evaluacion360.Controllers
 
                 int CantidadRegitrosPorPagina = 10;
 
-                var oEP = new List<EvaluationPositionsViewModel>();
+                var oEP = new List<EvaluationPositionsListViewModel>();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oEP = (from cev in Db.Cargos_Evaluadores
                        join car in Db.Cargos on cev.Codigo_Cargo equals car.Codigo_Cargo
                        join cae in Db.Cargos on cev.Cod_Cargo_Evaluado equals cae.Codigo_Cargo
                        join sta in Db.Estado_Componentes on cev.IdState equals sta.IdState
-                       orderby car.Nombre_Cargo, cae.Nombre_Cargo
-                       select new EvaluationPositionsViewModel
+                       orderby cae.Nombre_Cargo, car.Nombre_Cargo
+                       select new EvaluationPositionsListViewModel
                        {
                            //Codigo_Cargo = cev.Codigo_Cargo,
                            //Nombre_Cargo = car.Nombre_Cargo,
@@ -45,15 +45,15 @@ namespace Evaluacion360.Controllers
                            //IdState = sta.StateDescription
 
                        }).ToList();
-                //var TotalRegistros = oEP.Count();
-                //List<EvaluatorPositionListViewModel> lista = oEP.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();   //Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina);
-                //var Modelo = new ListEPViewModel
-                //{
-                //    Secciones = lista,
-                //    PaginaActual = pagina,
-                //    TotalDeRegistros = TotalRegistros,
-                //    RegistrosPorPagina = CantidadRegitrosPorPagina
-                //};
+                var TotalRegistros = oEP.Count();
+                List<EvaluationPositionsListViewModel> lista = oEP.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();   //Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina);
+                var Modelo = new ListEvaluationPositionsViewModel
+                {
+                    Secciones = lista,
+                    PaginaActual = pagina,
+                    TotalDeRegistros = TotalRegistros,
+                    RegistrosPorPagina = CantidadRegitrosPorPagina
+                };
                 return View();
             }
 

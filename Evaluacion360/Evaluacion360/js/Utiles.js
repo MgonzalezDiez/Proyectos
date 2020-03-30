@@ -126,7 +126,8 @@
     });
 
     $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-toggle="tooltip"]').tooltip().show("slow");
+
     });
 
     function validarNotas() {

@@ -38,8 +38,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- tables -->
     <link rel="stylesheet" type="text/css" href="~/Css/table-style.css" />
     <link rel="stylesheet" type="text/css" href="~/Css/basictable.css" />
-
     <!-- //tables -->
+
     <!-- Bootstrap Core CSS -->
     <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
 
@@ -55,6 +55,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="~/js/jquery-2.1.4.min.js"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <!-- //jQuery -->
+
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
     <!-- lined-icons -->
@@ -200,7 +201,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <label class="col-md-3 control-label ">Nota Final Autoevaluación</label>
                 <div class="col-md-8">
                     <div class="input-group" data-toggle="tooltip" data-placement="top" title="Nota Final de Auto Evaluación no es modificable">
-
                         <span class="input-group-addon"><i class="fa fa-pencil-square"></i></span>
                         @Html.EditorFor(model => model.Nota_Final_AE, new { htmlAttributes = new { id = "nFinAE", @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Nota Final Auto Evaluación" } })
                     </div>

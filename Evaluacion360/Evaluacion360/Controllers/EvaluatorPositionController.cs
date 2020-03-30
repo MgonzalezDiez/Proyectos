@@ -15,12 +15,12 @@ namespace Evaluacion360.Controllers
     {
         string mensaje = string.Empty;
         int userType;
-       
+
 
         // GET: EvaluationPosition
         public ActionResult List(int pagina = 1)
         {
-            userType = Convert.ToInt32( Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Status = true;
             ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
             ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
@@ -33,7 +33,7 @@ namespace Evaluacion360.Controllers
                    join car in Db.Cargos on cev.Codigo_Cargo equals car.Codigo_Cargo
                    join cae in Db.Cargos on cev.Cod_Cargo_Evaluado equals cae.Codigo_Cargo
                    join sta in Db.Estado_Componentes on cev.IdState equals sta.IdState
-                   orderby car.Nombre_Cargo, cae.Nombre_Cargo
+                   orderby cae.Nombre_Cargo, car.Nombre_Cargo
                    select new EvaluatorPositionListViewModel
                    {
                        Codigo_Cargo = cev.Codigo_Cargo,
@@ -125,6 +125,7 @@ namespace Evaluacion360.Controllers
                 {
                     #region Graba Datos
                     using var bd = new BD_EvaluacionEntities();
+
                     var oEP = new Cargos_Evaluadores
                     {
                         Codigo_Cargo = EvPosition.Codigo_Cargo,
@@ -137,6 +138,7 @@ namespace Evaluacion360.Controllers
 
                     mensaje = "Ok";
                     ViewBag.Status = true;
+
                     #endregion
                 }
                 else
@@ -153,9 +155,11 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                mensaje = "Ocurrió el siguiente error " + e.Message + " Contactar al administrador";
+                if (e is System.Exception)
+                    mensaje = "Los cargos fueron ingresados anteriormente " + e.Message + " Contactar al administrador";
+
             }
-            return RedirectToAction("List", "EvaluationPosition", new { mensaje });
+            return RedirectToAction("List", "EvaluatorPosition", new { mensaje });
 
         }
 
@@ -232,7 +236,7 @@ namespace Evaluacion360.Controllers
         }
 
         // GET: EvaluationPosition/Delete/5
-        public ActionResult Delete(string  codCargo, string codCargoEval, string mensaje)
+        public ActionResult Delete(string codCargo, string codCargoEval, string mensaje)
         {
             userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
             ViewBag.Status = true;
@@ -321,7 +325,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("Delete", "EvaluatorPosition", new { codCargo=evPos.Codigo_Cargo, codCargoEval= evPos.Cod_Cargo_Evaluado, mensaje });
+            return RedirectToAction("Delete", "EvaluatorPosition", new { codCargo = evPos.Codigo_Cargo, codCargoEval = evPos.Cod_Cargo_Evaluado, mensaje });
         }
     }
 }

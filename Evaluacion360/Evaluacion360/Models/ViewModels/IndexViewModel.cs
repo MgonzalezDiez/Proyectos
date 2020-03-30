@@ -46,4 +46,9 @@ namespace Evaluacion360.Models.ViewModels
     {
         public List<PositionEvaluationsListViewModel> Secciones { get; set; }
     }
+
+    public class ListEvaluationPositionsViewModel : BasePaginador
+    {
+        public List<EvaluationPositionsListViewModel> Secciones { get; set; }
+    }
 }

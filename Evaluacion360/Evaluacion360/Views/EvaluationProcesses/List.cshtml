@@ -44,33 +44,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="~/js/jquery.basictable.min.js"></script>
     <script src="~/js/datatables.js"></script>
 
-    @*<script type="text/javascript">
-        $(document).ready(function () {
-            $('#table').basictable();
-
-            $('#table-breakpoint').basictable({
-                breakpoint: 768
-            });
-
-            $('#table-swap-axis').basictable({
-                swapAxis: true
-            });
-
-            $('#table-force-off').basictable({
-                forceResponsive: false
-            });
-
-            $('#table-no-resize').basictable({
-                noResize: true
-            });
-
-            $('#table-two-axis').basictable();
-
-            $('#table-max-height').basictable({
-                tableWrapper: true
-            });
-        });*@
-    </script>
     <!-- //tables -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -115,13 +88,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td>@item.Estado_PE</td>
                                 <td style="display:none">@item.IdState</td>
                                 <td>
-                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","EvaluationProcesses", new { codProc=item.Codigo_Proceso })'" title="Editar">
+                                    <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit","EvaluationProcesses", new { codProc=item.Codigo_Proceso })'" title="Editar">
                                         <span class="fa fa-pencil"></span>
                                     </button>
-                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "EvaluationProcesses", new {codProc=item.Codigo_Proceso})'" title="Detalles">
+                                    <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "EvaluationProcesses", new {codProc=item.Codigo_Proceso})'" title="Detalles">
                                         <span class="fa fa-eye"></span>
                                     </button>
-                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "EvaluationProcesses", new { codProc=item.Codigo_Proceso})'" title="Eliminar">
+                                    <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "EvaluationProcesses", new { codProc=item.Codigo_Proceso})'" title="Eliminar">
                                         <span class="fa fa-trash"></span>
                                     </button>
                                 </td>

@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Ingreso de Preguntas</title>
+    <title>Ingreso de Preguntas por Cargo</title>
     <!-- meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -32,6 +32,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             }); }, 8000);
     </script>
 
+    <!-- tables -->
+    <link rel="stylesheet" type="text/css" href="~/Css/table-style.css" />
+    <link rel="stylesheet" type="text/css" href="~/Css/basictable.css" />
+    <!-- //tables -->
     <!-- Bootstrap Core CSS -->
     <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
 
@@ -42,23 +46,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Graph CSS -->
     <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
     <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+
     <!-- jQuery -->
     <script src="~/js/jquery-2.1.4.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <!-- //jQuery -->
-    <link href="~/Css/table-style.css" rel="stylesheet" type="text/css" />
-    <link href="~/Css/basictable.css" rel="stylesheet" type="text/css" />
-    <link href="~/Css/datatables.css" rel="stylesheet" />
-
-    <script src="~/js/jquery.basictable.min.js"></script>
-    <script src="~/js/datatables.js"></script>
 
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
     <!-- lined-icons -->
     <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+
     <!-- //lined-icons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
 
 </head>
 <body>
@@ -121,7 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
-                            @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluado", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos,  "Seleccione Cargo Evaluado", new { type = "text", @class = "form-control1", @required = "required", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         </div>
                     </div>
                 </div>
@@ -139,11 +142,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <label class="col-md-2"></label>
                 <div class="panel-group col-md-8" style="width:56.5%">
                     <div class="panelm panelm-default">
-                        <div class="panelm-heading" data-toggle="tooltip" data-placement="top" title="Haga click Aquí para Oculta o Mostrar la Grilla">
+                        <div class="panelm-heading">
                             <h4 class="panel-title" style="color:black; width:85px">
                                 <a id="collapse" data-toggle="collapse" href="#collapse1">Preguntas</a>
                             </h4>
                         </div>
+
                         <div id="collapse1" class="panel-collapse collapse show" style="width:100%">
                             <div class="panel-body">
                                 <table class="col-md-12" id="tblPreguntas" style="margin:auto 14px; width:95%">
@@ -166,6 +170,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -200,6 +205,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <script>
         $(document).ready(function () {
+            document.getElementById("Codigo_Cargo").selectedIndex = 0;
+            document.getElementById("Cod_Cargo_Evaluado").selectedIndex = 0;
+            document.getElementById("Codigo_seccion").selectedIndex = 0;
+            document.getElementById("IdState").selectedIndex = 1;
+            $("#ponderacion").prop("checked", false);
+
             $("#ponderacion").change(function () {
                 $("#Numero_Pregunta").empty();
             })
@@ -218,21 +229,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 ValidaPonderacion();
             });
 
-            function ValidaPonderacion (){
+            function ValidaPonderacion() {
                 var suma = 0;
                 $('.case').each(function () {
                     if (this.checked) {
                         var valPonde = $(this).parents("tr").find("td")[3].innerHTML;
-                        suma += parseFloat( valPonde);
+                        suma += parseFloat(valPonde);
                         if (suma > 100) {
                             let msg = document.querySelector('#Mensaje');
                             msg.innerHTML =
                                 `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
-                                    <strong style="font-size:medium">La suma de ponderaciones no puede sumar más de 100%</strong>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>`;
+                                        <strong style="font-size:medium">La suma de ponderaciones no puede sumar más de 100%</strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>`;
                             window.setTimeout(function () {
                                 $("#alertInfo").alert('close');
                             }, 4000);
@@ -256,23 +267,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             let res = document.querySelector('#res');
                             res.innerHTML = '';
                             res.innerHTML += `
-                                <tr>
-                                    <td class="text-center" style="font-size:small"><input type="checkbox" id="checkBoxAll" class='ori'></td>
-                                    <td style="font-size:smaller">Todos</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>`
+                                    <tr>
+                                        <td class="text-center" style="font-size:small"><input type="checkbox" id="checkBoxAll" class='ori'></td>
+                                        <td style="font-size:smaller">Todos</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>`
                             $.each(data, function (index, item) {
                                 res.innerHTML += `
-                                    <tr>
-                                        <td class="text-center" style="font-size:small"><input type='checkbox' id='QuestionNo' class='case'></td>
-                                        <td style="font-size:smaller">${item.Numero_Pregunta}</td>
-                                        <td style="font-size:smaller">${item.Texto_Pregunta}</td>
-                                        <td style="font-size:smaller" class="text-right">${item.Ponderacion_P}</td>
-                                    </tr>`
+                                        <tr>
+                                            <td class="text-center" style="font-size:small"><input type='checkbox' id='QuestionNo' class='case'></td>
+                                            <td style="font-size:smaller">${item.Numero_Pregunta}</td>
+                                            <td style="font-size:smaller">${item.Texto_Pregunta}</td>
+                                            <td style="font-size:smaller" class="text-right">${item.Ponderacion_P}</td>
+                                        </tr>`
                             })
-                            $('#collapse').trigger('click');
-                            
+                            //$('#collapse').trigger('click');
+
                         }
                         else {
                             var info = "No existen preguntas para este Dominio";
@@ -285,11 +296,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             let msg = document.querySelector('#Mensaje');
                             msg.innerHTML =
                                 `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
-                                    <strong style="font-size:medium">${info}</strong>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>`;
+                                        <strong style="font-size:medium">${info}</strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>`;
                             window.setTimeout(function () {
                                 $("#alertInfo").alert('close');
                             }, 4000);
@@ -310,13 +321,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 } else {
                     var info = "No ha seleccionado Preguntas";
                     let msg = document.querySelector('#Mensaje');
-                    msg.innerHTML =
-                        `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
-                            <strong style="font-size:medium">${info}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>`;
+                    msg.innerHTML = `
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
+                                <strong style="font-size:medium">${info}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`;
                     window.setTimeout(function () {
                         $("#alertInfo").alert('close');
                     }, 4000);
@@ -353,26 +364,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         let msg = document.querySelector('#Mensaje');
-                        msg.innerHTML =
-                            `<div class="alert alert-success alert-dismissible fade show" role="alert" id="alertInfo">
-                                <strong style="font-size:medium">Preguntas por Cargo ingresadas al sistema de Evaluación</strong>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>`;
-                        window.setTimeout(function () {
-                            $("#alertInfo").alert('close');
-                        }, 4000);
+                        if (data == "Ok") {
+                            msg.innerHTML = `
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" id="alertInfo">
+                                    <strong style="font-size:medium">Preguntas por Cargo ingresadas al sistema de Evaluación</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>`;
+                            window.setTimeout(function () {
+                                $("#alertInfo").alert('close');
+                            }, 4000);
+                        }
+                        else {
+                            msg.innerHTML = `
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
+                                    <strong style="font-size:medium">${data}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>`;
+                            window.setTimeout(function () {
+                                $("#alertInfo").alert('close');
+                            }, 4000);
+                            hideLoader();
+                            return;
+                        }
                     },
                     error: function (Mensaje) {
                         let msg = document.querySelector('#mensaje');
-                        msg.innerHTML =
-                            `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
-                                <strong style="font-size:medium">${Mensaje}</strong>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>`;
+                        msg.innerHTML = `
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
+                                    <strong style="font-size:medium">${Mensaje}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>`;
                         window.setTimeout(function () {
                             $("#alertInfo").alert('close');
                         }, 4000);

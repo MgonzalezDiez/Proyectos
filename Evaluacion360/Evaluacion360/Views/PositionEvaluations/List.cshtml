@@ -89,13 +89,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td>@Html.DisplayFor(modelItem => item.Nombre_Estado_EC)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Nota_Final_EC)</td>
                                 <td>
-                                <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {numEval=item.Numero_Evaluacion, codProc=item.Codigo_Proceso, codUser=item.Codigo_Usuario_evaluado})'" title="Editar">
+                                <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {numEval=item.Numero_Evaluacion, codProc=item.Codigo_Proceso, codUser=item.Codigo_Usuario_evaluado})'" title="Editar">
                                     <span class="fa fa-pencil"></span>
                                 </button>
-                                <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {@Model.Secciones})'" title="Detalles">
+                                <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {@Model.Secciones})'" title="Detalles">
                                     <span class="fa fa-eye"></span>
                                 </button>
-                                <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {@Model.Secciones})'" title="Eliminar">
+                                <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {@Model.Secciones})'" title="Eliminar">
                                     <span class="fa fa-trash"></span>
                                 </button>
                                 </td>

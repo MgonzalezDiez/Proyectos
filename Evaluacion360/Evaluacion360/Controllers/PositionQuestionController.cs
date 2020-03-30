@@ -34,7 +34,7 @@ namespace Evaluacion360.Controllers
                            join crg in Db.Cargos on pos.Cod_Cargo_Evaluado equals crg.Codigo_Cargo
                            join sec in Db.Secciones on pos.Codigo_seccion equals sec.Codigo_Seccion
                            join sta in Db.Estado_Componentes on pos.IdState equals sta.IdState
-                           join rq in Db.Preguntas_Aleatorias on pos.Codigo_seccion equals rq.Codigo_Seccion
+                           join rq in Db.Preguntas_Aleatorias on new { a = pos.Codigo_seccion, b = pos.Numero_Pregunta } equals new { a = rq.Codigo_Seccion, b = rq.Numero_Pregunta } 
                            orderby car.Nombre_Cargo, crg.Nombre_Cargo, sec.Nombre_Seccion, pos.Numero_Pregunta
                            select new PositionQuestionListViewModel
                            {
@@ -121,17 +121,28 @@ namespace Evaluacion360.Controllers
             {
                 #region Graba Datos
                 using var bd = new BD_EvaluacionEntities();
+
                 foreach (var item in ListJson)
                 {
-                    var oPQ = new Preguntas_Cargos
+
+                    var existe = bd.Cargos_Evaluadores.Where(x => x.Codigo_Cargo == item.Codigo_Cargo && x.Cod_Cargo_Evaluado == item.Cod_Cargo_Evaluado);
+                    if (existe.Count() != 0)
                     {
-                        Codigo_Cargo = item.Codigo_Cargo,
-                        Cod_Cargo_Evaluado = item.Cod_Cargo_Evaluado,
-                        Codigo_seccion = item.Codigo_seccion,
-                        Numero_Pregunta = item.Numero_Pregunta,
-                        IdState = item.IdState
-                    };
-                    bd.Preguntas_Cargos.Add(oPQ);
+                        var oPQ = new Preguntas_Cargos
+                        {
+                            Codigo_Cargo = item.Codigo_Cargo,
+                            Cod_Cargo_Evaluado = item.Cod_Cargo_Evaluado,
+                            Codigo_seccion = item.Codigo_seccion,
+                            Numero_Pregunta = item.Numero_Pregunta,
+                            IdState = item.IdState
+                        };
+                        bd.Preguntas_Cargos.Add(oPQ);
+                    }
+                    else
+                    {
+                        mensaje = "Usuarios Evaluador y Evaluado no existen en Cargos Evaluadores\n Valide la información e intente nuevamente";
+                        return Json(mensaje);
+                    }
                 }
                 bd.SaveChanges();
                 mensaje = "Ok";

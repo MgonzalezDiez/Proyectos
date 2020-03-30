@@ -82,17 +82,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo)</td>
                             <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo_Evaluado)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Nombre_Seccion)</td>
-                            <td style="max-width:600px">@Html.DisplayFor(modelItem => item.Texto_Pregunta)</td>
+                            <td style="max-width:300px">@Html.DisplayFor(modelItem => item.Nombre_Seccion)</td>
+                            <td style="max-width:500px">@Html.DisplayFor(modelItem => item.Texto_Pregunta)</td>
                             <td>@Html.DisplayFor(modelItem => item.IdState)</td>
                             <td>
-                                <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo = item.Numero_Pregunta, @Model})'" title="Editar">
+                                <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo = item.Numero_Pregunta, @Model})'" title="Editar">
                                     <span class="fa fa-pencil"></span>
                                 </button>
-                                <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo  = item.Numero_Pregunta, @Model})'" title="Detalles">
+                                <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo  = item.Numero_Pregunta, @Model})'" title="Detalles">
                                     <span class="fa fa-eye"></span>
                                 </button>
-                                <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo  = item.Numero_Pregunta, @Model})'" title="Eliminar">
+                                <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo  = item.Numero_Pregunta, @Model})'" title="Eliminar">
                                     <span class="fa fa-trash"></span>
                                 </button>
                             </td>

@@ -1796,7 +1796,6 @@ td span {
     height: 40px;
     -webkit-appearance: none;
     outline: none;
-    font-family: 'Muli-Regular';
     background-color: #fff;
     border: 1px solid #ebeff6;
     border-top-left-radius: 4px;
@@ -2228,7 +2227,7 @@ code {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    /*width: 180px*/
+    /*width: 130px*/
 }
 
 .btn-block {
@@ -2292,7 +2291,7 @@ code {
 
 .btn-danger {
     color: #fff;
-    background-color: #e52727;
+    background-color: #E52727;
     border-color: #c40b0b;
 }
 
@@ -2310,6 +2309,13 @@ code {
     width: 50px;
 }
 
+.btn-xxs, .btn-group-xxs > .btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    line-height: 1.5;
+    border-radius: 3px;
+    width: 35px;
+}
 .btn-sm, .btn-group-sm > .btn {
     padding: 5px 14px;
     font-size: 11px;

@@ -15,4 +15,15 @@ namespace Evaluacion360.Models.ViewModels
         public Nullable<decimal> Nota_Final_EC { get; set; }
 
     }
+
+    public class EvaluationPositionsListViewModel
+    {
+        public int Numero_Evaluacion { get; set; }
+        public string Codigo_Proceso { get; set; }
+        public string Cod_Usuario_Evaluado { get; set; }
+        public string Cod_Cargo_Evaluado { get; set; }
+        public string Estado_EC { get; set; }
+        public Nullable<decimal> Nota_Final_EC { get; set; }
+
+    }
 }

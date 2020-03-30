@@ -99,13 +99,13 @@
                                 <td>@Html.DisplayFor(modelItem => item.Ponderacion_P)</td>
 
                                 <td>
-                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit", "RandomQuestion", new { codSection = item.Codigo_Seccion, quesNo = item.Numero_Pregunta })'" title="Editar">
+                                    <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit", "RandomQuestion", new { codSection = item.Codigo_Seccion, quesNo = item.Numero_Pregunta })'" title="Editar">
                                         <span class="fa fa-pencil"></span>
                                     </button>
-                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "RandomQuestion", new { codSection = item.Codigo_Seccion, quesNo = item.Numero_Pregunta })'" title="Dtalles">
+                                    <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "RandomQuestion", new { codSection = item.Codigo_Seccion, quesNo = item.Numero_Pregunta })'" title="Dtalles">
                                         <span class="fa fa-eye"></span>
                                     </button>
-                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "RandomQuestion", new { codSection = item.Codigo_Seccion, quesNo = item.Numero_Pregunta })'" title="Eliminar">
+                                    <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "RandomQuestion", new { codSection = item.Codigo_Seccion, quesNo = item.Numero_Pregunta })'" title="Eliminar">
                                         <span class="fa fa-trash"></span>
                                     </button>
 
