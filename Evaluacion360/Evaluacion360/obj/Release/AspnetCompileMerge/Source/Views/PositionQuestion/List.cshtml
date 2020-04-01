@@ -44,33 +44,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <script src="~/js/jquery.basictable.min.js"></script>
     <script src="~/js/datatables.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#table').basictable();
-
-            $('#table-breakpoint').basictable({
-                breakpoint: 768
-            });
-
-            $('#table-swap-axis').basictable({
-                swapAxis: true
-            });
-
-            $('#table-force-off').basictable({
-                forceResponsive: false
-            });
-
-            $('#table-no-resize').basictable({
-                noResize: true
-            });
-
-            $('#table-two-axis').basictable();
-
-            $('#table-max-height').basictable({
-                tableWrapper: true
-            });
-        });
-    </script>
+    
     <!-- //tables -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -79,6 +53,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- //lined-icons -->
 </head>
 <body>
+
     <div class="agile-grids">
         <!-- tables -->
         <div class="agile-tables">
@@ -93,43 +68,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <table id="table">
                     <thead>
                         <tr>
-                            <th> @Html.DisplayName("Cód. Cargo")</th>
-                            <th> @Html.DisplayName("Cargo Evaluador")</th>
-                            <th> @Html.DisplayName("Cód Cargo Eval")</th>
+                            <th> @Html.DisplayName("Evaluador")</th>
                             <th> @Html.DisplayName("Cargo Evaluado")</th>
-                            <th> @Html.DisplayName("Cód Dominio")</th>
                             <th> @Html.DisplayName("Dominio")</th>
                             <th> @Html.DisplayName("Pregunta")</th>
+                            <th> @Html.DisplayName("Estado")</th>
                             <th> @Html.DisplayName("Acciones")</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.Secciones)
                         {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Codigo_Cargo)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Cod_Cargo_Evaluado)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo_Evaluado)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Codigo_seccion)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Nombre_Seccion)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Numero_Pregunta)</td>
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo_Evaluado)</td>
+                            <td style="max-width:300px">@Html.DisplayFor(modelItem => item.Nombre_Seccion)</td>
+                            <td style="max-width:500px">@Html.DisplayFor(modelItem => item.Texto_Pregunta)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdState)</td>
+                            <td>
+                                <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo = item.Numero_Pregunta, @Model})'" title="Editar">
+                                    <span class="fa fa-pencil"></span>
+                                </button>
+                                <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo  = item.Numero_Pregunta, @Model})'" title="Detalles">
+                                    <span class="fa fa-eye"></span>
+                                </button>
+                                <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, questionNo  = item.Numero_Pregunta, @Model})'" title="Eliminar">
+                                    <span class="fa fa-trash"></span>
+                                </button>
+                            </td>
 
-                                <td>
-                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, @Model})'" title="Editar">
-                                        <span class="fa fa-pencil"></span>
-                                    </button>
-                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, @Model})'" title="Detalles">
-                                        <span class="fa fa-eye"></span>
-                                    </button>
-                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {codCargo=item.Codigo_Cargo,codCargoEval=item.Cod_Cargo_Evaluado, codSection=item.Codigo_seccion, @Model})'" title="Eliminar">
-                                        <span class="fa fa-trash"></span>
-                                    </button>
-                                </td>
-
-
-
-                            </tr>
+                        </tr>
                         }
                     </tbody>
                 </table>

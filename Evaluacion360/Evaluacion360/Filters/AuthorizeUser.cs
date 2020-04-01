@@ -34,12 +34,14 @@ namespace Evaluacion360.Filters
                 {
                     var oOperation = db.Rol_Operacion.Find(IdOperacion);
                     NombreOperacion = GetNombreOperacion(IdOperacion);
-                    filterContext.Result = new RedirectResult("~/Error/UnAuthorizedOperation?Operacion = " + NombreOperacion);
+                    filterContext.HttpContext.Response.Redirect("~/Error/UnAuthorizedOperation?Operacion = " + NombreOperacion);
+                    //filterContext.Result = new RedirectResult("~/Error/UnAuthorizedOperation?Operacion = " + NombreOperacion);
                 }
             }
             catch (Exception ex)
             {
-                filterContext.Result = new RedirectResult("~/Error/UnAuthorizedOperation?Error = " + ex.Message);
+                filterContext.HttpContext.Response.Redirect("~/Error/UnAuthorizedOperation?Error = " + ex.Message);
+                //filterContext.Result = new RedirectResult("~/Error/UnAuthorizedOperation?Error = " + ex.Message);
             }
         }
 

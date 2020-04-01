@@ -1,4 +1,4 @@
-﻿@model Evaluacion360.Models.ViewModels.PQViewModel
+﻿@model Evaluacion360.Models.ViewModels.PositionQuestionViewModel
 
 @{
     ViewBag.Title = "Eliminar Pregunta por Cargo";
@@ -22,6 +22,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             false);
             function hideURLbar()
             { window.scrollTo(0,1); }
+
+        window.setTimeout(function () {
+                $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+                }); }, 3000);
+            window.setTimeout(function () {
+                $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+                }); }, 8000);
     </script>
 
     <!-- Bootstrap Core CSS -->
@@ -60,12 +69,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             <div form="role" class="form-group has-feedback">
                 @Html.AntiForgeryToken()
-                <label class="col-md-3 control-label">Cargo</label>
+                <label class="col-md-3 control-label">Cargo Evaluador</label>
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
                         @Html.HiddenFor(x => x.Codigo_Cargo)
-                        @Html.DropDownListFor(model => model.Codigo_Cargo, (SelectList)ViewBag.Cargos, "Seleccione Cargo", new { @id = "CodCargo", type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                        @Html.DropDownListFor(model => model.Codigo_Cargo, (SelectList)ViewBag.Cargos, "Seleccione Cargo", new { @disabled = "disabled", @id = "CodCargo", type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
                     </div>
                 </div>
             </div>
@@ -75,31 +84,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         @Html.HiddenFor(x => x.Cod_Cargo_Evaluado)
-                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluado", new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluado", new { @disabled = "disabled", @type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-md-3 control-label">Sección</label>
+                <label class="col-md-3 control-label">Dominio</label>
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
                         @Html.HiddenFor(x => x.Codigo_seccion)
-                        @Html.DropDownListFor(model => model.Codigo_seccion, (SelectList)ViewBag.Section, "Seleccione Dominio", new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                        @Html.DropDownListFor(model => model.Codigo_seccion, (SelectList)ViewBag.Section, "Seleccione Dominio", new { @disabled = "disabled", @type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-md-3 control-label">Nro. de Pregunta</label>
+                <label class="col-md-3 control-label">Pregunta</label>
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
                         @Html.HiddenFor(x => x.Numero_Pregunta)
-                        @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1", style = "width:70%" } })
+                        @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, new { @disabled = "disabled", @type = "text", @class = "form-control2", style = "width:70%" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Estado</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                        @Html.HiddenFor(x => x.IdState)
+                        @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.State, new { @disabled = "disabled", @type = "text", @class = "form-control1", style = "width:70%" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -118,7 +138,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        @using (Html.BeginForm("Delete", "PositionQuestion", FormMethod.Post, new { encType = "multipart/form-data", name = "deleteuestion", @class = "form-group" }))
+                        @using (Html.BeginForm("Delete", "PositionQuestion", FormMethod.Post, new { encType = "multipart/form-data", name = "deleteQuestion", @class = "form-group" }))
                         {
                             <div class="modal-header">
                                 <h4 class="modal-title" id="myModalLabel">Eliminar Pregunta por Cargo</h4>

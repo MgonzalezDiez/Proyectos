@@ -1,4 +1,4 @@
-﻿@model Evaluacion360.Models.ViewModels.PQViewModel
+﻿@model Evaluacion360.Models.ViewModels.PositionQuestionViewModel
 
 @{
     ViewBag.Title = "Editar Preguntas por Cargo";
@@ -38,11 +38,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Custom CSS -->
     <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
     <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+
+
     <!-- Graph CSS -->
     <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
     <link href="~/Css/jquery-ui.css" rel="stylesheet" />
     <!-- jQuery -->
     <script src="~/js/jquery-2.1.4.min.js"></script>
+
     <!-- //jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
@@ -122,7 +125,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
-                        @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, new { type = "text", @datatoggle="tooltip", @dataplacement="top",  @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                     </div>
                 </div>
             </div>

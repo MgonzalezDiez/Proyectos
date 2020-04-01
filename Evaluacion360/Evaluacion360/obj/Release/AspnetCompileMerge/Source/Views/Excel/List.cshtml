@@ -7,76 +7,67 @@
     <html Lang="es">
 
     <head>
-        <title>Carga Archivo Excel</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width" />
+        <title>Carga Dominios desde Excel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
         <script type="application/x-javascript">
+
             addEventListener("load", function()
                 { setTimeout(hideURLbar, 0); },
                 false);
                 function hideURLbar()
                 { window.scrollTo(0,1); }
 
+             window.setTimeout(function () {
+                $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+                }); }, 3000);
             window.setTimeout(function () {
-                $(".alert-danger").fadeTo(5000, 0).slideUp(500, function () {
-                    $(this).remove();
-                });
-            }, 5000);
+                $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+                }); }, 8000);
 
         </script>
 
         <!-- Bootstrap Core CSS -->
         <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
-        <link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />
+
+
         <!-- Custom CSS -->
         <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
-        <!-- Graph CSS -->
-        <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" type='text/css' />
-        <link href="~/Css/jquery-ui.css" rel="stylesheet" />
         <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+
+        <!-- Graph CSS -->
+        <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
+        <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+
         <!-- jQuery -->
         <script src="~/js/jquery-2.1.4.min.js"></script>
         <!-- //jQuery -->
         <!-- tables -->
         <link rel="stylesheet" type="text/css" href="~/Css/table-style.css" />
-        <link rel="stylesheet" type="text/css" href="~/Css/basictable.css" />
+        @*<link rel="stylesheet" type="text/css" href="~/Css/basictable.css" />*@
+
+        <link href="~/Css/table-style.css" rel="stylesheet" type="text/css" />
+        <link href="~/Css/basictable.css" rel="stylesheet" type="text/css" />
+        <link href="~/Css/datatables.css" rel="stylesheet" />
 
         <script src="~/js/jquery.basictable.min.js"></script>
         <script src="~/js/datatables.js"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#table').basictable();
 
-                $('#table-breakpoint').basictable({
-                    breakpoint: 768
-                });
 
-                $('#table-swap-axis').basictable({
-                    swapAxis: true
-                });
-
-                $('#table-force-off').basictable({
-                    forceResponsive: false
-                });
-
-                $('#table-no-resize').basictable({
-                    noResize: true
-                });
-
-                $('#table-two-axis').basictable();
-
-                $('#table-max-height').basictable({
-                    tableWrapper: true
-                });
-            });
-        </script>
         <!-- //tables -->
         <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
-        <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
 
+        <!-- lined-icons -->
+        <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+        <!-- //lined-icons -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
@@ -90,14 +81,15 @@
             <div class="agile-tables">
                 <div class="-table-info">
                     <div class="modal-header">
-                        <h2 id="titulo" class="center-block">Importar Dominio desde Excel</h2>
+                        <h1 id="titulo" class="center-block">Importar Dominios desde Excel</h1>
                         <span>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#SectionExcel">Importar Excel</button>
                             <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Content("~/Section/List/")'">Volver a Dominios</button>
                         </span>
                     </div>
-                    <table>
-                        <thead id="thead">
+
+                    <table id="table">
+                        <thead>
                             <tr>
                                 <th> @Html.DisplayName("Codigo Dominio")</th>
                                 <th> @Html.DisplayName("Nombre Dominio")</th>
@@ -110,12 +102,15 @@
                         </tbody>
 
                     </table>
+                    <div class="container">
+                        <div id="loading" class="text-center" style="display:none">
+                            <img src="~/Content/ajax-loader.gif" />
+                        </div>
+                    </div>
                     <br />
-                    @*<button class="btn btn-dark" onclick="location.href='@Url.Content("~/Section/List/")'">Volver a Secciones</button>*@
                 </div>
             </div>
         </div>
-        <br />
 
         <div class="modal fade " id="SectionExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -124,20 +119,17 @@
                         <h5 class="modal-title" id="myModalLabel">Importar Dominio</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="false">&times;</span></button>
                     </div>
-                    <div class="modal-body">
-                        <div id="loading" class="hidden">
-                            <img src="~/Content/ajax-loader.gif" />
-                        </div>
+                    <div class="modal-body text-center">
+
                         <input type="file" id="file" class="form-control1" />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger btn-sm" id="btnUpload" data-dismiss="modal" >Subir Excel</button>
+                        <button type="button" class="btn btn-danger btn-sm" id="btnUpload" data-dismiss="modal">Subir Excel</button>
                     </div>
                 </div>
             </div>
         </div>
-
         <script src="~/js/ExcelJson.js"></script>
     </body>
 </html>

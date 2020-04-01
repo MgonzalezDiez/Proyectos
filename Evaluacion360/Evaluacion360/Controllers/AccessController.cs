@@ -24,7 +24,6 @@ namespace Evaluacion360.Controllers
                 ViewBag.Status = State;
                 ViewBag.Message = Mensaje;
             }
-            //mensaje = string.Empty;
             return View();
         }
 

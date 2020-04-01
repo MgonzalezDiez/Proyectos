@@ -29,7 +29,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />
     <!-- Custom CSS -->
     <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
-    <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+    @*<link href="~/Css-Modernizer/style.css" rel="stylesheet" />*@
     <!-- Graph CSS -->
     <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" type='text/css' />
     <link href="~/Css/jquery-ui.css" rel="stylesheet" />
@@ -44,33 +44,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="~/js/jquery.basictable.min.js"></script>
     <script src="~/js/datatables.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#table').basictable();
-
-            $('#table-breakpoint').basictable({
-                breakpoint: 768
-            });
-
-            $('#table-swap-axis').basictable({
-                swapAxis: true
-            });
-
-            $('#table-force-off').basictable({
-                forceResponsive: false
-            });
-
-            $('#table-no-resize').basictable({
-                noResize: true
-            });
-
-            $('#table-two-axis').basictable();
-
-            $('#table-max-height').basictable({
-                tableWrapper: true
-            });
-        });
-    </script>
     <!-- //tables -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -79,6 +52,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- //lined-icons -->
 </head>
 <body>
+
+    @Html.AntiForgeryToken();
     <div class="agile-grids">
         <!-- tables -->
         <div class="agile-tables">
@@ -98,6 +73,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <th> @Html.DisplayName("Año de Proceso")</th>
                             <th> @Html.DisplayName("Mes de Proceso")</th>
                             <th> @Html.DisplayName("Estado")</th>
+                            <th style="display:none"> @Html.DisplayName("nombre")</th>
                             <th> @Html.DisplayName("Acciones")</th>
                         </tr>
                     </thead>
@@ -110,14 +86,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td>@item.Ano_Proceso</td>
                                 <td>@item.Mes_Proceso</td>
                                 <td>@item.Estado_PE</td>
+                                <td style="display:none">@item.IdState</td>
                                 <td>
-                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","EvaluationProcesses", new { codProc =item.Codigo_Proceso })'" title="Editar">
+                                    <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit","EvaluationProcesses", new { codProc=item.Codigo_Proceso })'" title="Editar">
                                         <span class="fa fa-pencil"></span>
                                     </button>
-                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "EvaluationProcesses", new {id=item.Codigo_Proceso})'" title="Detalles">
+                                    <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "EvaluationProcesses", new {codProc=item.Codigo_Proceso})'" title="Detalles">
                                         <span class="fa fa-eye"></span>
                                     </button>
-                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "EvaluationProcesses", new { id=item.Codigo_Proceso })'" title="Eliminar">
+                                    <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "EvaluationProcesses", new { codProc=item.Codigo_Proceso})'" title="Eliminar">
                                         <span class="fa fa-trash"></span>
                                     </button>
                                 </td>
@@ -127,13 +104,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </table>
             </div>
         </div>
+
+        @if (Model.TotalDeRegistros > 0)
+        {
+            <div class="align-content-md-center">
+                @{Html.RenderPartial("_Paginador", Model); }
+            </div>
+        }
     </div>
-    @if (Model.TotalDeRegistros > 0)
-    {
-        <div class="align-content-md-center">
-            @{Html.RenderPartial("_Paginador", Model); }
-        </div>
-    }
+
+
 </body>
 </html>
 

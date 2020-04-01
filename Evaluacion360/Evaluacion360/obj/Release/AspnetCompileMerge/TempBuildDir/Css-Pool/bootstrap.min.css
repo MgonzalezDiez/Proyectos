@@ -4132,7 +4132,7 @@ select[multiple].form-group-lg .form-control {
 .btn-sm,
 .btn-group-sm > .btn {
     padding: 5px 10px;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.5;
     border-radius: 3px;
 }
@@ -4140,7 +4140,7 @@ select[multiple].form-group-lg .form-control {
 .btn-xs,
 .btn-group-xs > .btn {
     padding: 1px 5px;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.5;
     border-radius: 3px;
 }
@@ -4353,6 +4353,13 @@ tbody.collapse.in {
     top: auto;
     bottom: 100%;
     margin-bottom: 2px;
+}
+
+@media(max-width:1050px) {
+    .btn-primary, .btn-danger, .btn-default, .btn-info, .btn-success {
+        font-size: 11px;
+        letter-spacing: 0.5px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -6504,7 +6511,7 @@ a.list-group-item-danger {
     margin-top: 0;
     margin-bottom: 0;
     font-size: 16px;
-    color: inherit;
+    color: black;
 }
 
     .panel-title > a,
@@ -7141,7 +7148,7 @@ button.close {
 }
 
 .tooltip {
-    position: absolute;
+    position: relative;
     z-index: 1070;
     display: block;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -7150,6 +7157,7 @@ button.close {
     line-height: 1.4;
     filter: alpha(opacity=0);
     opacity: 0;
+    background:#555;
 }
 
     .tooltip.in {
@@ -7193,6 +7201,7 @@ button.close {
     height: 0;
     border-color: transparent;
     border-style: solid;
+    background-color: #000
 }
 
 .tooltip.top .tooltip-arrow {

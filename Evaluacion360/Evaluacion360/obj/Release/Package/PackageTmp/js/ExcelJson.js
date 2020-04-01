@@ -29,15 +29,7 @@
             success: function (result) {
                 showLoader();
                 if (result != null || result != false) {
-                    //let thead = document.querySelector('thead');
-                    //thead.innerHTML = '';
-                    //thead.innerHTML = `
-                    //    <tr >
-                    //        <th>Codigo Dominio</th>
-                    //        <th>Nombre Dominio</th>
-                    //        <th>Ponderación</th>
-                    //        <th>Estado</th>
-                    //    </tr >`
+                    
                     $.each(JSON.parse(result), function (i, item) {
                         if (item.Codigo_Seccion == "Error") {
                             let msg = document.querySelector('#mensaje');
@@ -52,15 +44,6 @@
                         }
                         else {
 
-                            //let thead = document.querySelector('thead');
-                            //thead.innerHTML = '';
-                            //thead.innerHTML = `
-                            //<tr >
-                            //    <th>Codigo Dominio</th>
-                            //    <th>Nombre Dominio</th>
-                            //    <th>Ponderación</th>
-                            //    <th>Estado</th>
-                            //</tr >`
                             let res = document.querySelector('#res');
                             res.innerHTML = '';
                             $.each(JSON.parse(result), function (i, item) {
@@ -119,20 +102,6 @@
     function hideLoader() {
         $('#loading').fadeOut();
     };
-
-    //function eliminaFilas() {
-    //    var n = 0;
-    //    $("#res tbody tr").each(function () {
-    //        n++;
-    //    });
-    //    for (i = n - 1; i > 1; i--) {
-    //        $("#res tbody tr:eq('" + i + "')").remove();
-    //    };
-    //}
-
-    //$(document).ready(function () {
-    //    hideLoader();
-    //})
 });
 
 
@@ -166,15 +135,6 @@ $(document).on('click', '#btnExcelRQ', function () {
             success: function (result) {
                 showLoader();
                 if (result != null || result != false) {
-                    let thead = document.querySelector('thead');
-                    thead.innerHTML = '';
-                    thead.innerHTML = `
-                            <tr >
-                                <th>Codigo Dominio</th>
-                                <th>Número de Pregunta</th>
-                                <th>Texto de Pregunta</th>
-                                <th>Ponderación</th>
-                            </tr >`
                     let res = document.querySelector('#res');
                     res.innerHTML = '';
                     $.each(JSON.parse(result), function (i, itemRQ) {
@@ -207,7 +167,7 @@ $(document).on('click', '#btnExcelRQ', function () {
                     let msg = document.querySelector('#mensaje');
                     msg.innerHTML =
                         `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >
-                            <strong style="font-size:medium">Algo salió mal.Por favor Contacte con el Administrador</strong>
+                            <strong style="font-size:medium">${itemRQ.Texto_Pregunta}</strong>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -244,23 +204,6 @@ $(document).on('click', '#btnExcelRQ', function () {
     }
     function hideLoader() {
         $('#loading').hide();
-    }
-    $(document).ready(function () {
-        hideLoader();
-    })
-
-    function eliminarFilas() {
-        //OBTIENE EL NÚMERO DE FILAS DE LA TABLA
-        var n = 0;
-        $("#res tbody tr").each(function () {
-            n++;
-        });
-        //BORRA LAS n-1 FILAS VISIBLES DE LA TABLA
-        //LAS BORRA DE LA ULTIMA FILA HASTA LA SEGUNDA
-        //DEJANDO LA PRIMERA FILA VISIBLE, MÁS LA FILA PLANTILLA OCULTA
-        for (i = n - 1; i > 1; i--) {
-            $("#res tbody tr:eq('" + i + "')").remove();
-        };
     }
 
 })

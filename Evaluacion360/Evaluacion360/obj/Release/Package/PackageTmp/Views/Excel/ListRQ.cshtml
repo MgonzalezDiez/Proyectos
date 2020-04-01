@@ -46,33 +46,6 @@
         <script src="~/js/jquery.basictable.min.js"></script>
         <script src="~/js/datatables.js"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#table').basictable();
-
-                $('#table-breakpoint').basictable({
-                    breakpoint: 768
-                });
-
-                $('#table-swap-axis').basictable({
-                    swapAxis: true
-                });
-
-                $('#table-force-off').basictable({
-                    forceResponsive: false
-                });
-
-                $('#table-no-resize').basictable({
-                    noResize: true
-                });
-
-                $('#table-two-axis').basictable();
-
-                $('#table-max-height').basictable({
-                    tableWrapper: true
-                });
-            });
-        </script>
         <!-- //tables -->
         <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
         <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -96,7 +69,7 @@
                         </span>
                     </div>
                     <table>
-                        <thead id="thead">
+                        <thead>
                             <tr>
                                 <th> @Html.DisplayName("Codigo Dominio")</th>
                                 <th> @Html.DisplayName("Número de Pregunta")</th>

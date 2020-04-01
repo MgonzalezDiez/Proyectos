@@ -1,0 +1,116 @@
+﻿@model Evaluacion360.Models.ViewModels.ListPositionEvaluationViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Listado Preguntas por Cargo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+
+        addEventListener("load", function()
+            { setTimeout(hideURLbar, 0); },
+            false);
+            function hideURLbar()
+            { window.scrollTo(0,1); }
+    </script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+
+    <!-- Custom CSS -->
+    <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+
+    <!-- Graph CSS -->
+    <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" type='text/css' />
+    <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <!-- //jQuery -->
+    <!-- tables -->
+    <link rel="stylesheet" type="text/css" href="~/Css/table-style.css" />
+    <link rel="stylesheet" type="text/css" href="~/Css/basictable.css" />
+
+    <script src="~/js/jquery.basictable.min.js"></script>
+    <script src="~/js/datatables.js"></script>
+    <script type="text/javascript">
+
+    </script>
+    <!-- //tables -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <!-- lined-icons -->
+    <link rel="stylesheet" href="~/Css/icon-font.min.css" type='text/css' />
+    <!-- //lined-icons -->
+</head>
+<body>
+
+    <div class="agile-grids">
+        <!-- tables -->
+        <div class="agile-tables">
+            <div class="-table-info">
+                <div class="modal-header">
+                    <h1 class="center-block">Evaluaciones por Cargo</h1>
+                    <span>
+                        <button class="btn btn-danger btn-sm" onclick="location.href='@Url.Content("~/PositionQuestion/Create/")'">Litado de Preguntas por Cargos</button>
+                        <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Content("~/Home/Index/")'">Volver al Menú</button>
+                    </span>
+                </div>
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th> @Html.DisplayName("Número Evaluación")</th>
+                            <th> @Html.DisplayName("Proceso")</th>
+                            <th> @Html.DisplayName("Usuario Evaluado")</th>
+                            <th> @Html.DisplayName("Cargo Evaluado")</th>
+                            <th> @Html.DisplayName("Estado")</th>
+                            <th> @Html.DisplayName("Nota Final")</th>
+                            <th> @Html.DisplayName("Acciones")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Secciones)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Numero_Evaluacion)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NombreProceso)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Nombre_Usuario_Evaluado)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Nombre_Cargo_Evaluado)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Nombre_Estado_EC)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Nota_Final_EC)</td>
+                                <td>
+                                <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit","PositionQuestion", new {numEval=item.Numero_Evaluacion, codProc=item.Codigo_Proceso, codUser=item.Codigo_Usuario_evaluado})'" title="Editar">
+                                    <span class="fa fa-pencil"></span>
+                                </button>
+                                <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "PositionQuestion", new {@Model.Secciones})'" title="Detalles">
+                                    <span class="fa fa-eye"></span>
+                                </button>
+                                <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "PositionQuestion", new {@Model.Secciones})'" title="Eliminar">
+                                    <span class="fa fa-trash"></span>
+                                </button>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="align-content-md-center">
+        @{Html.RenderPartial("_Paginador", Model); }
+    </div>
+</body>
+</html>
+
+

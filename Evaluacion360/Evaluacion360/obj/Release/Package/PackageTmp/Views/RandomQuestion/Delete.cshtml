@@ -92,7 +92,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
                         @Html.HiddenFor(model => model.Codigo_Seccion)
-                        @Html.EditorFor(model => model.Codigo_Seccion, new { htmlAttributes = new { @id = "codSection", @readonly = "readonly", type = "text", @class = "form-control1", style = "width:70%" } })
+                        @Html.EditorFor(model => model.Codigo_Seccion, new { htmlAttributes = new { @id = "codSection", @readonly = "readonly", type = "text", @class = "form-control1"} })
 
                     </div>
                 </div>
@@ -103,7 +103,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         @Html.HiddenFor(model => model.Numero_Pregunta)
-                        @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { @id = "askNo", @readonly = "readonly", type = "text", @class = "form-control1", style = "width:70%" } })
+                        @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { @id = "askNo", @readonly = "readonly", type = "text", @class = "form-control1"} })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
                         @Html.HiddenFor(model => model.Texto_Pregunta)
-                        @Html.EditorFor(model => model.Texto_Pregunta, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1", style = "width:70%" } })
+                        @Html.EditorFor(model => model.Texto_Pregunta, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control2"} })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
                         @Html.HiddenFor(model => model.Ponderacion_P)
-                        @Html.EditorFor(model => model.Ponderacion_P, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1", style = "width:70%" } })
+                        @Html.EditorFor(model => model.Ponderacion_P, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1" } })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        @using (Html.BeginForm("Delete", "RandomQuestion", FormMethod.Post, new { encType = "multipart/form-data", name = "deleteuestion", @class = "form-group" }))
+                        @using (Html.BeginForm("Delete", "RandomQuestion", FormMethod.Post, new { encType = "multipart/form-data", name = "deleteQuestion", @class = "form-group" }))
                         {
                             <div class="modal-header">
                                 <h6 class="modal-title" id="myModalLabel">Eliminar Pregunta Aleatoria</h6>

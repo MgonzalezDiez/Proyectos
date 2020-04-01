@@ -35,71 +35,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <!-- Bootstrap Core CSS -->
         <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
-        @*<link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />*@
+
 
         <!-- Custom CSS -->
         <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
         <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
-        <!-- Graph CSS -->
 
+        <!-- Graph CSS -->
         <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
         <link href="~/Css/jquery-ui.css" rel="stylesheet" />
 
         <!-- jQuery -->
         <script src="~/js/jquery-2.1.4.min.js"></script>
-
         <!-- //jQuery -->
         <!-- tables -->
+        <link rel="stylesheet" type="text/css" href="~/Css/table-style.css" />
+        @*<link rel="stylesheet" type="text/css" href="~/Css/basictable.css" />*@
+
         <link href="~/Css/table-style.css" rel="stylesheet" type="text/css" />
         <link href="~/Css/basictable.css" rel="stylesheet" type="text/css" />
         <link href="~/Css/datatables.css" rel="stylesheet" />
 
         <script src="~/js/jquery.basictable.min.js"></script>
         <script src="~/js/datatables.js"></script>
-        <!-- tables -->
+
+
+
+        <!-- //tables -->
         <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
         <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+
         <!-- lined-icons -->
         <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
         <!-- //lined-icons -->
-        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#table').basictable();
-
-                $('#table-breakpoint').basictable({
-                    breakpoint: 768
-                });
-
-                $('#table-swap-axis').basictable({
-                    swapAxis: true
-                });
-
-                $('#table-force-off').basictable({
-                    forceResponsive: false
-                });
-
-                $('#table-no-resize').basictable({
-                    noResize: true
-                });
-
-                $('#table-two-axis').basictable();
-
-                $('#table-max-height').basictable({
-                    tableWrapper: true
-                });
-            });
-
-        </script>
-        <!-- //tables -->
-        <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
-        <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-        @*<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />*@
-        <!-- lined-icons -->
-        <link rel="stylesheet" href="~/Css/icon-font.min.css" type='text/css' />
-        <!-- //lined-icons -->
     </head>
 
     <body>
@@ -118,7 +89,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
 
                     <table id="table">
-                        <thead id="thead">
+                        <thead>
                             <tr>
                                 <th> @Html.DisplayName("Codigo Dominio")</th>
                                 <th> @Html.DisplayName("Nombre Dominio")</th>
@@ -140,7 +111,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
             </div>
         </div>
-        <br />
 
         <div class="modal fade " id="SectionExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-dialog-centered" role="document">

@@ -140,7 +140,7 @@ namespace Evaluacion360.Controllers
                     }
                     else
                     {
-                        mensaje = "Usuarios Evaluador y Evaluado no existen en Cargos Evaluadores\n Valide la información e intente nuevamente";
+                        mensaje = "Usuarios Evaluador y Evaluado no existen en Cargos Evaluadores Valide la información e intente nuevamente";
                         return Json(mensaje);
                     }
                 }
@@ -153,6 +153,7 @@ namespace Evaluacion360.Controllers
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
             }
             return Json(mensaje);
+
         }
 
         // GET: PostionQuestion/Details/5
@@ -229,7 +230,8 @@ namespace Evaluacion360.Controllers
             catch (Exception ex)
             {
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
-                return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + mensaje);
+                return View( new { mensaje});
+                //return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + mensaje);
             }
         }
 
@@ -335,7 +337,8 @@ namespace Evaluacion360.Controllers
             catch (Exception ex)
             {
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
-                return RedirectToAction("~/Home/Error/UnAuthorizedOperation?Error = " + mensaje);
+                return View(new { mensaje });
+                //return RedirectToAction("~/Home/Error/UnAuthorizedOperation?Error = " + mensaje);
             }
         }
 

@@ -196,7 +196,8 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + e.Message);
+                return View( new { e.Message });
+                //return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + e.Message);
             }
         }
 
@@ -280,7 +281,8 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                return RedirectToAction("~/Home/Error/UnAuthorizedOperation?Error = " + e.Message);
+                return View( new { e.Message });
+                //return RedirectToAction("~/Home/Error/UnAuthorizedOperation?Error = " + e.Message);
             }
         }
 

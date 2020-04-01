@@ -13,6 +13,8 @@ namespace Evaluacion360.Filters
         {
             try
             {
+                base.OnActionExecuting(filterContext);
+
                 oUser = (Usuarios)HttpContext.Current.Session["User"];
                 if (oUser == null)
                 {
@@ -32,7 +34,8 @@ namespace Evaluacion360.Filters
             }
             catch (Exception)
             {
-                filterContext.Result = new RedirectResult("~/Access/LogIn");
+                filterContext.HttpContext.Response.Redirect("~/Access/LogIn");
+                //filterContext.Result = new RedirectResult("~/Access/LogIn");
             }
             
         }

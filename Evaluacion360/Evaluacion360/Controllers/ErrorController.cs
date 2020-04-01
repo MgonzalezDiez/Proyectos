@@ -11,7 +11,7 @@ namespace Evaluacion360.Controllers
     {
         // GET: Error
         [HttpGet]
-        [AuthorizeUser(IdOperacion : 1)]
+        [AuthorizeUser(IdOperacion: 1)]
         public ActionResult UnAuthorizedOperation(string Operation, string Module, string msgErrorException)
         {
             ViewBag.Operation = Operation;

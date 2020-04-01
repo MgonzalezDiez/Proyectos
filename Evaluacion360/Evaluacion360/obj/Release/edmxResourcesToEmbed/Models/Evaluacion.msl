@@ -134,17 +134,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Preguntas_Cargos">
-      <EntityTypeMapping TypeName="BD_EvaluacionModel.Preguntas_Cargos">
-        <MappingFragment StoreEntitySet="Preguntas_Cargos">
-          <ScalarProperty Name="IdState" ColumnName="IdState" />
-          <ScalarProperty Name="Numero_Pregunta" ColumnName="Numero_Pregunta" />
-          <ScalarProperty Name="Codigo_seccion" ColumnName="Codigo_seccion" />
-          <ScalarProperty Name="Cod_Cargo_Evaluado" ColumnName="Cod_Cargo_Evaluado" />
-          <ScalarProperty Name="Codigo_Cargo" ColumnName="Codigo_Cargo" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Rol">
       <EntityTypeMapping TypeName="BD_EvaluacionModel.Rol">
         <MappingFragment StoreEntitySet="Rol">
@@ -189,6 +178,16 @@
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="Crea_Evaluaciones" FunctionName="BD_EvaluacionModel.Store.Crea_Evaluaciones" />
     <FunctionImportMapping FunctionImportName="ObtenerDV" FunctionName="BD_EvaluacionModel.Store.ObtenerDV" />
+    <EntitySetMapping Name="Preguntas_Aleatorias">
+      <EntityTypeMapping TypeName="BD_EvaluacionModel.Preguntas_Aleatorias">
+        <MappingFragment StoreEntitySet="Preguntas_Aleatorias">
+          <ScalarProperty Name="Ponderacion_P" ColumnName="Ponderacion_P" />
+          <ScalarProperty Name="Texto_Pregunta" ColumnName="Texto_Pregunta" />
+          <ScalarProperty Name="Numero_Pregunta" ColumnName="Numero_Pregunta" />
+          <ScalarProperty Name="Codigo_Seccion" ColumnName="Codigo_Seccion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Secciones">
       <EntityTypeMapping TypeName="BD_EvaluacionModel.Secciones">
         <MappingFragment StoreEntitySet="Secciones">
@@ -200,15 +199,41 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Preguntas_Aleatorias">
-      <EntityTypeMapping TypeName="BD_EvaluacionModel.Preguntas_Aleatorias">
-        <MappingFragment StoreEntitySet="Preguntas_Aleatorias">
-          <ScalarProperty Name="Ponderacion_P" ColumnName="Ponderacion_P" />
-          <ScalarProperty Name="Texto_Pregunta" ColumnName="Texto_Pregunta" />
+    <EntitySetMapping Name="Preguntas_Cargos">
+      <EntityTypeMapping TypeName="BD_EvaluacionModel.Preguntas_Cargos">
+        <MappingFragment StoreEntitySet="Preguntas_Cargos">
+          <ScalarProperty Name="IdState" ColumnName="IdState" />
           <ScalarProperty Name="Numero_Pregunta" ColumnName="Numero_Pregunta" />
-          <ScalarProperty Name="Codigo_Seccion" ColumnName="Codigo_Seccion" />
+          <ScalarProperty Name="Codigo_seccion" ColumnName="Codigo_seccion" />
+          <ScalarProperty Name="Cod_Cargo_Evaluado" ColumnName="Cod_Cargo_Evaluado" />
+          <ScalarProperty Name="Codigo_Cargo" ColumnName="Codigo_Cargo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Calcula_Notas" FunctionName="BD_EvaluacionModel.Store.Calcula_Notas" />
+    <FunctionImportMapping FunctionImportName="Crea_Evaluaciones_Todos" FunctionName="BD_EvaluacionModel.Store.Crea_Evaluaciones_Todos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BD_EvaluacionModel.Crea_Evaluaciones_Todos_Result">
+          <ScalarProperty Name="ErrorNumber" ColumnName="ErrorNumber" />
+          <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
+          <ScalarProperty Name="ErrorSeverity" ColumnName="ErrorSeverity" />
+          <ScalarProperty Name="ErrorProcedure" ColumnName="ErrorProcedure" />
+          <ScalarProperty Name="ErrorLine" ColumnName="ErrorLine" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Crea_Evaluaciones_Uno" FunctionName="BD_EvaluacionModel.Store.Crea_Evaluaciones_Uno">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BD_EvaluacionModel.Crea_Evaluaciones_Uno_Result">
+          <ScalarProperty Name="ErrorNumber" ColumnName="ErrorNumber" />
+          <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
+          <ScalarProperty Name="ErrorSeverity" ColumnName="ErrorSeverity" />
+          <ScalarProperty Name="ErrorProcedure" ColumnName="ErrorProcedure" />
+          <ScalarProperty Name="ErrorLine" ColumnName="ErrorLine" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

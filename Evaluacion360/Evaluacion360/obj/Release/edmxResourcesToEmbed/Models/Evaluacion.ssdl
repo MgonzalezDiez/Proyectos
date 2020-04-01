@@ -58,7 +58,7 @@
     </Key>
     <Property Name="Codigo_Cargo" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Cod_Cargo_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
-    <Property Name="Ponderacion" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="Ponderacion" Type="decimal" Precision="4" Scale="1" Nullable="false" />
     <Property Name="IdState" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Datos_Usuarios">
@@ -159,7 +159,7 @@
     </Key>
     <Property Name="Codigo_Cargo" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Cod_Cargo_Evaluado" Type="nvarchar" MaxLength="20" Nullable="false" />
-    <Property Name="Codigo_seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Codigo_seccion" Type="nchar" MaxLength="20" Nullable="false" />
     <Property Name="Numero_Pregunta" Type="int" Nullable="false" />
     <Property Name="IdState" Type="int" Nullable="false" />
   </EntityType>
@@ -195,9 +195,9 @@
       <PropertyRef Name="Codigo_Seccion" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Codigo_Seccion" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Codigo_Seccion" Type="nchar" MaxLength="20" Nullable="false" />
     <Property Name="Nombre_Seccion" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="Ponderacion_S" Type="decimal" Precision="3" Scale="1" />
+    <Property Name="Ponderacion_S" Type="decimal" Precision="4" Scale="1" />
     <Property Name="IdState" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Usuarios">
@@ -211,9 +211,22 @@
     <Property Name="PASS" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IdState" Type="int" Nullable="false" />
   </EntityType>
-  <Function Name="Crea_Evaluaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <Function Name="Calcula_Notas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="CodigoUsuario" Type="nvarchar" Mode="In" />
     <Parameter Name="Proceso" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="Crea_Evaluaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CodigoUsuario" Type="nvarchar" Mode="In" />
+    <Parameter Name="Proceso" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Crea_Evaluaciones_Todos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Proceso" Type="int" Mode="In" />
+    <Parameter Name="Result" Type="nvarchar" Mode="InOut" />
+  </Function>
+  <Function Name="Crea_Evaluaciones_Uno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CodigoUsuario" Type="nvarchar" Mode="In" />
+    <Parameter Name="Proceso" Type="int" Mode="In" />
+    <Parameter Name="Result" Type="nvarchar" Mode="InOut" />
   </Function>
   <Function Name="ObtenerDV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Rut" Type="int" Mode="In" />

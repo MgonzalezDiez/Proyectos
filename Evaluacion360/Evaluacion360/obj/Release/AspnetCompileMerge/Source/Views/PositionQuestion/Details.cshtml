@@ -1,4 +1,4 @@
-﻿@model Evaluacion360.Models.ViewModels.PQViewModel
+﻿@model Evaluacion360.Models.ViewModels.PositionQuestionViewModel
 
 @{
     ViewBag.Title = "Detalle Preguntas por Cargo";
@@ -61,7 +61,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
-                        @Html.DropDownListFor(model => model.Codigo_Cargo, (SelectList)ViewBag.Cargos, "Seleccione Cargo", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                        @Html.DropDownListFor(model => model.Codigo_Cargo, (SelectList)ViewBag.Cargos, "Seleccione Cargo", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px"})
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluado", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Cargos, "Seleccione Cargo Evaluado", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px"})
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -80,17 +80,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
-                        @Html.DropDownListFor(model => model.Codigo_seccion, (SelectList)ViewBag.Section, "Seleccione Sección", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width:70%" })
+                        @Html.DropDownListFor(model => model.Codigo_seccion, (SelectList)ViewBag.Section, "Seleccione Dominio", new { type = "text", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px"})
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Nro. de Pregunta</label>
+                <label class="col-md-3 control-label">Pregunta</label>
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
-                        @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { type = "text", @disabled = "disabled", @class = "form-control1", @placeholder = "00,0", style = "width:70%" } })
+                        @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, new { @disabled = "disabled", type = "text", @class = "form-control2", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         <div class="clearfix"></div>
                     </div>
                 </div>

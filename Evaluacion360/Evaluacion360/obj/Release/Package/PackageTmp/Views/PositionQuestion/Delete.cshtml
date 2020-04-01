@@ -1,4 +1,4 @@
-﻿@model Evaluacion360.Models.ViewModels.PQViewModel
+﻿@model Evaluacion360.Models.ViewModels.PositionQuestionViewModel
 
 @{
     ViewBag.Title = "Eliminar Pregunta por Cargo";
@@ -22,6 +22,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             false);
             function hideURLbar()
             { window.scrollTo(0,1); }
+
+        window.setTimeout(function () {
+                $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+                }); }, 3000);
+            window.setTimeout(function () {
+                $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+                }); }, 8000);
     </script>
 
     <!-- Bootstrap Core CSS -->
@@ -99,7 +108,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
                         @Html.HiddenFor(x => x.Numero_Pregunta)
-                        @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, new { @disabled = "disabled", @type = "text", @class = "form-control1", style = "width:70%" })
+                        @Html.DropDownListFor(model => model.Numero_Pregunta, (SelectList)ViewBag.RQuestion, new { @disabled = "disabled", @type = "text", @class = "form-control2", style = "width:70%" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -129,7 +138,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        @using (Html.BeginForm("Delete", "PositionQuestion", FormMethod.Post, new { encType = "multipart/form-data", name = "deleteuestion", @class = "form-group" }))
+                        @using (Html.BeginForm("Delete", "PositionQuestion", FormMethod.Post, new { encType = "multipart/form-data", name = "deleteQuestion", @class = "form-group" }))
                         {
                             <div class="modal-header">
                                 <h4 class="modal-title" id="myModalLabel">Eliminar Pregunta por Cargo</h4>

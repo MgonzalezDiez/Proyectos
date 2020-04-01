@@ -333,7 +333,7 @@ namespace Evaluacion360.Controllers
         }
 
         [HttpGet]
-        public ActionResult GenerarProcesoEvaluacion(string codProc, string mensaje)
+        public ActionResult GenerarProcesoEvaluacion(string mensaje)
         {
             ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
 
@@ -386,7 +386,7 @@ namespace Evaluacion360.Controllers
         }
 
         [HttpGet]
-        public ActionResult GenerarProcesoEvaluacionUno(string codUsu, string codProc, string mensaje)
+        public ActionResult GenerarProcesoEvaluacionUno(string mensaje)
         {
             ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
             ViewBag.Usuarios = new SelectList(Tools.LeerUsuarios(""), "Codigo_Usuario", "Nombre_Usuario", 1);

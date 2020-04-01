@@ -630,6 +630,7 @@ li.dropdown.head-dpdn {
     display: inline-block;
     padding: 0.2em 0;
     float: left;
+
 }
 
     li.dropdown.head-dpdn a.dropdown-toggle {
@@ -1546,6 +1547,33 @@ small.lg-item-text {
     border-color: rgba(255,255,255,0.2);
 }
 
+.panelm {
+    box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
+    -ms-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
+    transition: all ease 0.5s;
+    -moz-transition: all ease 0.5s;
+    -webkit-transition: all ease 0.5s;
+    -ms-transition: all ease 0.5s;
+    position: relative;
+    border: 0 solid;
+    display: flex;
+    background: lightgray;
+    border-radius: 8px;
+}
+.panelm-default > .panelm-heading {
+    color: #ffffff;
+    background-color: #fff;
+    font-weight: 400;
+    font-size: 15px;
+    border-radius: 0px;
+    border-color: #fff;
+}
+.panelm-body {
+    padding: 5px;
+}
+
 .panel-body {
     padding: 5px;
 }
@@ -1768,7 +1796,6 @@ td span {
     height: 40px;
     -webkit-appearance: none;
     outline: none;
-    font-family: 'Muli-Regular';
     background-color: #fff;
     border: 1px solid #ebeff6;
     border-top-left-radius: 4px;
@@ -2200,7 +2227,7 @@ code {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    /*width: 180px*/
+    /*width: 130px*/
 }
 
 .btn-block {
@@ -2264,7 +2291,7 @@ code {
 
 .btn-danger {
     color: #fff;
-    background-color: #e52727;
+    background-color: #E52727;
     border-color: #c40b0b;
 }
 
@@ -2282,6 +2309,13 @@ code {
     width: 50px;
 }
 
+.btn-xxs, .btn-group-xxs > .btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    line-height: 1.5;
+    border-radius: 3px;
+    width: 35px;
+}
 .btn-sm, .btn-group-sm > .btn {
     padding: 5px 14px;
     font-size: 11px;
@@ -5042,6 +5076,22 @@ input#disabledTextInput, select#disabledSelect {
     background: none;
     box-shadow: none !important;
 }
+.form-control2 {
+    border: 1px solid #e0e0e0;
+    padding: 5px 8px;
+    color: #616161;
+    width: 100%;
+    font-size: 0.85em;
+    font-weight: 300;
+    height: 80px;
+    -webkit-appearance: none;
+    outline: none;
+    background: none;
+    box-shadow: none !important;
+    overflow: auto;
+    
+}
+
 
 .input-lg {
     border-radius: 0px;
@@ -5129,7 +5179,7 @@ input#disabledTextInput, select#disabledSelect {
 label.control-label {
     color: #000;
     font-size: 0.9em;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .form-group1 input[type="text"], .form-group1 textarea,
