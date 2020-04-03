@@ -200,7 +200,7 @@ nav ul ul {
     width: auto;
     display: none;
     position: absolute;
-    top: 29px;
+    top: 25px;
     background: #333;
     padding: 10px;
     border-radius: 4px;
@@ -221,7 +221,8 @@ nav ul li:hover>ul {
 nav ul ul li {
     width: auto;
     float: none;
-    display: list-item;
+    display: inherit;
+    /*display: list-item;*/
     position: relative;
 }
 
@@ -238,10 +239,11 @@ nav ul ul li a {
  * by the amount of the width of the first tier.
 */
 nav ul ul ul li {
-    position: relative;
+    position: initial;
     top: -60px;
     /* has to be the same number as the "width" of "nav ul ul li" */
     left: 170px;
+    width: max-content;
 }
 
 /* Change ' +' in order to change the Dropdown symbol */

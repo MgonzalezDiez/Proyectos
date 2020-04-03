@@ -68,7 +68,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="container">
             <div class="sin-w3-agile">
                 <h2>Ingresar</h2>
-                <form action="LogIn" method="post">
+                @using (Html.BeginForm("LogIn", "Access", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+                {
                     <div class="username">
                         <span class="username aligncenter"><i class="fa fa-user"></i></span>
                         @Html.EditorFor(model => model.Nombre_Usuario, new { htmlAttributes = new { type = "text", @class = "password", placeholder = "Usuario", required = "required" } })
@@ -84,8 +85,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <input type="submit" class="SignIn" value="Sign In">
                     </div>
                     <div class="clearfix"></div>
-                </form>
-            </div>
+                }
+                </div>
         </div>
     </div>
 

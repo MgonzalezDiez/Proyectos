@@ -1,4 +1,4 @@
-﻿@model Evaluacion360.Models.ViewModels.EvProcsViewModel
+﻿@model Evaluacion360.Models.ViewModels.EvaluationProcessViewModel
 
 @{
     ViewBag.Title = "Ingreso Proceso Evaluación";
@@ -36,7 +36,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <!-- Bootstrap Core CSS -->
     <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/Css/bootstrap.min_sail.css" rel="stylesheet" type='text/css' />*@
 
     <!-- Custom CSS -->
     <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
@@ -87,118 +86,118 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <h1 class="center-block">Ingreso Proceso de Evaluación</h1>
         </div>
         @Html.AntiForgeryToken()
-    <form form="role" class="form-horizontal" action="Create" method="Post">
-        <div class="card box-shadow col-xl-7">
-            <div class="form-group has-feedback">
-                <br />
-                <label class="col-md-3 control-label ">Código Proceso</label>
-                <div class="col-md-9">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
-                        @Html.EditorFor(model => model.Codigo_Proceso, new { htmlAttributes = new { @required = "required", type = "text", @class = "form-control1", @maxlength = 10, @placeholder = "Ingrese Código de Proceso", ErrorMessage = "Debe ingresar Código de Proceso" } })
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label">Nombre Proceso</label>
-                <div class="col-md-9">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        @Html.EditorFor(model => model.Nombre_Proceso, new { htmlAttributes = new { @required = "required", type = "text", @class = "form-control1", @maxlength = 50, @placeholder = "Ingrese Nombre de Proceso" } })
-                        @Html.ValidationMessageFor(model => model.Nombre_Proceso)
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label">Año de Proceso</label>
-                <div class="col-md-9">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        @Html.EditorFor(model => model.Ano_Proceso, new { htmlAttributes = new { @required = "required", type = "number", @min = DateTime.Now.Year, @max = DateTime.Now.AddYears(1).Year, @class = "form-control1", @placeholder = "Ingrese Año de Proceso" } })
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label">Mes de Proceso</label>
-                <div class="col-md-9">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        @Html.EditorFor(model => model.Mes_Proceso, new { htmlAttributes = new {@required = "required", @type = "number", @min = 1, @max = 12, @class = "form-control1", @maxlength = "2", @placeholder = "Ingrese Mes de Proceso" } })
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label">Retroalimentación</label>
-                <div class="col-md-9">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                        @Html.EditorFor(model => model.Retroalimentacion, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Ingrese Retroalimentación" } })
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label">Estado Evaluación</label>
-                <div class="col-md-9">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                        @Html.DropDownListFor(model => model.Estado_PE, (SelectList)ViewBag.StateEval, "Seleccione Estado Evaluación", new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label">Estado Registro</label>
-                <div class="col-md-9">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                        @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.State, "Seleccione Estado", new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel-footer">
-                <div class="form-group">
-                    <label class="col-md-3 control-label"></label>
+        <form form="role" class="form-horizontal" action="Create" method="Post">
+            <div class="card box-shadow col-xl-7">
+                <div class="form-group has-feedback">
+                    <br />
+                    <label class="col-md-3 control-label ">Código Proceso</label>
                     <div class="col-md-9">
-                        <button type="submit" class="btn btn-danger btn-sm" id="EPCreate">Crear Proceso</button>
-                        <button type="button" class="btn btn-success btn-sm" id="backToList" onclick="location.href='@Url.Action("List", "EvaluationProcesses")'">Volver a la Lista</button>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
+                            @Html.EditorFor(model => model.Codigo_Proceso, new { htmlAttributes = new { @required = "required", type = "text", @class = "form-control1", @maxlength = 10, @placeholder = "Ingrese Código de Proceso", ErrorMessage = "Debe ingresar Código de Proceso" } })
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label">Nombre Proceso</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            @Html.EditorFor(model => model.Nombre_Proceso, new { htmlAttributes = new { @required = "required", type = "text", @class = "form-control1", @maxlength = 50, @placeholder = "Ingrese Nombre de Proceso" } })
+                            @Html.ValidationMessageFor(model => model.Nombre_Proceso)
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label">Año de Proceso</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            @Html.EditorFor(model => model.Ano_Proceso, new { htmlAttributes = new { @required = "required", type = "number", @min = DateTime.Now.Year, @max = DateTime.Now.AddYears(1).Year, @class = "form-control1", @placeholder = "Ingrese Año de Proceso" } })
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label">Mes de Proceso</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            @Html.EditorFor(model => model.Mes_Proceso, new { htmlAttributes = new { @required = "required", @type = "number", @min = 1, @max = 12, @maxlength = "2", @class = "form-control1", @placeholder = "Ingrese Mes de Proceso" } })
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label">Retroalimentación</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                            @Html.EditorFor(model => model.Retroalimentacion, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Ingrese Retroalimentación" } })
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label">Estado Evaluación</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                            @Html.DropDownListFor(model => model.Estado_PE, (SelectList)ViewBag.StateEval, "Seleccione Estado Evaluación", new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-md-3 control-label">Estado Registro</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                            @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.State, "Seleccione Estado", new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-9">
+                            <button type="submit" class="btn btn-danger btn-sm" id="EPCreate">Crear Proceso</button>
+                            <button type="button" class="btn btn-success btn-sm" id="backToList" onclick="location.href='@Url.Action("List", "EvaluationProcesses")'">Volver a la Lista</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal fade" id="myModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Error</h4>
-                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Error</h4>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            Mes ingresado no es válido
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
                     </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        Mes ingresado no es válido
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
     </div>
     <script src="~/js/Utiles.js"></script>
 </body>

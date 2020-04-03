@@ -16,6 +16,7 @@ namespace Evaluacion360.Controllers
         private string mensaje = string.Empty;
 
         // GET: Access
+        [AllowAnonymous]
         public ActionResult LogIn(string Mensaje, bool State=false)
         {
             ViewBag.Status = true;
@@ -28,6 +29,7 @@ namespace Evaluacion360.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult LogIn(Usuarios user)
         {
             try
@@ -57,6 +59,6 @@ namespace Evaluacion360.Controllers
                 return View();
             }
         }
-
+        
     }
 }

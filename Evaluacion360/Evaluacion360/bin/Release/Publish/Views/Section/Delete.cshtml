@@ -1,4 +1,4 @@
-﻿@model Evaluacion360.Models.ViewModels.SectionViewModel
+﻿@model Evaluacion360.Models.ViewModels.SectionEditViewModel
 
 @{
     ViewBag.Title = "Eliminar Dominio";
@@ -42,12 +42,39 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- lined-icons -->
     <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
     <!-- //lined-icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
+
+    <div id="mensaje">
+
+    </div>
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.Status)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        if (!ViewBag.Status)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+
     <div class="panel-body" , style="background-color:#fff">
         <form form="role" class="form-horizontal" action="Delete" method="post">
             <div class="notification_header" style="text-align:center">
@@ -56,6 +83,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <br />
             <div form="role" class="form-group has-feedback">
                 @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.Id, new { id = "Id", Value = @Model.Id })
+
                 <label class="col-md-3 control-label">Código de Dominio</label>
                 <div class="col-md-8">
                     <div class="input-group">
@@ -95,7 +125,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
                         @Html.HiddenFor(model => model.IdState)
-                        @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.DomState, "Seleccione Estado", new { type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width: 88%" })
+                        @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.DomState, "Seleccione Estado", new { @disabled = "disabled", type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px; width: 88%" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -108,7 +138,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">Eliminar Dominio</button>
                         <input onclick="location.href='@Url.Action("List", "Section")'" type="button" value="Volver a la Lista" class="btn btn-success btn-sm" />
-                        <button id="btnDelete" type="submit" style="visibility:hidden"></button>
+                        <button id="btnDel" type="submit" style="visibility:hidden"></button>
                     </div>
                 </div>
             </div>
@@ -132,12 +162,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-default btn-sm">Aceptar</button>
+                                <button type="submit" class="btn btn-default btn-sm" >Aceptar</button>
                             </div>
                         }
                     </div>
                 </div>
             </div>
+            <script src="~/js/Utiles.js"></script>
         </form>
     </div>
 </body>

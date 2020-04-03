@@ -25,7 +25,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             false);
             function hideURLbar()
             { window.scrollTo(0,1); }        
-        })
     </script>
 
     <!-- Bootstrap Core CSS -->
@@ -46,7 +45,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <script src="~/js/jquery.basictable.min.js"></script>
     <script src="~/js/datatables.js"></script>
-    <script src="~/js/ScreenSize.js"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -118,13 +117,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td>@Html.DisplayFor(modelItem => item.IdState)</td>
 
                                 <td>
-                                    <button class="btn btn-warning btn-xs" onclick="location.href='@Url.Action("Edit","User", new { id=item.Codigo_Usuario })'" title="Editar">
+                                    <button class="btn btn-warning btn-xxs" onclick="location.href='@Url.Action("Edit","User", new { id=item.Codigo_Usuario })'" title="Editar">
                                         <span class="fa fa-pencil"></span>
                                     </button>
-                                    <button class="btn btn-primary btn-xs" onclick="location.href='@Url.Action("Details", "User", new {id=item.Codigo_Usuario})'" title="Detalles">
+                                    <button class="btn btn-primary btn-xxs" onclick="location.href='@Url.Action("Details", "User", new {id=item.Codigo_Usuario})'" title="Detalles">
                                         <span class="fa fa-eye"></span>
                                     </button>
-                                    <button class="btn btn-danger btn-xs" onclick="location.href='@Url.Action("Delete", "User", new {id=item.Codigo_Usuario })'" title="Eliminar">
+                                    <button class="btn btn-danger btn-xxs" onclick="location.href='@Url.Action("Delete", "User", new {id=item.Codigo_Usuario })'" title="Eliminar">
                                         <span class="fa fa-trash"></span>
                                     </button>
                                 </td>
@@ -152,7 +151,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
 
-    <script>
+    @*<script>
         function GetScreenSize() {
             var width = window.innerWidth;
             var height= window.innerHeight;
@@ -184,8 +183,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             top.frames['FrMnuCfgPuestosTrabajo'].location.href = '/Configuracion/EmularLocal?Json=' + res;
             pestanas.anadirEvento();
 
-        });             
-    }
-    </script>
+            })
+        }
+    </script>*@
 </body>
 </html>

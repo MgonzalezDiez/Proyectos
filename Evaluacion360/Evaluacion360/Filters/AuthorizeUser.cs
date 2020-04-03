@@ -22,26 +22,31 @@ namespace Evaluacion360.Filters
         {
             string NombreOperacion = string.Empty;
             string NombreModulo = string.Empty;
-
-            try
+            var skipAuthorization = filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true) ||
+                                filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(
+                                    typeof(AllowAnonymousAttribute), true);
+            if (!skipAuthorization)
             {
-                oUsuarios = (Usuarios)HttpContext.Current.Session["User"];
-                var lstMyOperation = from m in db.Rol_Operacion
-                                     join o in db.Operacion on m.IdOperacion equals o.Id
-                                     where m.IdRol == oUsuarios.Tipo_Usuario && m.IdOperacion == IdOperacion
-                                     select m;
-                if(lstMyOperation.Count() == 0)
+                try
                 {
-                    var oOperation = db.Rol_Operacion.Find(IdOperacion);
-                    NombreOperacion = GetNombreOperacion(IdOperacion);
-                    filterContext.HttpContext.Response.Redirect("~/Error/UnAuthorizedOperation?Operacion = " + NombreOperacion);
-                    //filterContext.Result = new RedirectResult("~/Error/UnAuthorizedOperation?Operacion = " + NombreOperacion);
+                    oUsuarios = (Usuarios)HttpContext.Current.Session["User"];
+                    var lstMyOperation = from m in db.Rol_Operacion
+                                         join o in db.Operacion on m.IdOperacion equals o.Id
+                                         where m.IdRol == oUsuarios.Tipo_Usuario && m.IdOperacion == IdOperacion
+                                         select m;
+                    if (lstMyOperation.Count() == 0)
+                    {
+                        var oOperation = db.Rol_Operacion.Find(IdOperacion);
+                        NombreOperacion = GetNombreOperacion(IdOperacion);
+                        filterContext.HttpContext.Response.Redirect("~/Error/UnAuthorizedOperation?Operacion = " + NombreOperacion);
+                        //filterContext.Result = new RedirectResult("~/Error/UnAuthorizedOperation?Operacion = " + NombreOperacion);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                filterContext.HttpContext.Response.Redirect("~/Error/UnAuthorizedOperation?Error = " + ex.Message);
-                //filterContext.Result = new RedirectResult("~/Error/UnAuthorizedOperation?Error = " + ex.Message);
+                catch (Exception ex)
+                {
+                    filterContext.HttpContext.Response.Redirect("~/Error/UnAuthorizedOperation?Error = " + ex.Message);
+                    //filterContext.Result = new RedirectResult("~/Error/UnAuthorizedOperation?Error = " + ex.Message);
+                }
             }
         }
 

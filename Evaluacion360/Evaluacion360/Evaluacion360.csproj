@@ -17,7 +17,7 @@
     <AssemblyName>Evaluacion360</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44340</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
@@ -588,7 +588,6 @@
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\EvaluationProcesses\GenerarProcesoEvaluacion.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\CustomProfile_FTP.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\PositionEvaluations\List.cshtml" />
     <Content Include="Views\EvaluationProcesses\Edit.cshtml" />
@@ -596,6 +595,9 @@
     <Content Include="Views\EvaluationProcesses\Details.cshtml" />
     <Content Include="Views\EvaluationProcesses\GenerarProcesoEvaluacionUno.cshtml" />
     <Content Include="Views\PositionEvaluations\Create.cshtml" />
+    <None Include="Properties\PublishProfiles\FTP_SwEvaluacion_CT.pubxml" />
+    <None Include="Properties\PublishProfiles\FTP_SwEvaluacion_RH.pubxml" />
+    <None Include="Properties\PublishProfiles\LocalPublish.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -626,7 +628,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>60749</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44340/</IISUrl>
+          <IISUrl>http://localhost/Evaluacion360</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
