@@ -124,11 +124,17 @@ namespace Evaluacion360.Controllers
                             }
                             else
                             {
+                                decimal ponderacion = 0;
+                                if (wrkSheet.Cells[row, 3].Value != null)
+                                {
+                                    ponderacion = Decimal.Parse(wrkSheet.Cells[row, 3].Value.ToString());
+                                }                             
+                                
                                 oSection = new Secciones
                                 {
                                     Codigo_Seccion = CodSec,
                                     Nombre_Seccion = wrkSheet.Cells[row, 2].Value.ToString().Trim().ToUpper(),
-                                    Ponderacion_S = decimal.Parse(wrkSheet.Cells[row, 3].Value.ToString().Trim()),
+                                    Ponderacion_S = Decimal.Parse(ponderacion.ToString()),
                                     IdState = 1
                                 };
                                 bd.Secciones.Add(oSection);
@@ -257,7 +263,7 @@ namespace Evaluacion360.Controllers
                 ExcelWorksheet wrkSheet = package.Workbook.Worksheets[1];
                 int rowCount = wrkSheet.Dimension.End.Row;
 
-                using (var bd = new BD_EvaluacionEntities())
+                using (BD_EvaluacionEntities db = new BD_EvaluacionEntities())
                 {
                     try
                     {
@@ -269,7 +275,7 @@ namespace Evaluacion360.Controllers
                                 int res = Tools.ValidaDominios(CodSec);
                                 if (res == 0)
                                 {
-                                    using BD_EvaluacionEntities db = new BD_EvaluacionEntities();
+                                    using BD_EvaluacionEntities bd = new BD_EvaluacionEntities();
                                     var oSec = new Secciones
                                     {
                                         Codigo_Seccion = CodSec,
@@ -277,26 +283,32 @@ namespace Evaluacion360.Controllers
                                         Ponderacion_S = decimal.Parse("30,0"),
                                         IdState = 1
                                     };
-                                    db.Secciones.Add(oSec);
-                                    db.SaveChanges();
+                                    bd.Secciones.Add(oSec);
+                                    bd.SaveChanges();
                                 }
+                                decimal ponderacion = 0;
+                                if (wrkSheet.Cells[row, 4].Value != null)
+                                {
+                                    ponderacion = Decimal.Parse(wrkSheet.Cells[row, 4].Value.ToString());
+                                }
+
                                 var oRQ = new Preguntas_Aleatorias
                                 {
                                     Codigo_Seccion = CodSec,
                                     Numero_Pregunta = Convert.ToInt32(wrkSheet.Cells[row, 2].Value.ToString().Trim()),
                                     Texto_Pregunta = wrkSheet.Cells[row, 3].Value.ToString().Trim(),
-                                    Ponderacion_P = decimal.Parse(wrkSheet.Cells[row, 4].Value.ToString().Trim())
+                                    Ponderacion_P = ponderacion
                                 };
                                 res = Tools.ValidaPreguntas(CodSec, oRQ.Numero_Pregunta);
                                 if(res == 0)
                                 {
-                                    bd.Preguntas_Aleatorias.Add(oRQ);
-                                    bd.SaveChanges();
+                                    db.Preguntas_Aleatorias.Add(oRQ);
+                                    db.SaveChanges();
                                 }
                                 else
                                 {
-                                    bd.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
-                                    bd.SaveChanges();
+                                    db.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
                                     
                                 }
                                 

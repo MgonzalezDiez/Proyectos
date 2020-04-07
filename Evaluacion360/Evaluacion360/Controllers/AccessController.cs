@@ -34,20 +34,21 @@ namespace Evaluacion360.Controllers
         {
             try
             {
-                using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
+                user.PASS = Crypto.Hash(user.PASS);
+                user.Nombre_Usuario = user.Nombre_Usuario.ToUpper();
+                using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+                var oUser = (from usr in Db.Usuarios
+                             where usr.Nombre_Usuario.Trim().Equals(user.Nombre_Usuario) && usr.PASS.Trim().Equals(user.PASS)
+                             select usr).FirstOrDefault();
+                if (oUser != null)
                 {
-                    user.PASS = Crypto.Hash(user.PASS);
-                    user.Nombre_Usuario = user.Nombre_Usuario.ToUpper();
-                    var oUser = (from usr in Db.Usuarios
-                                 where usr.Nombre_Usuario.Trim().Equals(user.Nombre_Usuario) && usr.PASS.Trim().Equals(user.PASS)
-                                 select usr).FirstOrDefault();
-                    if (oUser != null)
-                    {
-                        ViewBag.Mensaje = "";
-                        Session["User"] = oUser;
-                        Session["TipoUsuario"] = oUser.Tipo_Usuario;
-                        return RedirectToAction("Index", "Home");
-                    }
+                    ViewBag.Mensaje = "";
+                    Session["User"] = oUser;
+                    Session["TipoUsuario"] = oUser.Tipo_Usuario;
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
                     mensaje = "Usuario o Password Inválida";
                     bool state = false;
                     return RedirectToAction("LogIn", "Access", new { mensaje, state });
@@ -56,7 +57,9 @@ namespace Evaluacion360.Controllers
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
+                Session["User"] = "";
                 return View();
+
             }
         }
         

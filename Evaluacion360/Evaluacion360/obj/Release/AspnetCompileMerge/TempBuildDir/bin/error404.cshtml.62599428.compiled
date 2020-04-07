@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Views/Error/Error404.cshtml" hash="43063647" filehash="ffffe9db8a88a643" flags="110000" assembly="App_Web_k1ikivz1" type="ASP._Page_Views_Error_Error404_cshtml">
+    <filedeps>
+        <filedep name="/Views/Error/Error404.cshtml" />
+    </filedeps>
+</preserve>

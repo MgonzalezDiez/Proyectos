@@ -2,13 +2,13 @@
 
 @{
     ViewBag.Title = "Ingreso de Usuarios";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "";
 }
 
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Login | Sign In (Esta) ::</title>
+    <title>Login | Sign In ::</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -31,22 +31,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <!-- Custom CSS -->
     <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
- 
+
     <!-- Graph CSS -->
     <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
     <link href="~/Css-Pool/jquery-ui.css" rel="stylesheet" />
-    
+
     <!-- jQuery -->
     <script src="~/js/jquery-2.1.4.min.js"></script>
-    
+
     <!-- //jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
-    
+
     <!-- lined-icons -->
     <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
     <!-- //lined-icons -->
-    
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
@@ -68,7 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="container">
             <div class="sin-w3-agile">
                 <h2>Ingresar</h2>
-                @using (Html.BeginForm("LogIn", "Access", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("Login", "Access", FormMethod.Post))
                 {
                     <div class="username">
                         <span class="username aligncenter"><i class="fa fa-user"></i></span>
@@ -86,7 +85,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                     <div class="clearfix"></div>
                 }
-                </div>
+            </div>
         </div>
     </div>
 

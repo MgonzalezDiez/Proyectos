@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Views/RandomQuestion/Delete.cshtml" hash="43063647" filehash="264ddde2aacd" flags="110000" assembly="App_Web_uh5vubkm" type="ASP._Page_Views_RandomQuestion_Delete_cshtml">
+    <filedeps>
+        <filedep name="/Views/RandomQuestion/Delete.cshtml" />
+    </filedeps>
+</preserve>
