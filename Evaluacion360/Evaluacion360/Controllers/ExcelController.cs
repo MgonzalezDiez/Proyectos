@@ -36,7 +36,7 @@ namespace Evaluacion360.Controllers
                     for (int i = 0; i < files.Count; i++)
                     {
                         HttpPostedFileBase file = files[i];
-
+                        Console.WriteLine("Hay archivo");
                         if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
                         {
                             string[] testfiles = file.FileName.Split(new char[] { '\\' });
@@ -46,6 +46,8 @@ namespace Evaluacion360.Controllers
                         {
                             fname = file.FileName;
                         }
+                        excelModel = ReadSectionExcel(fname);
+
                         var newName = fname.Split('.');
                         fname = newName[0] + "_" + DateTime.Now.Ticks.ToString() + "." + newName[1];
                         var uploadRootFolderInput = AppDomain.CurrentDomain.BaseDirectory + "\\Importados";
@@ -55,10 +57,14 @@ namespace Evaluacion360.Controllers
                         }
                         var directoryFullPathInput = uploadRootFolderInput;
                         fname = Path.Combine(directoryFullPathInput, fname);
+                        Console.WriteLine("Grabo archivo " + fname);
                         file.SaveAs(fname);
 
+                        Console.WriteLine("ReadSectionExcel");
                         excelModel = ReadSectionExcel(fname);
+
                         var val1 = excelModel.Exists(n => n.Nombre_Seccion == "Error");
+                        Console.WriteLine(val1);
                         if (excelModel != null && !val1)
                         {
                             JavaScriptSerializer ser = new JavaScriptSerializer();
@@ -66,9 +72,12 @@ namespace Evaluacion360.Controllers
                         }
                         else
                         {
+                            Console.WriteLine("Serializa archivo");
                             JavaScriptSerializer ser = new JavaScriptSerializer();
                             ExcelJson = ser.Serialize(excelModel);
+                            Console.WriteLine("Retorna Json " + ExcelJson);
                             return Json(ExcelJson, JsonRequestBehavior.AllowGet);
+                            
                         }
                     }
                     if (excelModel.Count > 0)

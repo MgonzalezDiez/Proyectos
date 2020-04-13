@@ -1,1 +1,20 @@
-Éste es un archivo marcador generado por la herramienta de precompilación y que no se debería eliminar
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @*<link href="~/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Css/style.css" rel="stylesheet" />
+    <link href="~/Css/bootstrap.min.css" rel="stylesheet" />*@
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/Bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

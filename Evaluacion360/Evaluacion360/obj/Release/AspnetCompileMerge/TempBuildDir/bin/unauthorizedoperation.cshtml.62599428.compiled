@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Views/Error/UnAuthorizedOperation.cshtml" hash="43063647" filehash="463f2cb67de" flags="110000" assembly="App_Web_k1ikivz1" type="ASP._Page_Views_Error_UnAuthorizedOperation_cshtml">
-    <filedeps>
-        <filedep name="/Views/Error/UnAuthorizedOperation.cshtml" />
-    </filedeps>
-</preserve>

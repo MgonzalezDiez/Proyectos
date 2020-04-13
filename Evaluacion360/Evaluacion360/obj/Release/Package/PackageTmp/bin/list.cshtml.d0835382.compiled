@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Views/RandomQuestion/List.cshtml" hash="43063647" filehash="ffffbec312a99dd6" flags="110000" assembly="App_Web_uh5vubkm" type="ASP._Page_Views_RandomQuestion_List_cshtml">
-    <filedeps>
-        <filedep name="/Views/RandomQuestion/List.cshtml" />
-    </filedeps>
-</preserve>

@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Views/Positions/Edit.cshtml" hash="43063647" filehash="fffff92325125a0a" flags="110000" assembly="App_Web_c52sttmu" type="ASP._Page_Views_Positions_Edit_cshtml">
-    <filedeps>
-        <filedep name="/Views/Positions/Edit.cshtml" />
-    </filedeps>
-</preserve>

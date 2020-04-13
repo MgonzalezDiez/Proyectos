@@ -138,7 +138,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </div>
                                 </div>
 
-                                <label class="col-6 col-md-6 control-label">Password</label>
+                                <label class="col-md-6 control-label">Password</label>
                                 <div class="col-md-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
@@ -173,7 +173,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="col-md-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
-                                        @Html.EditorFor(model => model.Nombre_Completo, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Nombre Completo Usuario", @required = "required", @maxlength = 100, @minlength = 10, autocomplete = "off"} })
+                                        @Html.EditorFor(model => model.Nombre_Completo, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Nombre Completo Usuario", @required = "required", @maxlength = 100, @minlength = 10, autocomplete = "off" } })
                                     </div>
                                 </div>
 
@@ -181,24 +181,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="col-md-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        @Html.EditorFor( model => @Model.Fecha_Nacimiento, "{0:yyyy/MM/dd}", new { htmlAttributes = new { @type = "date", @required = true, @class = "form-control1", @placeholder = "dd/mm/yyyy"  } })
+                                        @Html.EditorFor(model => @Model.Fecha_Nacimiento, "{0:yyyy/MM/dd}", new { htmlAttributes = new { @type = "date", @required = true, @class = "form-control1", @placeholder = "dd/mm/yyyy" } })
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                <div class="row col-md-12">
-                                    <label class="col-md-6 control-label">Rut</label>
-                                    <div class="col-md-12">
-                                        <div class="input-group col-md-12">
-                                            <span class="input-group-addon"><i class="fa fa-registered"></i></span>
-                                            @Html.TextBoxFor(x => x.Rut, new { @class = "form-control1 form-rut", @maxlength = "10", @required = true, @style = "max-width: 94%;display: inline-block;" })<span>-</span>@Html.TextBoxFor(model => model.Dv, new { @class = "form-control1 form-dvrut form-control-sm", @type = "text", @maxlength = "1", @style = "max-width: 5%;display: inline-block; text-align:center;",@required = "required" })
-                                        </div>
+                                <label class="col-md-6 control-label">Rut</label>
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-registered"></i></span>
+                                        @Html.TextBoxFor(model => model.Rut, new { autocomplete = "Rut", @required = "required", @id = "Rut", @class = "form-control1 form-rut", @minlength = "7", @maxlength = "9", @style = "max-width: 265px;display: inline-block;" })<span>-</span>@Html.TextBoxFor(model => model.Dv, new { @required = "required", @id = "Dv", @class = "form-control1 form-dvrut form-control-sm", @type = "text", @maxlength = "1", autocomplete = "Dv", @style = "max-width: 35px;display: inline-block; text-align:center;" })
+
+                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
                                 <label class="col-md-6 control-label">Fondo</label>
                                 <div class="col-md-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-shopping-bag"></i></span>
-                                        @Html.EditorFor(model => model.Fondo, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Fondo", @maxlength=50, @minlength=5, @required = "required" } })
+                                        @Html.EditorFor(model => model.Fondo, new { htmlAttributes = new { type = "text", @class = "form-control1", @placeholder = "Fondo", @maxlength = 50, @minlength = 5, @required = "required" } })
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="col-md-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        @Html.EditorFor(model => model.Fecha_Ingreso, new { htmlAttributes = new { @type = "date",  @class = "form-control1 datepicker", @placeholder = "dd/mm/yyyy" } })
+                                        @Html.EditorFor(model => model.Fecha_Ingreso, new { htmlAttributes = new { @type = "date", @class = "form-control1 datepicker", @placeholder = "dd/mm/yyyy" } })
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
@@ -214,7 +214,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="col-md-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        @Html.EditorFor(model => model.Fecha_Termino_Contrato, new { htmlAttributes = new { @type = "date", @class = "form-control1 datepicker", @placeholder = "dd/mm/yyyy",  } })
+                                        @Html.EditorFor(model => model.Fecha_Termino_Contrato, new { htmlAttributes = new { @type = "date", @class = "form-control1 datepicker", @placeholder = "dd/mm/yyyy", } })
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>

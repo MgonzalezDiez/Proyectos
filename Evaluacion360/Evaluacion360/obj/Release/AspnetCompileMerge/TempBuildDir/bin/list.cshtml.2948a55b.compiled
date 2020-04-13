@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Views/EvaluatorPosition/List.cshtml" hash="43063647" filehash="2f11cf3a8933" flags="110000" assembly="App_Web_pbugevfu" type="ASP._Page_Views_EvaluatorPosition_List_cshtml">
-    <filedeps>
-        <filedep name="/Views/EvaluatorPosition/List.cshtml" />
-    </filedeps>
-</preserve>

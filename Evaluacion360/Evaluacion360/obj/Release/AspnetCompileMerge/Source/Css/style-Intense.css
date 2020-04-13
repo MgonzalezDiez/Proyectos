@@ -938,18 +938,18 @@ a.blog_link {
 }
 
 .slide-img {
-    background: url(../images/b6.jpg) no-repeat center;
+    /*background: url(../images/b6.jpg) no-repeat center;*/
     background-size: cover;
     min-height: 500px;
 }
 
 .slide-img1 {
-    background: url(../images/b6.jpg) no-repeat center;
+    /*background: url(../images/b6.jpg) no-repeat center;*/
     background-size: cover;
 }
 
 .slide-img2 {
-    background: url(../images/b6.jpg) no-repeat center;
+    /*background: url(../images/b6.jpg) no-repeat center;*/
     background-size: cover;
 }
 

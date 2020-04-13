@@ -1,1 +1,198 @@
-Éste es un archivo marcador generado por la herramienta de precompilación y que no se debería eliminar
+﻿@model Evaluacion360.Models.ViewModels.PositionViewModel
+
+@{
+    ViewBag.Title = "Eliminar Cargos";
+    Layout = "";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Eliminar Cargo</title>
+    <!-- meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+
+        addEventListener("load", function()
+            { setTimeout(hideURLbar, 0); },
+            false);
+            function hideURLbar()
+            { window.scrollTo(0,1); }
+
+        window.setTimeout(function () {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+            }); }, 3000);
+        window.setTimeout(function () {
+            $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+            }); }, 8000);
+    </script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+
+    <!-- Custom CSS -->
+    <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+    <!-- Graph CSS -->
+    <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
+    <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+    <!-- lined-icons -->
+    <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+    <!-- //lined-icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.Status)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+        }
+
+        if (!ViewBag.Status)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+
+    <div class="panel-body" , style="background-color:#fff">
+        <form form="role" class="form-horizontal" action="Delete" method="post">
+            <div class="notification_header" style="text-align:center">
+                <h1 class="center-block">Eliminar Cargos</h1>
+            </div>
+            <br />
+
+            <div form="role" class="form-group has-feedback">
+                @Html.AntiForgeryToken()
+                <label class="col-md-3 control-label">Código de Cargo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
+                        @Html.HiddenFor(x => x.Codigo_Cargo)
+                        @Html.EditorFor(x => x.Codigo_Cargo, new { htmlAttributes = new { id = "CodCargo", @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Ingrese Código de Cargo", @required = true, @maxlength = 20 } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Descripción Cargo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        @Html.HiddenFor(x => x.Nombre_Cargo)
+                        @Html.EditorFor(model => model.Nombre_Cargo, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Ingrese Nombre de Cargo", @required = true, @maxlength = 50 } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Fondo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-plus"></i></span>
+                        @Html.HiddenFor(x => x.Fondo)
+                        @Html.EditorFor(model => model.Fondo, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Ingrese Fondo", @required = true, @maxlength = 50 } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Ciclo</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-plus"></i></span>
+                        @Html.HiddenFor(x => x.Ciclo)
+                        @Html.EditorFor(model => model.Ciclo, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Ingrese Ciclo", @required = true, @maxlength = 50 } })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Estado</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                        @Html.HiddenFor(x => x.IdState)
+                        @Html.DropDownListFor(model => model.IdState, (SelectList)ViewBag.State, "Estado", new { @readonly = "readonly", type = "text", @class = "form-control1", @required = true, })
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="panel-footer">
+                <label class="col-md-3 control-label"></label>
+                <div class="col-md-8">
+                    <div class="form-actions no-color">
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">Eliminar Cargo</button>
+                        <input onclick="location.href='@Url.Action("List", "Positions")'" type="button" value="Volver a la Lista" class="btn btn-success btn-sm" />
+                        <button id="btnDelete" type="submit" style="visibility:hidden"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        @using (Html.BeginForm("Delete", "Position", FormMethod.Post, new { encType = "multipart/form-data", name = "deletePosition", @class = "form-group" }))
+                        {
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Eliminar Cargo</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="false">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                @if (Model.Codigo_Cargo != null)
+                                {
+                                    <p id="msg">
+                                        ¿Desea eliminar cargo <strong> @Model.Nombre_Cargo</strong>?
+                                    </p>
+                                }
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-default btn-sm">Aceptar</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+    function GetSelectedText() {
+        var e = document.getElementById("CodCargo");
+        var result = e.options[e.selectedIndex].text;
+
+        document.getElementById("msg").innerHTML = `¿Desea eliminar Cargo <strong>` + result + `</strong>?`;
+    }
+    GetSelectedText();
+</script>

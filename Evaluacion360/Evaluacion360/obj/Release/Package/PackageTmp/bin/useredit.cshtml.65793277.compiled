@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Views/User/UserEdit.cshtml" hash="43063647" filehash="411ba92babdc" flags="110000" assembly="App_Web_bfbsrbev" type="ASP._Page_Views_User_UserEdit_cshtml">
-    <filedeps>
-        <filedep name="/Views/User/UserEdit.cshtml" />
-    </filedeps>
-</preserve>

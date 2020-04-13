@@ -442,7 +442,7 @@ background-color: #212121;
 /*--inner-banner -- */
 .inner_page-banner {
   text-align: center;
-  background: url(../images/cover4.jpg) no-repeat center;
+  /*background: url(../images/cover4.jpg) no-repeat center;*/
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -472,7 +472,7 @@ ul.short_ls li {
 /* banner */
 
 .main-top {
-  background: url(../images/cover4.jpg) no-repeat bottom;
+  /*background: url(../images/cover4.jpg) no-repeat bottom;*/
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -632,7 +632,7 @@ ul.short_ls li {
 /* //popup */
 /*--blog--*/
 .blog-wthree-list {
-    background: url(../images/b5.jpg) no-repeat bottom;
+    /*background: url(../images/b5.jpg) no-repeat bottom;*/
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -687,9 +687,9 @@ span.sup-doller {
 }
 /*--//price--*/
 /*--booking-- */
-.booking{    background: url(../images/cc1.jpg) no-repeat bottom;
+.booking{    /*background: url(../images/cc1.jpg) no-repeat bottom;*/
     
-             -size: cover;
+    -size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

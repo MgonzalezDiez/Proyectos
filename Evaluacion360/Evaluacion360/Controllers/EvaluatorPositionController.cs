@@ -327,5 +327,7 @@ namespace Evaluacion360.Controllers
             }
             return RedirectToAction("Delete", "EvaluatorPosition", new { codCargo = evPos.Codigo_Cargo, codCargoEval = evPos.Cod_Cargo_Evaluado, mensaje });
         }
+
+
     }
 }

@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Views/PositionQuestion/Create.cshtml" hash="43063647" filehash="beff29dc733" flags="110000" assembly="App_Web_o3xoyh0a" type="ASP._Page_Views_PositionQuestion_Create_cshtml">
-    <filedeps>
-        <filedep name="/Views/PositionQuestion/Create.cshtml" />
-    </filedeps>
-</preserve>

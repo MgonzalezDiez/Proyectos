@@ -28,7 +28,7 @@
             data: fileData,
             success: function (result) {
                 showLoader();
-                if (result != null || result != false) {
+                if (result != null && result != false) {
                     
                     $.each(JSON.parse(result), function (i, item) {
                         if (item.Codigo_Seccion == "Error") {
@@ -55,11 +55,12 @@
                                 <td>${item.IdState == 1 ? 'Vigente' : 'No vigente'}</td>
                             </tr>`
                             })
+                            let res2 = document.querySelector('#titulo');
+                            res2.innerHTML = `Dominios Importados desde Excel`;
+                            hideLoader();
                         }
                     });
-                    let res2 = document.querySelector('#titulo');
-                    res2.innerHTML = `Dominios Importados desde Excel`;
-                    hideLoader();
+                    
                 }
                 else {
                     let msg = document.querySelector('#mensaje');

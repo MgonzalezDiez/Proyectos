@@ -1,1 +1,191 @@
-Éste es un archivo marcador generado por la herramienta de precompilación y que no se debería eliminar
+﻿@model Evaluacion360.Models.ViewModels.RQViewModel
+
+@{
+
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro de Preguntas</title>
+    <!-- meta tags -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+                Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+    <script type="application/x-javascript">
+        addEventListener("load", function()
+            { setTimeout(hideURLbar, 0); },
+            false);
+            function hideURLbar()
+            { window.scrollTo(0,1); }
+
+        window.setTimeout(function () {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+            }); }, 3000);
+        window.setTimeout(function () {
+            $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+            }); }, 3000);
+    </script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Css-Pool/bootstrap.min.css" rel="stylesheet" type='text/css' />
+
+    <!-- Custom CSS -->
+    <link href="~/Css-Pool/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/Css-Modernizer/style.css" rel="stylesheet" />
+    <!-- Graph CSS -->
+    <link href="~/Css-Pool/font-awesome.css" rel="stylesheet" />
+    <link href="~/Css/jquery-ui.css" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+    <!-- lined-icons -->
+    <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
+    <!-- //lined-icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.Status)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        if (!ViewBag.Status)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong style="font-size:medium">@ViewBag.Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+    @Html.AntiForgeryToken()
+
+    <div id="mensaje">
+
+    </div>
+
+    <div class="panel-body" , style="background-color:#fff">
+        <div class="notification_header" style="text-align:center">
+            <h1 class="center-block">Crear Pregunta</h1>
+        </div>
+        <br />
+        <form form="role" class="form-horizontal" action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="card box-shadow col-xl-7 ">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <br />
+                    <label class="col-md-2 control-label ">Dominio</label>
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
+                            @Html.DropDownListFor(model => model.Codigo_Seccion, (SelectList)ViewBag.Sections, "Seleccione Dominio", new { type = "text", @required = "required", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        </div>
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-2 control-label ">Número de Pregunta</label>
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
+                            @Html.EditorFor(model => model.Numero_Pregunta, new { htmlAttributes = new { @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Número de Pregunta", @required = "required" } })
+                        </div>
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-2 control-label ">Pregunta</label>
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-sticky-note"></i></span>
+                            @Html.EditorFor(model => model.Texto_Pregunta, new { htmlAttributes = new { type = "text", @class = "form-control2", @placeholder = "Texto de Pregunta", @required = "required", @maxlength = 500 } })
+                        </div>
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    <label class="col-md-2 control-label ">Ponderación</label>
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                            @Html.EditorFor(model => model.Ponderacion_P, new { htmlAttributes = new { id = "decimales", type = "text", @class = "form-control1", @maxlength = "5", @min = "00.0", @max = "100", @step = "0.1", @placeholder = "00.0", @required = "required" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="btn-group-justified">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="justify-content-center">
+                            <input type="submit" class="btn btn-danger btn-sm" id="RQCreate" value="Crear Pregunta" />
+                            <button type="button" class="btn btn-success btn-sm" id="backToList" onclick="location.href='@Url.Action("List", "RandomQuestion")'">Volver a la Lista</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("ListRQ", "Excel")'">Importar Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#Codigo_Seccion").change(function () {
+                var index = $("#Codigo_Seccion")[0].selectedIndex;
+                if (index != 0) {
+                    $.get("/RandomQuestion/GetQuestionNo", { codSec: $("#Codigo_Seccion").val() }, function (data, status) {
+                        $("#Numero_Pregunta").empty();
+                        if (data > 0) {
+                            document.getElementById('Numero_Pregunta').value = data;
+                        }
+                        else {
+                            var info = "No existen preguntas para este Dominio";
+                            let msg = document.querySelector('#Mensaje');
+                            msg.innerHTML =
+                                `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
+                                <strong style="font-size:medium">${info}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`;
+                            window.setTimeout(function () {
+                                $("#alertInfo").alert('close');
+                            }, 4000);
+                        }
+                    })
+                }
+            })
+
+            $("#Texto_Pregunta").on({
+                "focus": function (event) {
+                    $(event.target).select();
+                }
+            });
+        
+
+        });
+    </script>
+    <script src="~/js/Utiles.js"></script>
+</body>
+</html>

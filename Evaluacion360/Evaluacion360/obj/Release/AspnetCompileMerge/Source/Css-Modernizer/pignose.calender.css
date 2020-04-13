@@ -70,7 +70,7 @@
 	display: inline-block;
 	width: 7px;
 	height: 12px;
-	background: url('../images/icon_navs.png') no-repeat 0 0 scroll transparent;
+	/*background: url('../images/icon_navs.png') no-repeat 0 0 scroll transparent;*/
 	text-indent: -1000px;
 	vertical-align: middle;
 	overflow: hidden;

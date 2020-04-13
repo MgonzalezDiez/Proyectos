@@ -1,1 +1,99 @@
-Éste es un archivo marcador generado por la herramienta de precompilación y que no se debería eliminar
+﻿@model Evaluacion360.Utils.BasePaginador
+
+@{
+    var CantidadPaginas = (int)Math.Ceiling((double)Model.TotalDeRegistros / Model.RegistrosPorPagina);
+}
+
+<!-- Funcionalidad : Anterior y Siguiente-->
+
+    <ul class="pagination">
+        @if (Model.PaginaActual == 1)
+        {
+            <li class="disabled">@Html.ActionLink("Anterior", null, new { pagina = 1}) </li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Anterior", null, new { pagina = Model.PaginaActual - 1 })</li>
+        }
+
+                        @if (Model.PaginaActual == CantidadPaginas)
+        {
+            <li class="disabled">@Html.ActionLink("Siguiente", null, new { pagina = CantidadPaginas }) </li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Siguiente", null, new { pagina = Model.PaginaActual + 1 }) </li>
+        }
+
+        @{
+            int Initial = 1;
+            var radio = 2;
+            var MaxPages = radio * 2 + 1;
+            int Final = (CantidadPaginas > MaxPages) ? MaxPages : CantidadPaginas;
+
+            if (Model.PaginaActual > radio + 1)
+            {
+                Initial = Model.PaginaActual - radio;
+                if (CantidadPaginas > Model.PaginaActual + radio)
+                {
+                    Final = Model.PaginaActual + radio;
+                }
+                else
+                {
+                    Final = CantidadPaginas;
+                }
+            }
+        }
+
+        <li  >@Html.ActionLink("Primera", null, new { pagina = 1 })</li>
+        @for (int i = Initial; i <= Final; i++)
+        {
+            if (i == Model.PaginaActual)
+            {
+                <li class="active">@Html.ActionLink(i.ToString(), null, new { pagina = i })</li>
+            }
+            else
+            {
+                <li>@Html.ActionLink(i.ToString(), null, new { pagina = i })</li>
+            }
+        }
+        <li>@Html.ActionLink("Ultima", null, new { pagina = CantidadPaginas })</li>
+    </ul>
+
+<!-- Funcionalidad : Páginas-->
+
+@*@{ 
+    int Initial = 1;
+    var radio = 2;
+    var MaxPages = radio * 2 + 1;
+    int Final = (CantidadPaginas > MaxPages) ? MaxPages : CantidadPaginas;
+
+    if(Model.PaginaActual > radio + 1)
+    {
+        Initial = Model.PaginaActual - radio;
+        if (CantidadPaginas > Model.PaginaActual + radio)
+        {
+            Final = Model.PaginaActual + radio;
+        }
+        else
+        {
+            Final = CantidadPaginas;
+        }
+    }
+}*@
+
+@*<ul class="pagination">
+    <li>@Html.ActionLink("Primera", null, new { pagina = 1 })</li>
+    @for (int i = Initial; i <= Final; i++)
+    {
+        if (i == Model.PaginaActual)
+        {
+            <li class="active">@Html.ActionLink(i.ToString(), null, new { pagina = i })</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink(i.ToString(), null, new { pagina = i })</li>
+        }
+    }
+    <li>@Html.ActionLink("Ultima", null, new { pagina = CantidadPaginas })</li>
+</ul>*@
