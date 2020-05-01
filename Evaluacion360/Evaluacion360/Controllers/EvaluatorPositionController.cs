@@ -205,7 +205,7 @@ namespace Evaluacion360.Controllers
             catch (Exception e)
             {
                 mensaje = "Ocurrió el siguiente error"
-                          + e.Message
+                          + e.InnerException.Message
                           + " Contacte al Administrador";
                 return View(codCargo, codCargoEval, mensaje);
             }

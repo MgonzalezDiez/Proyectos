@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
@@ -39,7 +41,7 @@ namespace Evaluacion360.Controllers
                                join ranq in Db.Preguntas_Aleatorias on EvQ.Codigo_seccion equals ranq.Codigo_Seccion
 
                                where EvQ.Numero_Pregunta == ranq.Numero_Pregunta
-                               orderby EvQ.Codigo_Proceso, EvQ.Codigo_seccion, EvQ.Codigo_seccion, EvQ.Numero_Pregunta
+                               orderby EvQ.Codigo_Proceso, EvQ.Codigo_seccion, EvQ.Numero_Pregunta
                                select new AutoEvaluationQuestionListModel
                                {
                                    Numero_Evaluacion = EvQ.Numero_Evaluacion,
@@ -86,7 +88,7 @@ namespace Evaluacion360.Controllers
                 oAeq.Codigo_Proceso = AEQ.Codigo_Proceso;
                 oAeq.Codigo_seccion = AEQ.Codigo_Seccion.ToString();
                 oAeq.Numero_Pregunta = AEQ.Numero_Pregunta;
-                oAeq.Nota = AEQ.Nota ?? 0;
+                oAeq.Nota = AEQ.Nota;
                 Mensaje = "Ok";
                 return View(new { oAeq, Mensaje });
             }
@@ -110,6 +112,7 @@ namespace Evaluacion360.Controllers
             ViewBag.EvState = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
             ViewBag.Sections = new SelectList(Tools.DominiosPorUsuario(oUser.Codigo_Usuario), "Codigo_Seccion", "Nombre_Seccion");
 
+
             if (mensaje != null && mensaje != "")
             {
                 if (mensaje == "Ok")
@@ -131,7 +134,7 @@ namespace Evaluacion360.Controllers
                        join aev in Db.Auto_Evaluaciones on pev.Codigo_Proceso equals aev.Codigo_Proceso
                        join usu in Db.Usuarios on aev.Codigo_Usuario equals usu.Codigo_Usuario
                        join eev in Db.Estado_Evaluaciones on aev.Estado_AE equals eev.IdState
-                       where usu.Codigo_Usuario == oUser.Codigo_Usuario
+                       where usu.Codigo_Usuario == oUser.Codigo_Usuario && aev.Estado_AE == "A"
                        orderby pev.Nombre_Proceso
                        select new AutoEvaluationQuestionViewModel
                        {
@@ -146,10 +149,10 @@ namespace Evaluacion360.Controllers
                            Estado_AE = aev.Estado_AE ?? "",
                            StateDescription = eev.StateDescription ?? "",
                            Nota_Final_AE = aev.Nota_Final_AE ?? 0,
-                           Codigo_Seccion = "", 
-                           Numero_Pregunta = 0,  
-                           TextoPregunta = "",  
-                           Nota = oAE.Nota ?? 0,
+                           Codigo_Seccion = "",
+                           Numero_Pregunta = 0,
+                           TextoPregunta = "",
+                           Nota = oAE.Nota,
                        }).FirstOrDefault();
                 return View(oAE);
             }
@@ -185,7 +188,7 @@ namespace Evaluacion360.Controllers
                         Codigo_Proceso = ae.Codigo_Proceso,
                         Codigo_seccion = ae.Codigo_Seccion,
                         Numero_Pregunta = ae.Numero_Pregunta,
-                        Nota = ae.Nota ?? 0,
+                        Nota = ae.Nota,
                     };
                     bd.Auto_Evaluacion_Preguntas.Add(oAe);
                     bd.SaveChanges();
@@ -208,7 +211,6 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-
                 Mensaje = "Ocurrió el siguiente error " +
                           e.InnerException.InnerException.Message +
                           " Contacte al Administrador";
@@ -263,58 +265,66 @@ namespace Evaluacion360.Controllers
         // POST: EvaluacionPreguntas/Edit/5
         [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
-        public ActionResult Edit(AutoEvaluationQuestionViewModel aeq)
+        public ActionResult Edit(AutoEvaluationQuestionEditViewModel aeq)
         {
             try
             {
-                var datos = aeq;
-                using var Db = new BD_EvaluacionEntities();
-                var oAEQ = Db.Auto_Evaluacion_Preguntas.Find(datos.Numero_Evaluacion, datos.Codigo_Proceso, datos.Codigo_Seccion, datos.Numero_Pregunta);
-                if (datos.Nota != 0)
+                if (ModelState.IsValid)
                 {
-                    oAEQ.Nota = datos.Nota.Value;
-                    Db.Entry(oAEQ).State = System.Data.Entity.EntityState.Modified;
+                    var datos = aeq;
+                    using var Db = new BD_EvaluacionEntities();
+                    var oAEQ = Db.Auto_Evaluacion_Preguntas.Find(datos.Numero_Evaluacion, datos.Codigo_Proceso, datos.Codigo_Seccion, datos.Numero_Pregunta);
+                    if (datos.Nota != 0)
+                    {
+                        oAEQ.Nota = datos.Nota;
+                        Db.Entry(oAEQ).State = EntityState.Modified;
+                    }
+                    Mensaje = "Ok";
+                    Db.SaveChanges();
+
+                    AutoEvaluationViewModel ae = new AutoEvaluationViewModel()
+                    {
+                        Numero_Evaluacion = aeq.Numero_Evaluacion,
+                        Codigo_Proceso = aeq.Codigo_Proceso,
+                        Codigo_Usuario = aeq.Codigo_Usuario,
+                        Logros = aeq.Logros,
+                        Metas = aeq.Metas,
+                    };
+
+
+                    var oAE = Db.Auto_Evaluaciones.Find(datos.Numero_Evaluacion, datos.Codigo_Proceso, datos.Codigo_Usuario);
+                    oAE.Estado_AE = "C";
+                    oAE.Logros = datos.Logros;
+                    oAE.Metas = datos.Metas;
+                    Db.Entry(oAE).State = System.Data.Entity.EntityState.Modified;
+                    Db.SaveChanges();
+                    return Json(Mensaje);
+                    //return Json(data: new { success = true, data = Mensaje }, JsonRequestBehavior.AllowGet);
                 }
-                Mensaje = "Ok";
-                Db.SaveChanges();
-
-                AutoEvaluationViewModel ae = new AutoEvaluationViewModel()
+                else
                 {
-                    Numero_Evaluacion = aeq.Numero_Evaluacion,
-                    Codigo_Proceso = aeq.Codigo_Proceso,
-                    Codigo_Usuario = aeq.Codigo_Usuario,
-                    Fecha = aeq.Fecha,
-                    Logros = aeq.Logros,
-                    Metas = aeq.Metas,
-                    Estado_AE = aeq.Estado_AE,
-                    Nota_Final_AE = aeq.Nota_Final_AE
-                };
-
-
-                var oAE = Db.Auto_Evaluaciones.Find(datos.Numero_Evaluacion, datos.Codigo_Proceso, datos.Codigo_Usuario);
-                oAE.Estado_AE = "C";
-                oAE.Logros = datos.Logros;
-                oAE.Metas = datos.Metas;
-                Db.Entry(oAE).State = System.Data.Entity.EntityState.Modified;
-                Db.SaveChanges();
-                return Json(new
-                {
-                    Success = true,
-                    Mensaje
-                });
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
+                    {
+                        if (item.Errors.Count > 0)
+                        {
+                            Mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                        }
+                        Mensaje += " Contacte al Administrador";
+                    }
+                    return Json(Mensaje);
+                    //return Json(data: new { error = true, data = Mensaje }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception e)
             {
-                Mensaje = "Ocurrió el siguiente error " + e.InnerException.InnerException.Message;
+                Mensaje = "Ocurrió el siguiente error " + e.Message;
                 Mensaje += " Contacte al Administrador";
-                return Json(new
-                {
-                    error = true,
-                    Mensaje
-                });
+                return Json(Mensaje);
+                //return Json(data: new { error = true, data = Mensaje }, JsonRequestBehavior.AllowGet);
             }
-
         }
+
 
         // GET: EvaluacionPreguntas/Delete/5
         [AuthorizeUser(IdOperacion: 5)]
@@ -356,7 +366,7 @@ namespace Evaluacion360.Controllers
                 Mensaje = "Ocurrió el siguiente error"
                           + e.Message
                           + " Contacte al Administrador";
-                return RedirectToAction("Delete", "AEQ", new { numEval, codProc, codSecc, numQuest, Mensaje });
+                return RedirectToAction("Delete", "AutoEvaluationQuestion", new { numEval, codProc, codSecc, numQuest, Mensaje });
             }
         }
 
@@ -395,7 +405,7 @@ namespace Evaluacion360.Controllers
                           + e.Message
                           + " Contacte al Administrador";
             }
-            return RedirectToAction("Delete", "Section", new { numEval, codProc, codSecc, numQuest, Mensaje });
+            return RedirectToAction("Delete", "AutoEvaluationQuestion", new { numEval, codProc, codSecc, numQuest, Mensaje });
         }
 
         [HttpPost]
@@ -427,10 +437,14 @@ namespace Evaluacion360.Controllers
         {
             List<AutoEvQuestionScoreViewModel> RandomQ = new List<AutoEvQuestionScoreViewModel>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            string sql = "select aep.Numero_Pregunta, pal.Texto_Pregunta, aep.Nota from Auto_Evaluacion_Preguntas aep " +
-                         "join Auto_Evaluaciones aev on aep.Codigo_Proceso = aev.Codigo_Proceso " +
+            string sql = "select distinct aep.Numero_Pregunta, pal.Texto_Pregunta, aep.Nota " +
+                         "from Preguntas_Cargos pec " +
+                         "join Auto_Evaluacion_Preguntas aep on pec.Codigo_seccion = aep.Codigo_seccion " +
+                         "join Auto_Evaluaciones aev on aep.Numero_Evaluacion = aev.Numero_Evaluacion and aep.Codigo_Proceso = aev.Codigo_Proceso " +
                          "join Preguntas_Aleatorias pal on aep.Codigo_seccion = pal.Codigo_Seccion and aep.Numero_Pregunta = pal.Numero_Pregunta " +
-                         "where aep.Numero_Evaluacion = " + numEval + " and aep.Codigo_Proceso = " + codProc + " and aep.Codigo_seccion = '" + sectionCode + "'";
+                         "where aep.Numero_Evaluacion = " + numEval + " and aep.Codigo_Proceso = " + codProc + " and aep.Codigo_seccion = '" + sectionCode + "'" +
+                         " And pec.Cod_Cargo_Evaluado = pec.Codigo_Cargo";
+
             using SqlConnection Cnn = new SqlConnection(CnnStr);
             using SqlCommand cmd = new SqlCommand
             {

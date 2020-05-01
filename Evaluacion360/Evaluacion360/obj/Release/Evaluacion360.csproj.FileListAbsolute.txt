@@ -384,8 +384,6 @@ D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\NPO
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\NPOI.OOXML.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\NPOI.OpenXml4Net.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\NPOI.OpenXmlFormats.dll
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\PagedList.dll
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\PagedList.Mvc.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Remotion.Data.Linq.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Remotion.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Remotion.Interfaces.dll
@@ -435,8 +433,6 @@ D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\MyS
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Nest.pdb
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Nest.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Newtonsoft.Json.xml
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\PagedList.xml
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\PagedList.Mvc.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.Buffers.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.Diagnostics.DiagnosticSource.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.IO.Pipelines.xml
@@ -514,3 +510,5 @@ D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Rel
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Release\Evaluacion360.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Release\Evaluacion360.pdb
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Release\Evaluacion360.csprojAssemblyReference.cache
+D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\SpreadsheetLight.dll
+D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\SpreadsheetLight.xml

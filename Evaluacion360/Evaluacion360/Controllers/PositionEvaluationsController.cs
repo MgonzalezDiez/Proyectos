@@ -109,7 +109,7 @@ namespace Evaluacion360.Controllers
             Usuarios oUser = (Usuarios)Session["User"];
             ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
             ViewBag.EvState = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
-            ViewBag.Sections = new SelectList(Tools.DominiosPorUsuario(oUser.Codigo_Usuario), "Codigo_Seccion", "Nombre_Seccion");
+            ViewBag.Sections = new SelectList(Tools.DominiosPorUsuarioCargo(oUser.Codigo_Usuario), "Codigo_Seccion", "Nombre_Seccion");
 
             if (mensaje != null && mensaje != "")
             {

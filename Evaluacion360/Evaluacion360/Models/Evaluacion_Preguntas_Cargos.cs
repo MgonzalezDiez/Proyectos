@@ -16,9 +16,9 @@ namespace Evaluacion360.Models
     {
         public int Numero_Evaluacion { get; set; }
         public int Codigo_Proceso { get; set; }
+        public string Codigo_Usuario { get; set; }
         public string Codigo_seccion { get; set; }
         public int Numero_Pregunta { get; set; }
         public decimal Nota { get; set; }
-        public string Codigo_Usuario { get; set; }
     }
 }

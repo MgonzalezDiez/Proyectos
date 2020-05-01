@@ -1055,7 +1055,6 @@ D:\Desarrollo C#\Evaluacion 360 v8\Evaluacion360\Evaluacion360\obj\Debug\Evaluac
 D:\Desarrollo C#\Evaluacion 360 v8\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csproj.CopyComplete
 D:\Desarrollo C#\Evaluacion 360 v8\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.pdb
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\EntityFramework.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Evaluacion360.dll.config
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Evaluacion360.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Evaluacion360.pdb
@@ -1139,11 +1138,10 @@ D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\NPO
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\NPOI.OOXML.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\NPOI.OpenXml4Net.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\NPOI.OpenXmlFormats.dll
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\PagedList.dll
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\PagedList.Mvc.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Remotion.Data.Linq.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Remotion.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Remotion.Interfaces.dll
+D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\SpreadsheetLight.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.Buffers.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.Diagnostics.DiagnosticSource.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.Drawing.Common.dll
@@ -1167,6 +1165,7 @@ D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Ant
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\DocumentFormat.OpenXml.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Elasticsearch.Net.pdb
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Elasticsearch.Net.xml
+D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\EntityFramework.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\EntityFramework.SqlServer.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\EPPlus.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\ICSharpCode.SharpZipLib.pdb
@@ -1190,8 +1189,7 @@ D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\MyS
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Nest.pdb
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Nest.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Newtonsoft.Json.xml
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\PagedList.xml
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\PagedList.Mvc.xml
+D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\SpreadsheetLight.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.Buffers.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.Diagnostics.DiagnosticSource.xml
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\System.IO.Pipelines.xml
@@ -1264,8 +1262,8 @@ D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\es\
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\es\System.Web.WebPages.resources.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\es\System.Web.WebPages.Deployment.resources.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csprojAssemblyReference.cache
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csproj.CoreCompileInputs.cache
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csproj.CopyComplete
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.dll
 D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.pdb
-D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\obj\Debug\Evaluacion360.csprojAssemblyReference.cache

@@ -58,15 +58,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+
     <!-- lined-icons -->
     <link href="~/Css/icon-font.min.css" rel="stylesheet" type='text/css' />
-
     <!-- //lined-icons -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-    @if (ViewBag.Message != null)
+    @*@if (ViewBag.Message != null)
     {
         if (ViewBag.Status)
         {
@@ -87,7 +88,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </button>
             </div>
         }
-    }
+    }*@
     <div id="mensaje">
 
     </div>
@@ -100,6 +101,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <form form="role" class="form-horizontal" action="Create" method="post" id="formAEQ" , name="formAEQ">
             @Html.AntiForgeryToken()
+
+            <input type="hidden" id="urlGet" name="urlGet" value="/AutoEvaluationQuestion/GetQuestionByUser" />
+            <input type="hidden" id="urlPost" name="urlPost" value="/AutoEvaluationQuestion/Edit"/>
 
             <div class="form-group has-feedback">
                 <label class="col-md-3 control-label ">Proceso</label>
@@ -116,7 +120,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <label class="col-md-3 control-label ">Nro Evaluación</label>
                 <div class="col-md-8">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon-plus-sign"></i></span>
+                        <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
                         @Html.EditorFor(model => model.Numero_Evaluacion, new { htmlAttributes = new { @id = "numEval", @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Nro. de Evaluación", @required = "required" } })
                     </div>
                 </div>
@@ -128,8 +132,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         @Html.HiddenFor(model => model.Codigo_Usuario, new { id = "codUser" })
-                        @Html.EditorFor(model => model.NombreUsuario, new { htmlAttributes = new { id ="nomUser", @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Nro. de Evaluación", @required = "required" } })
-
+                        @Html.EditorFor(model => model.NombreUsuario, new { htmlAttributes = new { id = "nomUser", @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Nro. de Evaluación", @required = "required" } })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -140,8 +143,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <label class="col-md-3 control-label ">Metas</label>
                 <div class="col-md-8">
                     <div class="input-group">
-
-                        <span class="input-group-addon"><i class="fa fa-pencil-square"></i></span>
+                        <span class="input-group-addon"><i class="fa fa-tasks"></i></span>
                         @Html.EditorFor(model => model.Metas, new { htmlAttributes = new { id = "metas", @required = "required", type = "text", minlength = 6, @class = "form-control1", @placeholder = "Ingrese Metas" } })
                     </div>
                 </div>
@@ -152,8 +154,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <label class="col-md-3 control-label ">Logros</label>
                 <div class="col-md-8">
                     <div class="input-group">
-
-                        <span class="input-group-addon"><i class="fa fa-pencil-square"></i></span>
+                        <span class="input-group-addon"><i class="fa fa-arrow-circle-up"></i></span>
                         @Html.EditorFor(model => model.Logros, new { htmlAttributes = new { id = "logros", @required = "required", type = "text", minlength = 6, @class = "form-control1", @placeholder = "Ingrese logros" } })
                     </div>
                 </div>
@@ -165,47 +166,49 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-th-list"></i></span>
-                        @Html.DropDownListFor(model => model.Codigo_Seccion, (SelectList)ViewBag.Sections, "Seleccione Dominio", new { @disabled = "disabled", id = "codSec", @required = "required", type = "text", @class = "form-control1" })
+                        @Html.DropDownListFor(model => model.Codigo_Seccion, (SelectList)ViewBag.Sections, "Seleccione Dominio", new { id = "codSec", @disabled = "disabled", @required = "required", type = "text", @class = "form-control1" })
                     </div>
                 </div>
             </div>
 
-            <div class="panel-body text-center">
-                <div id="grid"></div>
-            </div>
+            @*<div class="panel-body text-center">
+            <div id="grid"></div>
+        </div>*@
 
-            <div class="form-group">
-                <label class="col-md-3 control-label">Fecha</label>
-                <div class="col-md-8">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
-                        @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new {id = "fecha", @readonly = "readonly", type = "date", @class = "form-control1", @placeholder = "Ingrese Fecha", @maxlength = 10 } })
-                        <div class="clearfix"></div>
-                    </div>
+            @*<div class="form-group">
+            <label class="col-md-3 control-label">Fecha</label>
+            <div class="col-md-8">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { id = "fecha", @readonly = "readonly", type = "date", @class = "form-control1", @placeholder = "Ingrese Fecha", @maxlength = 10 } })
+                    <div class="clearfix"></div>
                 </div>
             </div>
+        </div>*@
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label ">Estado Auto Evaluación</label>
-                <div class="col-md-8">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-pencil-square"></i></span>
-                        @Html.HiddenFor(model => model.Estado_AE, new{ id = "estadoAE" })
-                        @Html.EditorFor(model => model.StateDescription, new { htmlattributes = new { id = "stateDesc", @readonly = "readonly", type = "text", @class = "form-control1" } })
-                    </div>
+            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group has-feedback">
+            <label class="col-md-3 control-label ">Estado Auto Evaluación</label>
+            <div class="col-md-8">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-pencil-square"></i></span>
+                    @Html.HiddenFor(model => model.Estado_AE, new { id = "estadoAE" })
+                    @Html.EditorFor(model => model.StateDescription, new { htmlattributes = new { id = "stateDesc", @readonly = "readonly", type = "text", @class = "form-control1" } })
                 </div>
             </div>
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group has-feedback">
-                <label class="col-md-3 control-label ">Nota Final Autoevaluación</label>
-                <div class="col-md-8">
-                    <div class="input-group" data-toggle="tooltip" data-placement="top" title="Nota Final de Auto Evaluación no es modificable">
-                        <span class="input-group-addon"><i class="fa fa-pencil-square"></i></span>
-                        @Html.EditorFor(model => model.Nota_Final_AE, new { htmlAttributes = new { id = "nFinAE", @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Nota Final Auto Evaluación" } })
-                    </div>
+        </div>*@
+
+            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group has-feedback">
+            <label class="col-md-3 control-label ">Nota Final Autoevaluación</label>
+            <div class="col-md-8">
+                <div class="input-group" data-toggle="tooltip" data-placement="top" title="Nota Final de Auto Evaluación no es modificable">
+                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                    @Html.EditorFor(model => model.Nota_Final_AE, new { htmlAttributes = new { id = "nFinAE", @readonly = "readonly", type = "text", @class = "form-control1", @placeholder = "Nota Final Auto Evaluación" } })
                 </div>
             </div>
+        </div>*@
+
             <div class="panel-footer">
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>

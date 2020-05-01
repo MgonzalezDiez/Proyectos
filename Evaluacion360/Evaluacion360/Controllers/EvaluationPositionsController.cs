@@ -4,325 +4,474 @@ using Evaluacion360.Models.ViewModels;
 using Evaluacion360.Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace Evaluacion360.Controllers
 {
     public class EvaluationPositionsController : Controller
     {
-        public class EvaluatorPositionController : Controller
+        string Mensaje = string.Empty;
+        int userType;
+
+
+        // GET: EvaluationPosition
+        public ActionResult List(int pagina = 1)
         {
-            string mensaje = string.Empty;
-            int userType;
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Status = true;
 
+            int CantidadRegitrosPorPagina = 10;
 
-            // GET: EvaluationPosition
-            public ActionResult List(int pagina = 1)
+            var oEP = new List<EvaluationPositionsListViewModel>();
+            using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+            oEP = (from cev in Db.Evaluacion_Preguntas_Cargos
+                   join pro in Db.Procesos_Evaluacion on cev.Codigo_Proceso equals pro.Codigo_Proceso
+                   join sec in Db.Secciones on cev.Codigo_seccion equals sec.Codigo_Seccion
+                   join usr in Db.Usuarios on cev.Codigo_Usuario equals usr.Codigo_Usuario
+                   join pre in Db.Preguntas_Aleatorias on new { a = cev.Codigo_seccion, b = cev.Numero_Pregunta } equals new { a = pre.Codigo_Seccion, b = pre.Numero_Pregunta }
+                   orderby cev.Numero_Evaluacion, cev.Codigo_Proceso
+                   select new EvaluationPositionsListViewModel
+                   {
+                       Numero_Evaluacion = cev.Numero_Evaluacion,
+                       Codigo_Proceso = pro.Nombre_Proceso,
+                       Codigo_Usuario = usr.Nombre_Usuario,
+                       Codigo_seccion = sec.Nombre_Seccion,
+                       Numero_Pregunta = pre.Texto_Pregunta,
+                       Nota = cev.Nota
+
+                   }).ToList();
+            var TotalRegistros = oEP.Count();
+            List<EvaluationPositionsListViewModel> lista = oEP.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();   //Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina);
+            var Modelo = new ListEvaluationPositionsViewModel
             {
-                userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
-                ViewBag.Status = true;
-                ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
-                ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
+                Secciones = lista,
+                PaginaActual = pagina,
+                TotalDeRegistros = TotalRegistros,
+                RegistrosPorPagina = CantidadRegitrosPorPagina
+            };
+            return View();
+        }
 
-                int CantidadRegitrosPorPagina = 10;
+        // GET: EvaluationPosition/Details/5
+        public ActionResult Details(Evaluacion_Preguntas_Cargos evq)
+        {
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
 
-                var oEP = new List<EvaluationPositionsListViewModel>();
-                using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
-                oEP = (from cev in Db.Cargos_Evaluadores
-                       join car in Db.Cargos on cev.Codigo_Cargo equals car.Codigo_Cargo
-                       join cae in Db.Cargos on cev.Cod_Cargo_Evaluado equals cae.Codigo_Cargo
-                       join sta in Db.Estado_Componentes on cev.IdState equals sta.IdState
-                       orderby cae.Nombre_Cargo, car.Nombre_Cargo
-                       select new EvaluationPositionsListViewModel
-                       {
-                           //Codigo_Cargo = cev.Codigo_Cargo,
-                           //Nombre_Cargo = car.Nombre_Cargo,
-                           //Cod_Cargo_Evaluado = cev.Cod_Cargo_Evaluado,
-                           //Nombre_Cargo_Evaluado = cae.Nombre_Cargo,
-                           //Ponderacion = cev.Ponderacion,
-                           //IdState = sta.StateDescription
+            var oEP = new List<EvaluationPositionsListViewModel>();
+            using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+            oEP = (from epc in Db.Evaluacion_Preguntas_Cargos
+                   join pro in Db.Procesos_Evaluacion on epc.Codigo_Proceso equals pro.Codigo_Proceso
+                   join sec in Db.Secciones on epc.Codigo_seccion equals sec.Codigo_Seccion
+                   join usr in Db.Usuarios on epc.Codigo_Usuario equals usr.Codigo_Usuario
+                   join pre in Db.Preguntas_Aleatorias on new { a = epc.Codigo_seccion, b = epc.Numero_Pregunta } equals new { a = pre.Codigo_Seccion, b = pre.Numero_Pregunta }
+                   where epc.Numero_Evaluacion == evq.Numero_Evaluacion && epc.Codigo_Proceso == evq.Codigo_Proceso && epc.Codigo_Usuario == evq.Codigo_Usuario
+                   orderby epc.Numero_Evaluacion, epc.Codigo_Proceso
+                   select new EvaluationPositionsListViewModel
+                   {
+                       Numero_Evaluacion = epc.Numero_Evaluacion,
+                       Codigo_Proceso = pro.Nombre_Proceso,
+                       Codigo_Usuario = usr.Nombre_Usuario,
+                       Codigo_seccion = sec.Nombre_Seccion,
+                       Numero_Pregunta = pre.Texto_Pregunta,
+                       Nota = epc.Nota
 
-                       }).ToList();
-                var TotalRegistros = oEP.Count();
-                List<EvaluationPositionsListViewModel> lista = oEP.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();   //Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina);
-                var Modelo = new ListEvaluationPositionsViewModel
+                   }).ToList();
+            return View(oEP);
+        }
+
+        // GET: EvaluationPosition/Create
+        [AuthorizeUser(IdOperacion: 5)]
+        public ActionResult Create(string mensaje)
+        {
+            ViewBag.Status = true;
+            Usuarios oUser = (Usuarios)Session["User"];
+
+            ViewBag.Users = new SelectList(Tools.LeerUsuarios(oUser.Codigo_Usuario), "Codigo_Usuario", "Nombre_Usuario", oUser.Codigo_Usuario);
+            ViewBag.Process = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
+            ViewBag.EvState = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "A");
+            ViewBag.Sections = new SelectList(Tools.DominiosPorUsuarioCargo(oUser.Codigo_Usuario), "Codigo_Seccion", "Nombre_Seccion");
+            ViewBag.Positions = new SelectList(Tools.LeerCargos(oUser.Tipo_Usuario), "Codigo_Cargo", "Nombre_Cargo");
+
+            if (mensaje != null && mensaje != "")
+            {
+                if (mensaje == "Ok")
                 {
-                    Secciones = lista,
-                    PaginaActual = pagina,
-                    TotalDeRegistros = TotalRegistros,
-                    RegistrosPorPagina = CantidadRegitrosPorPagina
-                };
-                return View();
+                    ViewBag.Message = "Auto Evaluación Actualizada exitosamente";
+                    ViewBag.Status = true;
+                }
+                else if (mensaje != "Ok")
+                {
+                    ViewBag.Message = mensaje;
+                    ViewBag.Status = false;
+                }
+            }
+            try
+            {
+                var oEC = new EvaluationPositionsViewModel();
+                using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+                oEC = (from pev in Db.Procesos_Evaluacion
+                       join evc in Db.Evaluaciones_Cargos on pev.Codigo_Proceso equals evc.Codigo_Proceso
+                       join usu in Db.Usuarios on evc.Cod_Usuario_Evaluado equals usu.Codigo_Usuario
+                       join eev in Db.Estado_Evaluaciones on evc.Estado_EC equals eev.IdState
+                       where usu.Codigo_Usuario == oUser.Codigo_Usuario && evc.Estado_EC == "A"
+                       orderby pev.Nombre_Proceso
+
+                       select new EvaluationPositionsViewModel
+                       {
+                           Numero_Evaluacion = evc.Numero_Evaluacion,
+                           Codigo_Proceso = evc.Codigo_Proceso,
+                           NombreProceso = pev.Nombre_Proceso,
+                           Codigo_Usuario_Evaluado = evc.Cod_Usuario_Evaluado,
+                           NombreUsuario = usu.Nombre_Usuario,
+                           Cod_Cargo_Evaluado = evc.Cod_Cargo_Evaluado,
+                           Estado_EC = eev.IdState ?? "",
+                           Nota_Final_EC = evc.Nota_Final_EC ?? 0,
+                           Numero_Pregunta = 0,
+                           TextoPregunta = "",
+
+                       }).FirstOrDefault();
+                return View(oEC);
+            }
+            catch (Exception ex)
+            {
+                Mensaje = ex.Message;
+                return View(Mensaje);
             }
 
-            // GET: EvaluationPosition/Details/5
-            public ActionResult Details(string codCargo, string codCargoEval)
-            {
-                userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
-                ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
-                ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
+        }
 
-                var oEP = new EvaluatorPositionViewModel();
+        // POST: EvaluacionPreguntas/Create
+        [AuthorizeUser(IdOperacion: 5)]
+        [HttpPost]
+        public ActionResult Create(EvaluationPositionsViewModel evp)
+        {
+            Usuarios oUser = (Usuarios)Session["User"];
+            ViewBag.Status = true;
+            ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
+            ViewBag.Sections = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion", "");
+            ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
+            ViewBag.EvState = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "");
+            ViewBag.Positions = new SelectList(Tools.LeerCargos(oUser.Tipo_Usuario), "Codigo_Cargo", "Nombre_Cargo");
+
+            try
+            {
+                //Validación del Modelo
+                if (ModelState.IsValid)
+                {
+                    #region Graba Datos
+                    using var bd = new BD_EvaluacionEntities();
+                    var oAe = new Evaluacion_Preguntas_Cargos
+                    {
+                        Numero_Evaluacion = evp.Numero_Evaluacion,
+                        Codigo_Proceso = evp.Codigo_Proceso,
+                        Codigo_seccion = evp.Codigo_seccion,
+                        Numero_Pregunta = evp.Numero_Pregunta,
+                        Nota = evp.Nota,
+                    };
+                    bd.Evaluacion_Preguntas_Cargos.Add(oAe);
+                    bd.SaveChanges();
+
+                    Mensaje = "Ok";
+                    return Json(data: new { success = true, data = Mensaje }, JsonRequestBehavior.AllowGet);
+                    #endregion
+                }
+                else
+                {
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
+                    {
+                        if (item.Errors.Count > 0)
+                        {
+                            Mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
+                        }
+                        Mensaje += " Contacte al Administrador";
+                    }
+                    return Json(data: new { success = false, data = Mensaje }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Mensaje = "Ocurrió el siguiente error " +
+                          e.InnerException.InnerException.Message +
+                          " Contacte al Administrador";
+                return Json(data: new { success = false, data = Mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        // GET: EvaluationPosition/Edit/5
+        [AuthorizeUser(IdOperacion: 5)]
+        public ActionResult Edit(int numEval, int codProceso, string codUsuario, string codSeccion, int numQuestion, string mensaje)
+        {
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Status = false;
+            ViewBag.Users = new SelectList(Tools.LeerUsuarios(""), "Codigo_Usuario", "Nombre_Usuario", "");
+            ViewBag.Section = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion", 1);
+            ViewBag.Process = new SelectList(Tools.LeerProcesos(), "Codio_Proceso", "Nombre_Proceso");
+            ViewBag.Questions = new SelectList(Tools.LeerPreguntasAleatorias(codSeccion, numQuestion), "Codigo_Seccion", "Nombre_Seccion");
+
+            if (mensaje != null && mensaje != "")
+            {
+                if (mensaje == "Ok")
+                {
+                    ViewBag.Message = "Cargo Evaluador modificado exitosamente";
+                    ViewBag.Status = true;
+                }
+                else if (mensaje != "Ok")
+                {
+                    ViewBag.Message = mensaje;
+                    ViewBag.Status = false;
+                }
+            }
+            try
+            {
+                var oEP = new EvaluationPositionsViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
-                oEP = (from evp in Db.Cargos_Evaluadores
-                       where evp.Codigo_Cargo == codCargo && evp.Cod_Cargo_Evaluado == codCargoEval
-                       select new EvaluatorPositionViewModel
+                oEP = (from evp in Db.Evaluacion_Preguntas_Cargos
+                       where evp.Numero_Evaluacion == numEval && evp.Codigo_Proceso == codProceso && evp.Codigo_Usuario == codUsuario
+                          && evp.Codigo_seccion == codSeccion && evp.Numero_Pregunta == numQuestion
+                       select new EvaluationPositionsViewModel
                        {
-                           Codigo_Cargo = evp.Codigo_Cargo,
-                           Cod_Cargo_Evaluado = evp.Cod_Cargo_Evaluado,
-                           Ponderacion = evp.Ponderacion,
-                           IdState = evp.IdState,
+                           Numero_Evaluacion = evp.Numero_Evaluacion,
+                           Codigo_Proceso = evp.Codigo_Proceso,
+                           Codigo_Usuario_Evaluado = evp.Codigo_Usuario,
+                           Codigo_seccion = evp.Codigo_seccion,
+                           Numero_Pregunta = evp.Numero_Pregunta,
+                           Nota = evp.Nota
                        }).FirstOrDefault();
                 return View(oEP);
             }
-
-            // GET: EvaluationPosition/Create
-            public ActionResult Create(string mensaje)
+            catch (Exception e)
             {
-                userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
-                ViewBag.Status = true;
-                ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
-                ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", 1);
-
-                try
-                {
-                    if (mensaje != null && mensaje != "")
-                    {
-                        if (mensaje == "Ok")
-                        {
-                            ViewBag.Message = "Cargo Evaluador Creado exitosamente";
-                            ViewBag.Status = true;
-                        }
-                        else if (mensaje != "Ok")
-                        {
-                            ViewBag.Message = mensaje;
-                            ViewBag.Status = false;
-                        }
-                    }
-                    //return View();
-                }
-                catch (Exception e)
-                {
-                    mensaje = "Ocurrió el siguiente error"
-                              + e.Message
-                              + " Contacte al Administrador";
-                }
-                return View(mensaje);
+                Mensaje = "Ocurrió el siguiente error"
+                          + e.InnerException.Message
+                          + " Contacte al Administrador";
+                return RedirectToAction("Edit", "EvaluationPositions", new { numEval, codProceso, codUsuario, codSeccion, numQuestion, Mensaje });
             }
+        }
 
-
-            // POST: EvaluationPosition/Create
-            [HttpPost]
-            [AuthorizeUser(IdOperacion: 4)]
-            public ActionResult Create(EvaluatorPositionViewModel EvPosition)
-            {
-                ViewBag.SectionState = new SelectList(Utils.Tools.LeerEstados(), "IdState", "StateDescription", "");
-                try
-                {
-                    //Validación del Modelo
-                    if (ModelState.IsValid)
-                    {
-                        #region Graba Datos
-                        using var bd = new BD_EvaluacionEntities();
-                        var oEP = new Cargos_Evaluadores
-                        {
-                            Codigo_Cargo = EvPosition.Codigo_Cargo,
-                            Cod_Cargo_Evaluado = EvPosition.Cod_Cargo_Evaluado,
-                            Ponderacion = EvPosition.Ponderacion,
-                            IdState = 1
-                        };
-                        bd.Cargos_Evaluadores.Add(oEP);
-                        bd.SaveChanges();
-
-                        mensaje = "Ok";
-                        ViewBag.Status = true;
-                        #endregion
-                    }
-                    else
-                    {
-                        string errors = string.Empty;
-                        foreach (var item in ModelState.Values)
-                        {
-                            if (item.Errors.Count > 0)
-                            {
-                                mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
-                            }
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    mensaje = "Ocurrió el siguiente error " + e.Message + " Contactar al administrador";
-                }
-                return RedirectToAction("List", "EvaluationPosition", new { mensaje });
-
-            }
-
-            // GET: EvaluationPosition/Edit/5
-            public ActionResult Edit(string codCargo, string codCargoEval, string mensaje)
-            {
-                userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
-                ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
-                ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
-
-                ViewBag.Status = false;
-                if (mensaje != null && mensaje != "")
-                {
-                    if (mensaje == "Ok")
-                    {
-                        ViewBag.Message = "Cargo Evaluador modificado exitosamente";
-                        ViewBag.Status = true;
-                    }
-                    else if (mensaje != "Ok")
-                    {
-                        ViewBag.Message = mensaje;
-                        ViewBag.Status = false;
-                    }
-                }
-                try
-                {
-                    var oEP = new EvaluatorPositionViewModel();
-                    using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
-                    oEP = (from evp in Db.Cargos_Evaluadores
-                           where evp.Codigo_Cargo == codCargo && evp.Cod_Cargo_Evaluado == codCargoEval
-                           select new EvaluatorPositionViewModel
-                           {
-                               Codigo_Cargo = evp.Codigo_Cargo,
-                               Cod_Cargo_Evaluado = evp.Cod_Cargo_Evaluado,
-                               Ponderacion = evp.Ponderacion,
-                               IdState = evp.IdState,
-                           }).FirstOrDefault();
-                    return View(oEP);
-
-
-                }
-                catch (Exception e)
-                {
-                    mensaje = "Ocurrió el siguiente error"
-                              + e.Message
-                              + " Contacte al Administrador";
-                    return View(codCargo, codCargoEval, mensaje);
-                }
-            }
-
-            // POST: EvaluationPosition/Edit/5
-            [HttpPost]
-            public ActionResult Edit(EvaluatorPositionViewModel EvPosition)
+        // POST: EvaluationPosition/Edit/5
+        [HttpPost]
+        [AuthorizeUser(IdOperacion: 5)]
+        public ActionResult Edit(EvaluationPositionsEditViewModel EvPos)
+        {
+            if(ModelState.IsValid)
             {
                 try
                 {
                     using var Db = new BD_EvaluacionEntities();
-                    var oEP = Db.Cargos_Evaluadores.Find(EvPosition.Codigo_Cargo, EvPosition.Cod_Cargo_Evaluado);
-                    oEP.Ponderacion = EvPosition.Ponderacion;
-                    oEP.IdState = EvPosition.IdState;
+                    var oEP = Db.Evaluacion_Preguntas_Cargos.Where(x => x.Numero_Evaluacion == EvPos.Numero_Evaluacion && x.Codigo_Proceso == EvPos.Codigo_Proceso && x.Codigo_Usuario == EvPos.Codigo_Usuario_Evaluado && x.Codigo_seccion == EvPos.Codigo_seccion && x.Numero_Pregunta == EvPos.Numero_Pregunta).FirstOrDefault();
+                    oEP.Nota = EvPos.Nota;
                     Db.Entry(oEP).State = System.Data.Entity.EntityState.Modified;
-                    mensaje = "Ok";
+                    Mensaje = "Ok";
                     Db.SaveChanges();
+
+                    //EvaluationPositionsViewModel epvm = new EvaluationPositionsViewModel()
+                    //{
+                    //    Numero_Evaluacion = EvPos.Numero_Evaluacion,
+                    //    Codigo_Proceso = EvPos.Codigo_Proceso,
+                    //    Codigo_Usuario_Evaluado = EvPos.Codigo_Usuario_Evaluado,
+                    //    Cod_Cargo_Evaluado = EvPos.Cod_Cargo_Evaluado,
+                    //    Estado_EC = "C"
+                    //};
+
+                    var oEvP = Db.Evaluaciones_Cargos.Where(x => x.Numero_Evaluacion == EvPos.Numero_Evaluacion && x.Codigo_Proceso == EvPos.Codigo_Proceso && x.Cod_Usuario_Evaluado == EvPos.Codigo_Usuario_Evaluado && x.Cod_Cargo_Evaluado == EvPos.Cod_Cargo_Evaluado).FirstOrDefault();
+                    oEvP.Estado_EC = "C";
+                    Db.Entry(oEvP).State = System.Data.Entity.EntityState.Modified;
+                    Db.SaveChanges();
+                    return Json( Mensaje );
+                    //return Json(data: new { success = true, data = Mensaje }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception ex)
                 {
-                    mensaje = "Se ha producido el siguiente error "
+                    Mensaje = "Se ha producido el siguiente error "
                             + ex.Message
                             + " Contacte al Administrador";
-
+                    return Json(Mensaje );
+                    //return Json(data: new { success = false, data = Mensaje }, JsonRequestBehavior.AllowGet);
                 }
-                return RedirectToAction("Edit", "EvaluationPosition", new { id = EvPosition.Codigo_Cargo, id2 = EvPosition.Cod_Cargo_Evaluado, mensaje });
             }
-
-            // GET: EvaluationPosition/Delete/5
-            public ActionResult Delete(string codCargo, string codCargoEval, string mensaje)
+            else
             {
-                userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
-                ViewBag.Status = true;
-                ViewBag.Cargos = new SelectList(Tools.LeerCargos(userType), "Codigo_Cargo", "Nombre_Cargo", "");
-                ViewBag.States = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
-
-                int cant = ViewBag.Cargos.Items.Count;
-                string[] PosEv = new string[cant];
-                for (int i = 0; i < cant; i++)
+                string errors = string.Empty;
+                foreach (var item in ModelState.Values)
                 {
-                    PosEv[i] = ViewBag.Cargos.Items[i].Nombre_Cargo.ToString();
-                }
-                ViewBag.NombreCargos = PosEv;
-
-                if (mensaje != null && mensaje != "")
-                {
-                    if (mensaje == "Ok")
+                    if (item.Errors.Count > 0)
                     {
-                        ViewBag.Message = "Pregunta de Evaluador Eliminada exitosamente";
-                        ViewBag.Status = true;
+                        Mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
                     }
-                    else
-                    {
-                        ViewBag.Message = mensaje;
-                        ViewBag.Status = false;
-                    }
+                    Mensaje += " Contacte al Administrador";
                 }
-                try
-                {
-                    var oEP = new EvaluatorPositionViewModel();
-                    using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
-                    oEP = (from cev in Db.Cargos_Evaluadores
-                           where cev.Codigo_Cargo == codCargo && cev.Cod_Cargo_Evaluado == codCargoEval
-                           orderby cev.Codigo_Cargo
-                           select new EvaluatorPositionViewModel
-                           {
-                               Codigo_Cargo = cev.Codigo_Cargo,
-                               Cod_Cargo_Evaluado = cev.Cod_Cargo_Evaluado,
-                               Ponderacion = cev.Ponderacion,
-                               IdState = cev.IdState
-
-                           }).FirstOrDefault();
-                    return View(oEP);
-                }
-                catch (Exception e)
-                {
-                    mensaje = "Ocurrió el siguiente error"
-                              + e.Message
-                              + " Contacte al Administrador";
-                }
-                return View(codCargo, codCargoEval, mensaje);
+                return Json(Mensaje );
+                //return Json(data: new { success = false, data = Mensaje }, JsonRequestBehavior.AllowGet);
             }
+        }
 
-            // POST: EvaluationPosition/Delete/5
-            [HttpPost]
-            public ActionResult Delete(EvaluatorPositionViewModel evPos)
+        // GET: EvaluationPosition/Delete/5
+        [AuthorizeUser(IdOperacion: 5)]
+        public ActionResult Delete(EvaluationPositionsViewModel evPos, string mensaje)
+        {
+            userType = Convert.ToInt32(Request.RequestContext.HttpContext.Session["TipoUsuario"]);
+            ViewBag.Status = false;
+            ViewBag.Users = new SelectList(Tools.LeerUsuarios(""), "Codigo_Usuario", "Nombre_Usuario", "");
+            ViewBag.Section = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion", 1);
+            ViewBag.Process = new SelectList(Tools.LeerProcesos(), "Codio_Proceso", "Nombre_Proceso");
+            ViewBag.Questions = new SelectList(Tools.LeerPreguntasAleatorias(evPos.Codigo_seccion, evPos.Numero_Pregunta), "Codigo_Seccion", "Nombre_Seccion");
+
+            if (mensaje != null && mensaje != "")
             {
-                try
+                if (mensaje == "Ok")
                 {
-                    if (ModelState.IsValid)
-                    {
-                        using var bd = new BD_EvaluacionEntities();
-                        var oUser = bd.Cargos_Evaluadores.Find(evPos.Codigo_Cargo, evPos.Cod_Cargo_Evaluado);
-                        oUser.IdState = 3;
+                    ViewBag.Message = "Evaluación Preguntas por Cargo Eliminada exitosamente";
+                    ViewBag.Status = true;
+                }
+                else
+                {
+                    ViewBag.Message = mensaje;
+                    ViewBag.Status = false;
+                }
+            }
+            try
+            {
+                var oEP = new EvaluationPositionsViewModel();
+                using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
+                oEP = (from evc in Db.Evaluacion_Preguntas_Cargos
+                       where evc.Numero_Evaluacion == evPos.Numero_Evaluacion && evc.Codigo_Proceso == evPos.Codigo_Proceso && evc.Codigo_Usuario == evPos.Codigo_Usuario_Evaluado && evc.Codigo_seccion == evPos.Codigo_seccion && evc.Numero_Pregunta == evPos.Numero_Pregunta
+                       select new EvaluationPositionsViewModel
+                       {
+                           Numero_Evaluacion = evc.Numero_Evaluacion,
+                           Codigo_Proceso = evc.Codigo_Proceso,
+                           Codigo_Usuario_Evaluado = evc.Codigo_Usuario,
+                           Codigo_seccion = evc.Codigo_seccion,
+                           Numero_Pregunta = evc.Numero_Pregunta,
+                           Nota = oEP.Nota
+                       }).FirstOrDefault();
+                return View(oEP);
+            }
+            catch (Exception e)
+            {
+                Mensaje = "Ocurrió el siguiente error"
+                          + e.Message
+                          + " Contacte al Administrador";
+            }
+            return View(new { evPos, Mensaje });
+        }
 
-                        bd.Entry(oUser).State = System.Data.Entity.EntityState.Modified;
-                        bd.SaveChanges();
-                        mensaje = "Ok";
-                    }
-                    else
+        // POST: EvaluationPosition/Delete/5
+        [HttpPost]
+        [AuthorizeUser(IdOperacion: 5)]
+        public ActionResult Delete(EvaluationPositionsViewModel evPos)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    using var Db = new BD_EvaluacionEntities();
+                    var oUser = Db.Evaluacion_Preguntas_Cargos.Find(evPos.Numero_Evaluacion, evPos.Codigo_Proceso, evPos.Codigo_Usuario_Evaluado, evPos.Codigo_seccion, evPos.Numero_Pregunta);
+
+                    Db.Entry(oUser).State = System.Data.Entity.EntityState.Deleted;
+                    Db.SaveChanges();
+                    Mensaje = "Ok";
+                }
+                else
+                {
+                    string errors = string.Empty;
+                    foreach (var item in ModelState.Values)
                     {
-                        string errors = string.Empty;
-                        foreach (var item in ModelState.Values)
+                        if (item.Errors.Count > 0)
                         {
-                            if (item.Errors.Count > 0)
-                            {
-                                mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
-                            }
+                            Mensaje += string.Format("{0} \n", item.Errors[0].ErrorMessage);
                         }
-                        mensaje += " Contacte al Administrador";
+                    }
+                    Mensaje += " Contacte al Administrador";
+                }
+            }
+            catch (Exception e)
+            {
+                Mensaje = "Ocurrió el siguiente error"
+                          + e.InnerException.Message
+                          + " Contacte al Administrador";
+            }
+            return RedirectToAction("Delete", "EvaluationPositions", new { evPos, Mensaje });
+        }
+
+        [HttpPost]
+        public JsonResult GetQuestion(int numEval, int codProc, string codSecc)
+        {
+            string ModelJson;
+            List<AutoEvQuestionScoreViewModel> QuestByUser; /*= new List<AutoEvQuestionScoreViewModel>();*/
+
+            QuestByUser = GetQuestions(numEval, codProc, codSecc).ToList();
+
+            if (QuestByUser != null)
+            {
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+                ModelJson = ser.Serialize(QuestByUser);
+            }
+            else
+            {
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+                ModelJson = ser.Serialize(QuestByUser);
+                return Json(ModelJson, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(ModelJson, JsonRequestBehavior.AllowGet);
+            ;
+        }
+
+        public static IEnumerable<AutoEvQuestionScoreViewModel> GetQuestions(int numEval, int codProc, string sectionCode)
+        {
+            List<AutoEvQuestionScoreViewModel> RandomQ = new List<AutoEvQuestionScoreViewModel>();
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            string sql = "select pec.Numero_Pregunta, pal.Texto_Pregunta " +
+                         "from Preguntas_Cargos pec " +
+                         "Join Evaluaciones_Cargos evc on pec.Cod_Cargo_Evaluado = evc.Cod_Cargo_Evaluado " +
+                         "join Preguntas_Aleatorias pal on pec.Codigo_seccion = pal.Codigo_Seccion and pec.Numero_Pregunta = pal.Numero_Pregunta " +
+                         "where evc.Numero_Evaluacion = " + numEval + " and evc.Codigo_Proceso = " + codProc + " and pec.Codigo_seccion = '" + sectionCode + "'" +
+                         "And pec.Cod_Cargo_Evaluado <> pec.Codigo_Cargo";
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using SqlCommand cmd = new SqlCommand
+            {
+                CommandText = sql,
+                Connection = Cnn
+            };
+            Cnn.Open();
+            using SqlDataReader sec = cmd.ExecuteReader();
+            if (sec.HasRows)
+            {
+                try
+                {
+                    while (sec.Read())
+                    {
+                        AutoEvQuestionScoreViewModel scc = new AutoEvQuestionScoreViewModel()
+                        {
+                            Codigo_Seccion = sectionCode,
+                            Numero_Pregunta = sec.GetInt32(0),
+                            TextoPregunta = sec.GetString(1),
+                            
+                        };
+
+                        RandomQ.Add(scc);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    mensaje = "Ocurrió el siguiente error"
-                              + e.Message
-                              + " Contacte al Administrador";
+                    string mensaje = ex.InnerException.InnerException.Message;
+                    RandomQ.Add(new AutoEvQuestionScoreViewModel()
+                    {
+                        Codigo_Seccion = "Error",
+                        TextoPregunta = mensaje + " Valide la información"
+
+                    });
                 }
-                return RedirectToAction("Delete", "EvaluationPosition", new { codCargo = evPos.Codigo_Cargo, codCargoEval = evPos.Cod_Cargo_Evaluado, mensaje });
             }
+            return RandomQ;
         }
     }
 }

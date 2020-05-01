@@ -100,9 +100,47 @@ namespace Evaluacion360.Utils
             List<Secciones> Section = new List<Secciones>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
             string sql = "Select Distinct Sec.Codigo_Seccion, Sec.Nombre_Seccion from Secciones Sec " +
-                         "Join Auto_Evaluacion_Preguntas AEP on Sec.Codigo_Seccion = AEP.Codigo_Seccion " +
+                         "Join Preguntas_Cargos Prc on Sec.Codigo_Seccion = Prc.Codigo_seccion " +
+                         "Join Auto_Evaluacion_Preguntas AEP on Sec.Codigo_Seccion = AEP.Codigo_Seccion And Prc.Numero_Pregunta = AEP.Numero_Pregunta " +
                          "Join Auto_Evaluaciones AEv on AEP.Numero_Evaluacion = AEv.Numero_Evaluacion and AEP.Codigo_Proceso = AEV.Codigo_Proceso " +
-                         "Where Codigo_Usuario = '" + codUsuario + "'";
+                         "Where Codigo_Usuario = '" + codUsuario + "'" +
+                         "And Prc.Cod_Cargo_Evaluado = Prc.Codigo_Cargo";
+
+
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using SqlCommand cmd = new SqlCommand
+            {
+                CommandText = sql,
+                Connection = Cnn
+            };
+            Cnn.Open();
+            using (SqlDataReader sec = cmd.ExecuteReader())
+            {
+                if (sec.HasRows)
+                {
+                    while (sec.Read())
+                    {
+                        Secciones scc = new Secciones()
+                        {
+                            Codigo_Seccion = sec.GetString(0),
+                            Nombre_Seccion = sec.GetString(1)
+                        };
+                        Section.Add(scc);
+                    }
+                }
+            }
+            return Section;
+        }
+
+        public static IEnumerable<Secciones> DominiosPorUsuarioCargo(string codUsuario)
+        {
+            List<Secciones> Section = new List<Secciones>();
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            string sql = "Select Distinct Sec.Codigo_Seccion, Sec.Nombre_Seccion from Secciones Sec " +
+                         "Join Preguntas_Cargos EPC on Sec.Codigo_Seccion = EPC.Codigo_Seccion " +
+                         "Join Evaluaciones_CargoS EVC on EPC.Cod_Cargo_Evaluado = EVC.Cod_Cargo_Evaluado " +
+                         "Where EVC.Cod_Usuario_Evaluado = '" + codUsuario + "'" +
+                         "And EPC.Cod_Cargo_Evaluado <> EPC.Codigo_Cargo";
 
 
             using SqlConnection Cnn = new SqlConnection(CnnStr);
@@ -202,7 +240,7 @@ namespace Evaluacion360.Utils
             List<Usuarios> Proc = new List<Usuarios>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
             string sql = "Select Codigo_Usuario, Nombre_Usuario from Usuarios";
-            if (CodUser != null && CodUser != "")
+            if (!string.IsNullOrEmpty(CodUser))
             {
                 sql += " where codigo_usuario = '" + CodUser + "'";
             }
@@ -281,7 +319,7 @@ namespace Evaluacion360.Utils
             return tipoUsuarios;
         }
 
-        public static IEnumerable<Evaluacion_Preguntas_Cargos> EvaluacionResultadoCagos(int NumEva, int CodPro, string CodSec, string CodCarE, string CodUsEval, int NumPre)
+        public static IEnumerable<Evaluacion_Preguntas_Cargos> EvaluacionResultadoCargos(int NumEva, int CodPro, string CodSec, string CodCarE, string CodUsEval, int NumPre)
         {
             List<Evaluacion_Preguntas_Cargos> Proc = new List<Evaluacion_Preguntas_Cargos>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;

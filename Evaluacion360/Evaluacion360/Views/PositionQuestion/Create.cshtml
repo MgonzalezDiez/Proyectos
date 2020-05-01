@@ -282,8 +282,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <td style="font-size:smaller" class="text-right">${item.Ponderacion_P}</td>
                                         </tr>`
                             })
-                            //$('#collapse').trigger('click');
-
                         }
                         else {
                             var info = "No existen preguntas para este Dominio";
@@ -341,10 +339,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 var arrDatos = [];
                 $('.case').each(function () {
                     if (this.checked) {
-                        //var checkBox = $(this).parents("tr").find("td")[0].innerHTML;
                         var numQuest = $(this).parents("tr").find("td")[1].innerHTML;
-                        //var txtQuest = $(this).parents("tr").find("td")[2].innerHTML;
-                        //var valPonde = $(this).parents("tr").find("td")[3].innerHTML;
 
                         var newData = {
                             Codigo_Cargo: $('#Codigo_Cargo').val(),
