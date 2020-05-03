@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Evaluacion360.Filters
 {
-    public class VerfySession: ActionFilterAttribute
+    public class VerfySession : ActionFilterAttribute
     {
         private Usuarios oUser;
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -37,7 +37,7 @@ namespace Evaluacion360.Filters
                 filterContext.HttpContext.Response.Redirect("~/Access/LogIn");
                 //filterContext.Result = new RedirectResult("~/Access/LogIn");
             }
-            
+
         }
 
     }

@@ -200,6 +200,100 @@ $(document).on('click', '#btnExcelRQ', function () {
                         </div>`;
     }
 
+    $(document).on('click', '#btnExcelEP', function () {
+        if (window.FormData !== undefined) {
+            var fileUpload = $("#file").get(0);
+            if ($("#file").get(0).files.length == 0) {
+                const msg = document.querySelector('#mensaje');
+                msg.innerHTML =
+                    `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >
+                <strong style="font-size:medium">Debe seleccionar archivo para realizar esta operación</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>`
+                return;
+            }
+            showLoader();
+            var files = "";
+            files = fileUpload.files;
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            $.ajax({
+                url: '/Excel/IndexEP',
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    showLoader();
+                    if (result != null || result != false) {
+                        let res = document.querySelector('#res');
+                        res.innerHTML = '';
+                        $.each(JSON.parse(result), function (i, itemRQ) {
+                            if (itemRQ.Codigo_Seccion == "Error") {
+                                let msg = document.querySelector('#mensaje');
+                                msg.innerHTML =
+                                    `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >
+                                <strong style="font-size:medium">${itemRQ.Texto_Pregunta}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>`
+                                return;
+                            }
+                            else {
+                                res.innerHTML += `
+                                <tr>
+                                    <td>${itemRQ.Codigo_Seccion}</td>
+                                    <td>${itemRQ.Numero_Pregunta}</td>
+                                    <td>${itemRQ.Texto_Pregunta}</td>
+                                    <td>${itemRQ.Ponderacion_P}</td>
+                                </tr>`
+                            }
+                        });
+                        let res2 = document.querySelector('#titulo');
+                        res2.innerHTML = `Preguntas Importadas desde Excel`;
+                        hideLoader();
+                    }
+                    else {
+                        let msg = document.querySelector('#mensaje');
+                        msg.innerHTML =
+                            `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >
+                            <strong style="font-size:medium">${itemRQ.Texto_Pregunta}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`
+                        return
+                    }
+                },
+                error: function (err) {
+                    hideLoader();
+                    let msg = document.querySelector('#mensaje');
+                    msg.innerHTML =
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >
+                            <strong style="font-size:medium">Algo salió mal.Por favor Contacte con el Administrador</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`
+                },
+            });
+        } else {
+            hideLoader();
+            let msg = document.querySelector('#mensaje');
+            msg.innerHTML =
+                `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="Ok" >
+                            <strong style="font-size:medium">FormData No es compatible con el Navegador</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+        }
+
     function showLoader() {
         $('#loading').show();
     }

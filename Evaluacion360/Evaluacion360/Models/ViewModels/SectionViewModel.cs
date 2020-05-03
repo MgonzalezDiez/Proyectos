@@ -11,14 +11,14 @@ namespace Evaluacion360.Models.ViewModels
         [Required]
         [MaxLength(100)]
         public string Nombre_Seccion { get; set; }
-        
+
         [Required]
         [DisplayFormat(DataFormatString = "{0:0.0}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^\d+\,\d{0,1}$")]
         [Range(typeof(decimal), "00,0", "100")]
         [Display(Name = "Ponderación")]
         public decimal Ponderacion_S { get; set; }
-        
+
         [Required]
         public int IdState { get; set; }
 

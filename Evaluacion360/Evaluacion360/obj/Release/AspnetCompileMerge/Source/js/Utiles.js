@@ -295,13 +295,14 @@
         var cProc = $("#codProc").val();
         var section = $(this).children("option:selected").val();
         var nEval = $("#numEval").val();
+        var cUser = $("#codUser").val();
         var sUrlGet = $("#urlGet").val();
 
         if (section != "") {
             $.ajax({
                 url: sUrlGet,
                 type: 'POST',
-                data: { numEval: nEval, codProc: cProc, codSecc: section },
+                data: { codUsu: cUser, numEval: nEval, codProc: cProc, codSecc: section },
                 success: function (result) {
                     if (result != null) {
                         let datos = JSON.parse(result);

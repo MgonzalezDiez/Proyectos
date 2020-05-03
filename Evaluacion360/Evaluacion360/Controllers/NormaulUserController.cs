@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Evaluacion360.Controllers
@@ -329,7 +328,7 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                return View( new { e.Message });
+                return View(new { e.Message });
                 //return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + e.Message);
             }
         }

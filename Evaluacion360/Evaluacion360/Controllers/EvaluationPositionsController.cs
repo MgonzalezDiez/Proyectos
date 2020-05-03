@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
@@ -261,7 +260,7 @@ namespace Evaluacion360.Controllers
         [AuthorizeUser(IdOperacion: 5)]
         public ActionResult Edit(EvaluationPositionsEditViewModel EvPos)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -281,11 +280,11 @@ namespace Evaluacion360.Controllers
                     //    Estado_EC = "C"
                     //};
 
-                    var oEvP = Db.Evaluaciones_Cargos.Where(x => x.Numero_Evaluacion == EvPos.Numero_Evaluacion && x.Codigo_Proceso == EvPos.Codigo_Proceso && x.Cod_Usuario_Evaluado == EvPos.Codigo_Usuario_Evaluado && x.Cod_Cargo_Evaluado == EvPos.Cod_Cargo_Evaluado).FirstOrDefault();
+                    var oEvP = Db.Evaluaciones_Cargos.Find(EvPos.Numero_Evaluacion, EvPos.Codigo_Proceso, EvPos.Codigo_Usuario_Evaluado, EvPos.Cod_Cargo_Evaluado);
                     oEvP.Estado_EC = "C";
                     Db.Entry(oEvP).State = System.Data.Entity.EntityState.Modified;
                     Db.SaveChanges();
-                    return Json( Mensaje );
+                    return Json(Mensaje);
                     //return Json(data: new { success = true, data = Mensaje }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception ex)
@@ -293,7 +292,7 @@ namespace Evaluacion360.Controllers
                     Mensaje = "Se ha producido el siguiente error "
                             + ex.Message
                             + " Contacte al Administrador";
-                    return Json(Mensaje );
+                    return Json(Mensaje);
                     //return Json(data: new { success = false, data = Mensaje }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -308,7 +307,7 @@ namespace Evaluacion360.Controllers
                     }
                     Mensaje += " Contacte al Administrador";
                 }
-                return Json(Mensaje );
+                return Json(Mensaje);
                 //return Json(data: new { success = false, data = Mensaje }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -402,12 +401,12 @@ namespace Evaluacion360.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetQuestion(int numEval, int codProc, string codSecc)
+        public JsonResult GetQuestion(string codUsu, int numEval, int codProc, string codSecc)
         {
             string ModelJson;
             List<AutoEvQuestionScoreViewModel> QuestByUser; /*= new List<AutoEvQuestionScoreViewModel>();*/
 
-            QuestByUser = GetQuestions(numEval, codProc, codSecc).ToList();
+            QuestByUser = GetQuestions(codUsu, numEval, codProc, codSecc).ToList();
 
             if (QuestByUser != null)
             {
@@ -425,16 +424,21 @@ namespace Evaluacion360.Controllers
             ;
         }
 
-        public static IEnumerable<AutoEvQuestionScoreViewModel> GetQuestions(int numEval, int codProc, string sectionCode)
+        public static IEnumerable<AutoEvQuestionScoreViewModel> GetQuestions(string codUsu, int numEval, int codProc, string sectionCode)
         {
             List<AutoEvQuestionScoreViewModel> RandomQ = new List<AutoEvQuestionScoreViewModel>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            string sql = "select pec.Numero_Pregunta, pal.Texto_Pregunta " +
-                         "from Preguntas_Cargos pec " +
-                         "Join Evaluaciones_Cargos evc on pec.Cod_Cargo_Evaluado = evc.Cod_Cargo_Evaluado " +
-                         "join Preguntas_Aleatorias pal on pec.Codigo_seccion = pal.Codigo_Seccion and pec.Numero_Pregunta = pal.Numero_Pregunta " +
-                         "where evc.Numero_Evaluacion = " + numEval + " and evc.Codigo_Proceso = " + codProc + " and pec.Codigo_seccion = '" + sectionCode + "'" +
-                         "And pec.Cod_Cargo_Evaluado <> pec.Codigo_Cargo";
+            string sql = "select epc.Numero_Pregunta, pal.Texto_Pregunta " +
+                         "from Evaluacion_Preguntas_Cargos epc " +
+                         "Join Evaluaciones_Cargos evc on epc.Numero_Evaluacion = evc.Numero_Evaluacion " +
+                         " and epc.Codigo_Proceso = evc.Codigo_Proceso and epc.Codigo_Usuario = evc.Cod_Usuario_Evaluado " +
+                         "join Preguntas_Cargos pca on evc.Cod_Cargo_Evaluado = pca.Cod_Cargo_Evaluado and epc.Codigo_seccion = pca.Codigo_seccion  " +
+                         "and epc.Numero_Pregunta = pca.Numero_Pregunta " +
+                         "join Preguntas_Aleatorias pal on epc.Codigo_seccion = pal.Codigo_Seccion and epc.Numero_Pregunta = pal.Numero_Pregunta " +
+                         "where epc.Codigo_Usuario = '" + codUsu + "' and evc.Numero_Evaluacion = " + numEval + " and evc.Codigo_Proceso = '" + codProc + "'" +
+                         "And epc.Codigo_seccion = '" + sectionCode + "'" +
+                         "And pca.Cod_Cargo_Evaluado <> pca.Codigo_Cargo ";
+
             using SqlConnection Cnn = new SqlConnection(CnnStr);
             using SqlCommand cmd = new SqlCommand
             {
@@ -454,7 +458,7 @@ namespace Evaluacion360.Controllers
                             Codigo_Seccion = sectionCode,
                             Numero_Pregunta = sec.GetInt32(0),
                             TextoPregunta = sec.GetString(1),
-                            
+
                         };
 
                         RandomQ.Add(scc);

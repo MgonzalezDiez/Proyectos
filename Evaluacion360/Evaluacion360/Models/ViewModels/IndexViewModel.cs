@@ -1,18 +1,14 @@
-﻿using Evaluacion360.Models;
-using Evaluacion360.Utils;
-using System;
+﻿using Evaluacion360.Utils;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Evaluacion360.Models.ViewModels
 {
-    public class IndexViewModel: BasePaginador
+    public class IndexViewModel : BasePaginador
     {
         public List<UserIndexViewModel> Secciones { get; set; }
     }
 
-    public class ListSectionViewModel: BasePaginador
+    public class ListSectionViewModel : BasePaginador
     {
         public List<SectionListViewModel> Secciones { get; set; }
     }

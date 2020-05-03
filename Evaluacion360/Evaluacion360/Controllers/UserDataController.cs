@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Evaluacion360.Models;
+using System;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Evaluacion360.Models;
-using Evaluacion360.Models.ViewModels;
 
 namespace Evaluacion360.Controllers
 {
@@ -71,7 +68,7 @@ namespace Evaluacion360.Controllers
                             Nombre_Completo = dUsuarios.Nombre_Completo,
                             Fecha_Nacimiento = dUsuarios.Fecha_Nacimiento,
                             Rut = dUsuarios.Rut
-                            
+
                         };
                         bd.Datos_Usuarios.Add(oUsuario);
                         bd.SaveChanges();

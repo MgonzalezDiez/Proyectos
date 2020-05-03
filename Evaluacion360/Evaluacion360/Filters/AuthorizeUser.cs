@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Evaluacion360.Filters
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple =false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class AuthorizeUser : AuthorizeAttribute
     {
         private Usuarios oUsuarios;
@@ -54,7 +54,7 @@ namespace Evaluacion360.Filters
         {
             var op = from ope in db.Operacion
                      where ope.Id == idOperacion
-                select ope.Nombre;
+                     select ope.Nombre;
             string NombreOperacion;
             try
             {

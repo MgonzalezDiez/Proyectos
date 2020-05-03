@@ -1,9 +1,6 @@
 ﻿using Evaluacion360.Utils;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 // Tabla Preguntas_Aleatorias
 
@@ -28,7 +25,7 @@ namespace Evaluacion360.Models.ViewModels
         public decimal Ponderacion_P { get; set; }
     }
 
-    public class ListRQViewModel: BasePaginador
+    public class ListRQViewModel : BasePaginador
     {
         public List<RQViewModel> Secciones { get; set; }
     }

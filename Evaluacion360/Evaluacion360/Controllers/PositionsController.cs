@@ -42,15 +42,15 @@ namespace Evaluacion360.Controllers
             using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
             oPos = (from pos in Db.Cargos
                     join ec in Db.Estado_Componentes on pos.IdState equals ec.IdState
-                        orderby pos.Nombre_Cargo
-                        select new PositionListViewModel
-                        {
-                            Codigo_Cargo = pos.Codigo_Cargo,
-                            Nombre_Cargo = pos.Nombre_Cargo,
-                            Fondo = pos.Fondo,
-                            Ciclo = pos.Ciclo,
-                            IdState = ec.StateDescription
-                        }).ToList();
+                    orderby pos.Nombre_Cargo
+                    select new PositionListViewModel
+                    {
+                        Codigo_Cargo = pos.Codigo_Cargo,
+                        Nombre_Cargo = pos.Nombre_Cargo,
+                        Fondo = pos.Fondo,
+                        Ciclo = pos.Ciclo,
+                        IdState = ec.StateDescription
+                    }).ToList();
             var TotalRegistros = oPos.Count();
             List<PositionListViewModel> lista = oPos.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();   //Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina);
             var Modelo = new ListPositionViewModel
@@ -112,7 +112,7 @@ namespace Evaluacion360.Controllers
                 }
             }
 
-            if(id != null && id !="")
+            if (id != null && id != "")
             {
                 var oPos = new PositionViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
@@ -127,11 +127,12 @@ namespace Evaluacion360.Controllers
                             IdState = car.IdState ?? 0
                         }).FirstOrDefault();
                 return View(oPos);
-            }else
+            }
+            else
             {
                 return View();
             }
-           
+
         }
 
         // POST: Positions/Create
@@ -175,11 +176,11 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                    mensaje = "Ocurrió el siguiente error"
-                              + e.Message
-                              + " Contacte al Administrador";
+                mensaje = "Ocurrió el siguiente error"
+                          + e.Message
+                          + " Contacte al Administrador";
             }
-            return RedirectToAction("Create", "Positions", new {id=model.Codigo_Cargo, mensaje });
+            return RedirectToAction("Create", "Positions", new { id = model.Codigo_Cargo, mensaje });
         }
 
         // GET: Positions/Edit/5
@@ -207,15 +208,15 @@ namespace Evaluacion360.Controllers
                 var oPos = new PositionViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oPos = (from car in Db.Cargos
-                            where car.Codigo_Cargo == id
-                            select new PositionViewModel
-                            {
-                                Codigo_Cargo = car.Codigo_Cargo,
-                                Nombre_Cargo = car.Nombre_Cargo,
-                                Fondo = car.Fondo,
-                                Ciclo = car.Ciclo,
-                                IdState = car.IdState ?? 0
-                            }).FirstOrDefault();
+                        where car.Codigo_Cargo == id
+                        select new PositionViewModel
+                        {
+                            Codigo_Cargo = car.Codigo_Cargo,
+                            Nombre_Cargo = car.Nombre_Cargo,
+                            Fondo = car.Fondo,
+                            Ciclo = car.Ciclo,
+                            IdState = car.IdState ?? 0
+                        }).FirstOrDefault();
                 return View(oPos);
             }
             catch (Exception e)
@@ -275,7 +276,7 @@ namespace Evaluacion360.Controllers
                     + e.Message
                     + " Contactar al administrador";
             }
-            return RedirectToAction("Edit", "Positions", new {id=codCcargo, mensaje });
+            return RedirectToAction("Edit", "Positions", new { id = codCcargo, mensaje });
         }
 
         // GET: Positions/Delete/5

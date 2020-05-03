@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity.Validation;
-using System.Data.SqlClient;
+﻿using Evaluacion360.Models;
+using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI;
-using Evaluacion360.Filters;
-using Evaluacion360.Models;
 
 namespace Evaluacion360.Controllers
 {
@@ -17,7 +11,7 @@ namespace Evaluacion360.Controllers
 
         // GET: Access
         [AllowAnonymous]
-        public ActionResult LogIn(string Mensaje, bool State=false)
+        public ActionResult LogIn(string Mensaje, bool State = false)
         {
             ViewBag.Status = true;
             if (Mensaje != null)
@@ -62,6 +56,6 @@ namespace Evaluacion360.Controllers
 
             }
         }
-        
+
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 // Tabla Cargos_Evaluadores
 namespace Evaluacion360.Models.ViewModels
@@ -11,7 +7,7 @@ namespace Evaluacion360.Models.ViewModels
     {
         [Required]
         public string Codigo_Cargo { get; set; }
-        
+
         [Required]
         public string Cod_Cargo_Evaluado { get; set; }
 

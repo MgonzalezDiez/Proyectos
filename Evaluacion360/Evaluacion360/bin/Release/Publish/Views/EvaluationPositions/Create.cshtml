@@ -122,7 +122,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
-                        @Html.EditorFor(model => model.Numero_Evaluacion, new { htmlAttributes = new { id = "numEval", @class = "form-control1", style = "font-family: 'Roboto', sans-serif; line-height: 8px" } })
+                        @Html.EditorFor(model => model.Numero_Evaluacion, new { htmlAttributes = new { id = "numEval", @readonly = "readonly", @class = "form-control1", style = "font-family: 'Roboto', sans-serif; line-height: 8px" } })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        @Html.DropDownListFor(model => model.Codigo_Usuario_Evaluado, (SelectList)ViewBag.Users, "", new { id = "codUser", @required = "required", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        @Html.DropDownListFor(model => model.Codigo_Usuario_Evaluado, (SelectList)ViewBag.Users, "", new { id = "codUser", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
-                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Positions, "", new { id = "codCargoEval", @readonly = "readonly", @required = "required", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Positions, "", new { id = "codCargoEval", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         <div class="clearfix"></div>
                     </div>
                 </div>

@@ -27,10 +27,10 @@ namespace Evaluacion360.Controllers
             var oEP = new List<EvaluationProcessViewModel>();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
-                oEP = (from ep in Db.Procesos_Evaluacion 
+                oEP = (from ep in Db.Procesos_Evaluacion
                        join ee in Db.Estado_Evaluaciones on ep.Estado_PE equals ee.IdState
                        orderby ep.Nombre_Proceso, ep.Ano_Proceso, ep.Mes_Proceso
-                       select new EvaluationProcessViewModel  
+                       select new EvaluationProcessViewModel
                        {
                            Codigo_Proceso = ep.Codigo_Proceso,
                            Nombre_Proceso = ep.Nombre_Proceso,
@@ -101,17 +101,17 @@ namespace Evaluacion360.Controllers
                 var oPE = new EvaluationProcessViewModel();
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oPE = (from pe in Db.Procesos_Evaluacion
-                        where pe.Codigo_Proceso == codProc 
-                        select new EvaluationProcessViewModel
-                        {
-                            Codigo_Proceso = pe.Codigo_Proceso,
-                            Nombre_Proceso = pe.Nombre_Proceso,
-                            Ano_Proceso = pe.Ano_Proceso,
-                            Mes_Proceso = pe.Mes_Proceso,
-                            Retroalimentacion = pe.Retroalimentacion,
-                            Estado_PE = pe.Estado_PE,
-                            IdState = pe.IdState
-                        }).FirstOrDefault();
+                       where pe.Codigo_Proceso == codProc
+                       select new EvaluationProcessViewModel
+                       {
+                           Codigo_Proceso = pe.Codigo_Proceso,
+                           Nombre_Proceso = pe.Nombre_Proceso,
+                           Ano_Proceso = pe.Ano_Proceso,
+                           Mes_Proceso = pe.Mes_Proceso,
+                           Retroalimentacion = pe.Retroalimentacion,
+                           Estado_PE = pe.Estado_PE,
+                           IdState = pe.IdState
+                       }).FirstOrDefault();
                 return View(oPE);
             }
             else
@@ -222,7 +222,7 @@ namespace Evaluacion360.Controllers
         // POST: EvaluationProcesses/Edit/5
         [AuthorizeUser(IdOperacion: 5)]
         [HttpPost]
-        public ActionResult Edit( EvaluationProcessViewModel ep)
+        public ActionResult Edit(EvaluationProcessViewModel ep)
         {
             try
             {
@@ -290,7 +290,7 @@ namespace Evaluacion360.Controllers
                 Mensaje = "Ocurrió el siguiente error "
                     + e.Message
                     + " Contactar al administrador";
-                return  View(new { codProc, Mensaje } );
+                return View(new { codProc, Mensaje });
             }
         }
 
@@ -325,8 +325,8 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                Mensaje = "Ocurrió el siguiente error " 
-                        + e.Message 
+                Mensaje = "Ocurrió el siguiente error "
+                        + e.Message
                         + " Contactar al administrador";
             }
             return RedirectToAction("Delete", "EvaluationProcesses", new { codProc, Mensaje });
@@ -359,7 +359,7 @@ namespace Evaluacion360.Controllers
         {
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(CnnStr))
-            
+
             using (SqlCommand cmd = new SqlCommand("Crea_Evaluaciones_Todos", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -369,7 +369,7 @@ namespace Evaluacion360.Controllers
                 {
                     ParameterName = "@Result",
                     SqlDbType = SqlDbType.NVarChar,
-                    Size=1000,
+                    Size = 1000,
                     Direction = ParameterDirection.Output,
                     Value = ""
                 };

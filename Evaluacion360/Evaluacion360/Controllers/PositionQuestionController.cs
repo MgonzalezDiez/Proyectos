@@ -5,9 +5,7 @@ using Evaluacion360.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace Evaluacion360.Controllers
 {
@@ -34,7 +32,7 @@ namespace Evaluacion360.Controllers
                            join crg in Db.Cargos on pos.Cod_Cargo_Evaluado equals crg.Codigo_Cargo
                            join sec in Db.Secciones on pos.Codigo_seccion equals sec.Codigo_Seccion
                            join sta in Db.Estado_Componentes on pos.IdState equals sta.IdState
-                           join rq in Db.Preguntas_Aleatorias on new { a = pos.Codigo_seccion, b = pos.Numero_Pregunta } equals new { a = rq.Codigo_Seccion, b = rq.Numero_Pregunta } 
+                           join rq in Db.Preguntas_Aleatorias on new { a = pos.Codigo_seccion, b = pos.Numero_Pregunta } equals new { a = rq.Codigo_Seccion, b = rq.Numero_Pregunta }
                            orderby car.Nombre_Cargo, crg.Nombre_Cargo, sec.Nombre_Seccion, pos.Numero_Pregunta
                            select new PositionQuestionListViewModel
                            {
@@ -97,7 +95,7 @@ namespace Evaluacion360.Controllers
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
                 oPQ = (from pcar in Db.Preguntas_Cargos
-                       
+
                        where pcar.Codigo_Cargo == codCargo && pcar.Cod_Cargo_Evaluado == codCargoEval && pcar.Codigo_seccion == codSection
                        select new PositionQuestionViewModel
                        {
@@ -230,7 +228,7 @@ namespace Evaluacion360.Controllers
             catch (Exception ex)
             {
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
-                return View( new { mensaje});
+                return View(new { mensaje });
                 //return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + mensaje);
             }
         }
@@ -286,7 +284,7 @@ namespace Evaluacion360.Controllers
             catch (Exception ex)
             {
                 mensaje = ex.InnerException.InnerException.Message + "Contactar al administrador";
-                return RedirectToAction("Edit", "PositionQuestion", new {codCargo = Pq.Codigo_Cargo, codCargoEval = Pq.Cod_Cargo_Evaluado, codSection = Pq.Codigo_seccion, questionNo = Pq.Numero_Pregunta, mensaje });
+                return RedirectToAction("Edit", "PositionQuestion", new { codCargo = Pq.Codigo_Cargo, codCargoEval = Pq.Cod_Cargo_Evaluado, codSection = Pq.Codigo_seccion, questionNo = Pq.Numero_Pregunta, mensaje });
             }
         }
 

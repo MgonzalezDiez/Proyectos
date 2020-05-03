@@ -1,13 +1,9 @@
 ﻿using Evaluacion360.Models;
 using System.Collections.Generic;
-using System.Data;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web.Mvc;
-using System.Web.Services;
-using System;
-using System.Web.Script.Serialization;
 
 namespace Evaluacion360.Utils
 {
@@ -94,7 +90,7 @@ namespace Evaluacion360.Utils
             return Section;
         }
 
-       
+
         public static IEnumerable<Secciones> DominiosPorUsuario(string codUsuario)
         {
             List<Secciones> Section = new List<Secciones>();
@@ -140,7 +136,7 @@ namespace Evaluacion360.Utils
                          "Join Preguntas_Cargos EPC on Sec.Codigo_Seccion = EPC.Codigo_Seccion " +
                          "Join Evaluaciones_CargoS EVC on EPC.Cod_Cargo_Evaluado = EVC.Cod_Cargo_Evaluado " +
                          "Where EVC.Cod_Usuario_Evaluado = '" + codUsuario + "'" +
-                         "And EPC.Cod_Cargo_Evaluado <> EPC.Codigo_Cargo";
+                         "And epc.Codigo_Cargo <> epc.Cod_Cargo_Evaluado";
 
 
             using SqlConnection Cnn = new SqlConnection(CnnStr);
@@ -429,7 +425,7 @@ namespace Evaluacion360.Utils
         public static IEnumerable<Estado_Evaluaciones> EvaluationState()
         {
             BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
-            IEnumerable< Estado_Evaluaciones> evState = Db.Estado_Evaluaciones.ToList();
+            IEnumerable<Estado_Evaluaciones> evState = Db.Estado_Evaluaciones.ToList();
 
             return evState;
         }

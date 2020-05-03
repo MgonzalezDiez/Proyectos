@@ -89,7 +89,7 @@ namespace Evaluacion360.Models.ViewModels
         [DataType(DataType.Password)]
         [MinLength(6)]
         public string PASS { get; set; }
-        
+
         [DataType(DataType.Password)]
         [CompareAttribute("PASS")]
         public string ConfirmPassword { get; set; }

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 // Auto Evaluacion Preguntas
 
 namespace Evaluacion360.Models.ViewModels
 {
-    public class AutoEvaluationQuestionViewModel        
+    public class AutoEvaluationQuestionViewModel
     {
         [Required]
         public int Numero_Evaluacion { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Evaluacion360.Models;
 using Evaluacion360.Models.ViewModels;
+using Evaluacion360.Utils;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,6 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using Evaluacion360.Utils;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System.Data;
-using System.Linq;
 
 namespace Evaluacion360.Controllers
 {
@@ -30,11 +26,11 @@ namespace Evaluacion360.Controllers
         {
 
             List<SectionExcelModel> excelModel = new List<SectionExcelModel>();
-            
+
             if (Request.Files.Count > 0)
             {
                 var ExcelJson = "";
-                
+
                 try
                 {
                     string fname;
@@ -90,7 +86,7 @@ namespace Evaluacion360.Controllers
                             ExcelJson = ser.Serialize(excelModel);
                             Console.WriteLine("Retorna Json " + ExcelJson);
                             return Json(ExcelJson, JsonRequestBehavior.AllowGet);
-                            
+
                         }
                     }
                     if (excelModel.Count > 0)
@@ -151,8 +147,8 @@ namespace Evaluacion360.Controllers
                                 if (wrkSheet.Cells[row, 3].Value != null)
                                 {
                                     ponderacion = Decimal.Parse(wrkSheet.Cells[row, 3].Value.ToString());
-                                }                             
-                                
+                                }
+
                                 oSection = new Secciones
                                 {
                                     Codigo_Seccion = CodSec,
@@ -322,7 +318,7 @@ namespace Evaluacion360.Controllers
                                     Ponderacion_P = ponderacion
                                 };
                                 res = Tools.ValidaPreguntas(CodSec, oRQ.Numero_Pregunta);
-                                if(res == 0)
+                                if (res == 0)
                                 {
                                     db.Preguntas_Aleatorias.Add(oRQ);
                                     db.SaveChanges();
@@ -377,123 +373,194 @@ namespace Evaluacion360.Controllers
         }
         #endregion
 
-        //private DataTable ReadExcelSheet(string fname, bool firstRowIsHeader)
-        //{
-        //    List<string> Headers = new List<string>();
-        //    DataTable dt = new DataTable();
-        //    using (SpreadsheetDocument doc = SpreadsheetDocument.Open(fname, false))
-        //    {
-        //        //Read the first Sheets 
-        //        Sheet sheet = doc.WorkbookPart.Workbook.Sheets.GetFirstChild<Sheet>();
-        //        Worksheet worksheet = (doc.WorkbookPart.GetPartById(sheet.Id.Value) as WorksheetPart).Worksheet;
-        //        IEnumerable<Row> rows = worksheet.GetFirstChild<SheetData>().Descendants<Row>();
-        //        int counter = 0;
-        //        foreach (Row row in rows)
-        //        {
-        //            counter = counter + 1;
-        //            //Read the first row as header
-        //            if (counter == 1)
-        //            {
-        //                var j = 1;
-        //                foreach (Cell cell in row.Descendants<Cell>())
-        //                {
-        //                    var colunmName = firstRowIsHeader ? GetCellValue(doc, cell) : "Field" + j++;
-        //                    Console.WriteLine(colunmName);
-        //                    Headers.Add(colunmName);
-        //                    dt.Columns.Add(colunmName);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                dt.Rows.Add();
-        //                int i = 0;
-        //                foreach (Cell cell in row.Descendants<Cell>())
-        //                {
-        //                    if(GetCellValue(doc, cell).Equals(null))
-        //                        {
-        //                        dt.Rows[dt.Rows.Count - 1][i] = "0";
+        #region Evaluacion Preguntas Cargos
+        // *************************************************************************************************//
+        // GET: Excel EP
+        public ActionResult ListEP()
+        {
+            return View();
+        }
 
-        //                    }
-        //                    else
-        //                    {
-        //                        dt.Rows[dt.Rows.Count - 1][i] = GetCellValue(doc, cell);
-        //                    }
-        //                    i++;
-        //                }
-        //            }
-        //        }
+        [HttpPost]
+        public JsonResult IndexEP()
+        {
+            List<EPExcelModel> excelModel = new List<EPExcelModel>();
 
-        //    }
-        //    return dt;
-        //}
+            if (Request.Files.Count > 0)
+            {
+                var ExcelJson = "";
+                try
+                {
+                    string fname;
 
-        //private string GetCellValue(SpreadsheetDocument doc, Cell cell)
-        //{
-        //    string value = cell.CellValue.InnerText;
-        //    if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
-        //    {
-        //        return doc.WorkbookPart.SharedStringTablePart.SharedStringTable.ChildElements.GetItem(int.Parse(value)).InnerText;
-        //    }
-        //    return value;
-        //}
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
 
-        //private void CreateExcelFile(DataTable table, string destination)
-        //{
-        //    using (var workbook = SpreadsheetDocument.Create(destination, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
-        //    {
-        //        var workbookPart = workbook.AddWorkbookPart();
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            fname = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            fname = file.FileName;
+                        }
+                        var newName = fname.Split('.');
+                        fname = newName[0] + "_" + DateTime.Now.Ticks.ToString() + "." + newName[1];
+                        var uploadRootFolderInput = AppDomain.CurrentDomain.BaseDirectory + "\\Importados";
+                        if (!Directory.Exists(uploadRootFolderInput))
+                        {
+                            Directory.CreateDirectory(uploadRootFolderInput);
+                        }
+                        var directoryFullPathInput = uploadRootFolderInput;
+                        fname = Path.Combine(directoryFullPathInput, fname);
+                        file.SaveAs(fname);
 
-        //        workbook.WorkbookPart.Workbook = new DocumentFormat.OpenXml.Spreadsheet.Workbook();
+                        excelModel = ReadEPExcel(fname);
 
-        //        workbook.WorkbookPart.Workbook.Sheets = new DocumentFormat.OpenXml.Spreadsheet.Sheets();
+                        var val1 = excelModel.Exists(n => n.Codigo_seccion == "Error");
 
-        //        var sheetPart = workbook.WorkbookPart.AddNewPart<WorksheetPart>();
-        //        var sheetData = new DocumentFormat.OpenXml.Spreadsheet.SheetData();
-        //        sheetPart.Worksheet = new DocumentFormat.OpenXml.Spreadsheet.Worksheet(sheetData);
+                        Directory.Delete(fname);
+                        FileInfo xFile = new FileInfo(fname);
+                        xFile.Delete();
 
-        //        DocumentFormat.OpenXml.Spreadsheet.Sheets sheets = workbook.WorkbookPart.Workbook.GetFirstChild<DocumentFormat.OpenXml.Spreadsheet.Sheets>();
-        //        string relationshipId = workbook.WorkbookPart.GetIdOfPart(sheetPart);
+                        if (excelModel != null && !val1)
+                        {
+                            JavaScriptSerializer ser = new JavaScriptSerializer();
+                            ExcelJson = ser.Serialize(excelModel);
+                        }
+                        else
+                        {
+                            JavaScriptSerializer ser = new JavaScriptSerializer();
+                            ExcelJson = ser.Serialize(excelModel);
+                            return Json(ExcelJson, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    if (excelModel.Count > 0)
+                    {
+                        return Json(ExcelJson, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                catch (Exception)
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-        //        uint sheetId = 1;
-        //        if (sheets.Elements<DocumentFormat.OpenXml.Spreadsheet.Sheet>().Count() > 0)
-        //        {
-        //            sheetId =
-        //                sheets.Elements<DocumentFormat.OpenXml.Spreadsheet.Sheet>().Select(s => s.SheetId.Value).Max() + 1;
-        //        }
+        public List<EPExcelModel> ReadEPExcel(string FilePath)
+        {
+            List<EPExcelModel> excelData = new List<EPExcelModel>();
+            try
+            {
+                FileInfo existingFile = new FileInfo(FilePath);
+                using ExcelPackage package = new ExcelPackage(existingFile);
+                ExcelWorksheet wrkSheet = package.Workbook.Worksheets[1];
+                int rowCount = wrkSheet.Dimension.End.Row;
 
-        //        DocumentFormat.OpenXml.Spreadsheet.Sheet sheet = new DocumentFormat.OpenXml.Spreadsheet.Sheet() { Id = relationshipId, SheetId = sheetId, Name = table.TableName };
-        //        sheets.Append(sheet);
+                using (BD_EvaluacionEntities db = new BD_EvaluacionEntities())
+                {
+                    try
+                    {
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+                            if (wrkSheet.Cells[row, 1].Value != null)
+                            {
+                                var CodSec = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper();
+                                int res = Tools.ValidaDominios(CodSec);
+                                if (res == 0)
+                                {
+                                    using BD_EvaluacionEntities bd = new BD_EvaluacionEntities();
+                                    var oSec = new Evaluacion_Preguntas_Cargos
+                                    {
+                                        //Numero_Evaluacion = NumEval,
+                                        //Codigo_Proceso = CodProc,
+                                        //Codigo_Usuario = CodUsu,
+                                        //Codigo_seccion = CodSec,
+                                        //Numero_Pregunta = NumPre,
+                                        Nota = 0
+                                    };
+                                    bd.Evaluacion_Preguntas_Cargos.Add(oSec);
+                                    bd.SaveChanges();
+                                }
+                                decimal ponderacion = 0;
+                                if (wrkSheet.Cells[row, 4].Value != null)
+                                {
+                                    ponderacion = Decimal.Parse(wrkSheet.Cells[row, 4].Value.ToString());
+                                }
 
-        //        DocumentFormat.OpenXml.Spreadsheet.Row headerRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
+                                var oRQ = new Preguntas_Aleatorias
+                                {
+                                    Codigo_Seccion = CodSec,
+                                    Numero_Pregunta = Convert.ToInt32(wrkSheet.Cells[row, 2].Value.ToString().Trim()),
+                                    Texto_Pregunta = wrkSheet.Cells[row, 3].Value.ToString().Trim(),
+                                    Ponderacion_P = ponderacion
+                                };
+                                res = Tools.ValidaPreguntas(CodSec, oRQ.Numero_Pregunta);
+                                if (res == 0)
+                                {
+                                    db.Preguntas_Aleatorias.Add(oRQ);
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    db.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                                excelData.Add(new EPExcelModel()
+                                {
+                                    //Codigo_Seccion = CodSec,
+                                    //Numero_Pregunta = oRQ.Numero_Pregunta,
+                                    //Texto_Pregunta = oRQ.Texto_Pregunta,
+                                    //Ponderacion_P = oRQ.Ponderacion_P
+                                });
+                            }
+                        }
+                        //bd.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        string mensaje = ex.InnerException.InnerException.Message;
+                        excelData.Clear();
+                        excelData.Add(new EPExcelModel()
+                        {
+                            Codigo_seccion = "Error",
+                            //Codigo_Proceso = mensaje + " Valide la información a Ingresar o Contáctese con el administrador",
+                            Numero_Pregunta = 0,
+                            Nota = 0
+                        });
+                    }
+                }
+                return excelData;
+            }
+            catch (Exception ex)
+            {
+                string mensaje = ex.InnerException.InnerException.Message;
 
-        //        List<String> columns = new List<string>();
-        //        foreach (System.Data.DataColumn column in table.Columns)
-        //        {
-        //            columns.Add(column.ColumnName);
+                excelData.Clear();
+                excelData.Add(new EPExcelModel()
+                {
 
-        //            DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
-        //            cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
-        //            cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(column.ColumnName);
-        //            headerRow.AppendChild(cell);
-        //        }
+                    Codigo_seccion = "Error",
+                    //Texto_Pregunta = mensaje + " Contactar al administrador",
+                    Numero_Pregunta = 0,
+                    Nota = 0
+                });
 
+                return excelData;
+            }
+        }
+        #endregion
 
-        //        sheetData.AppendChild(headerRow);
-
-        //        foreach (System.Data.DataRow dsrow in table.Rows)
-        //        {
-        //            DocumentFormat.OpenXml.Spreadsheet.Row newRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
-        //            foreach (String col in columns)
-        //            {
-        //                DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
-        //                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
-        //                cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(dsrow[col].ToString()); //
-        //                newRow.AppendChild(cell);
-        //            }
-
-        //            sheetData.AppendChild(newRow);
-        //        }
-        //    }
-        //}
     }
 }

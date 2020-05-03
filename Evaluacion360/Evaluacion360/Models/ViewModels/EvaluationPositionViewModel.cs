@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Evaluacion360.Models.ViewModels
 {
@@ -27,7 +24,7 @@ namespace Evaluacion360.Models.ViewModels
         public string Estado_EC { get; set; }
         public Nullable<decimal> Nota_Final_EC { get; set; }
 
-        public string  UsuarioEvaluador { get; set; }
+        public string UsuarioEvaluador { get; set; }
 
         //Evaluacion_Preguntas_Cargo
         public string Codigo_seccion { get; set; }

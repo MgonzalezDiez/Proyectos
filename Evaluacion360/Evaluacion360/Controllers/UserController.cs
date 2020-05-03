@@ -4,9 +4,7 @@ using Evaluacion360.Models.ViewModels;
 using Evaluacion360.Utils;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity.Validation;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -26,18 +24,18 @@ namespace Evaluacion360.Controllers
         public ActionResult List(int pagina = 1)
         {
             ActionResult result = null;
-           
+
             int cantidad = 10;
 
             int CantidadRegitrosPorPagina = 0;
             cantidad = Convert.ToInt32(10);
             CantidadRegitrosPorPagina = cantidad;
-            
+
             try
             {
                 Usuarios tUser = (Usuarios)Session["User"];
                 var oUser = new List<UserIndexViewModel>();
-               
+
                 using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                 oUser = (from usr in Db.Usuarios
                          join car in Db.Cargos on usr.Codigo_Cargo equals car.Codigo_Cargo
@@ -53,7 +51,7 @@ namespace Evaluacion360.Controllers
                              Codigo_Cargo = car.Nombre_Cargo,
                              IdState = sta.StateDescription
                          }).ToList();
-                
+
                 var TotalRegistros = oUser.Count();
                 List<UserIndexViewModel> lista = oUser.Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina).ToList();   //Skip((pagina - 1) * CantidadRegitrosPorPagina).Take(CantidadRegitrosPorPagina);
                 var Modelo = new IndexViewModel
@@ -216,7 +214,7 @@ namespace Evaluacion360.Controllers
                           {
                               Rut = du.Rut.ToString()
                           }
-                          ).FirstOrDefault(); 
+                          ).FirstOrDefault();
                     if (Du != null)
                     {
                         dv = Tools.CalcularDV(Convert.ToInt32(Du.Rut));
@@ -322,10 +320,10 @@ namespace Evaluacion360.Controllers
                              Nombre_Usuario = usr.Nombre_Usuario,
                              Tipo_Usuario = usr.Tipo_Usuario,
                              Codigo_Cargo = usr.Codigo_Cargo,
-                             IdState = usr.IdState.Equals(null)?0 :usr.IdState,
+                             IdState = usr.IdState.Equals(null) ? 0 : usr.IdState,
                              Nombre_Completo = lJo.Nombre_Completo ?? string.Empty,
                              Fecha_Nacimiento = lJo.Fecha_Nacimiento ?? dt,
-                             Rut = lJo.Rut.Equals(null)?0: lJo.Rut,
+                             Rut = lJo.Rut.Equals(null) ? 0 : lJo.Rut,
                              Dv = dv ?? string.Empty,
                              Fondo = lJo.Fondo ?? string.Empty,
                              Fecha_Ingreso = lJo.Fecha_Ingreso ?? dt,
@@ -339,7 +337,7 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                return View( new { e.Message});
+                return View(new { e.Message });
                 //return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + e.Message);
             }
         }
@@ -347,11 +345,11 @@ namespace Evaluacion360.Controllers
         // POST: User/Edit/5
         [HttpPost]
         [AuthorizeUser(IdOperacion: 3)]
-        public ActionResult Edit( UserEditViewModel model)
+        public ActionResult Edit(UserEditViewModel model)
         {
             try
             {
-                if (ModelState.IsValid )
+                if (ModelState.IsValid)
                 {
                     using BD_EvaluacionEntities Db = new BD_EvaluacionEntities();
                     var oUser = Db.Usuarios.Find(model.Codigo_Usuario);
@@ -420,13 +418,13 @@ namespace Evaluacion360.Controllers
                     }
                     mensaje += " Contacte al Administrador";
                 }
-                return RedirectToAction("Edit", "User", new {id=model.Codigo_Usuario, mensaje });
+                return RedirectToAction("Edit", "User", new { id = model.Codigo_Usuario, mensaje });
 
             }
             catch (Exception ex)
             {
                 mensaje = ex.Message;
-                return RedirectToAction("Edit", "User", new {id=model.Codigo_Usuario, mensaje });
+                return RedirectToAction("Edit", "User", new { id = model.Codigo_Usuario, mensaje });
             }
         }
 
@@ -517,7 +515,7 @@ namespace Evaluacion360.Controllers
             {
                 mensaje = ex.Message;
             }
-            return RedirectToAction("Delete", "User", new { id=udvm.Codigo_Usuario, mensaje });
+            return RedirectToAction("Delete", "User", new { id = udvm.Codigo_Usuario, mensaje });
 
         }
 
@@ -542,7 +540,7 @@ namespace Evaluacion360.Controllers
             using BD_EvaluacionEntities Bd = new BD_EvaluacionEntities();
             var existe = Bd.Usuarios.Where(a => a.Codigo_Usuario == UserCode).FirstOrDefault();
             return existe == null;
-        }     
+        }
     }
 }
 

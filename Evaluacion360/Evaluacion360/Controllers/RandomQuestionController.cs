@@ -4,10 +4,9 @@ using Evaluacion360.Models.ViewModels;
 using Evaluacion360.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using System.Data.Entity;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Evaluacion360.Controllers
 {
@@ -50,7 +49,7 @@ namespace Evaluacion360.Controllers
 
         // GET: RandomQuestion/Create
         [AuthorizeUser(IdOperacion: 4)]
-        public ActionResult Create(string codSection, int? questionNo, string mensaje )
+        public ActionResult Create(string codSection, int? questionNo, string mensaje)
         {
             ViewBag.Sections = new SelectList(Tools.LeerSecciones(), "Codigo_Seccion", "Nombre_Seccion", "");
             ViewBag.Status = true;
@@ -196,7 +195,7 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                return View( new { e.Message });
+                return View(new { e.Message });
                 //return RedirectToAction("~/Error/UnAuthorizedOperation?Error = " + e.Message);
             }
         }
@@ -281,7 +280,7 @@ namespace Evaluacion360.Controllers
             }
             catch (Exception e)
             {
-                return View( new { e.Message });
+                return View(new { e.Message });
                 //return RedirectToAction("~/Home/Error/UnAuthorizedOperation?Error = " + e.Message);
             }
         }
@@ -327,7 +326,7 @@ namespace Evaluacion360.Controllers
         {
             BD_EvaluacionEntities db = new BD_EvaluacionEntities();
             //db.Configuration.ProxyCreationEnabled = false;
-            
+
             var valorMaximo = db.Preguntas_Aleatorias.Where(x => x.Codigo_Seccion == codSec).Select(p => p.Numero_Pregunta).DefaultIfEmpty(0).Max();
             valorMaximo += 1;
             return Json(valorMaximo, JsonRequestBehavior.AllowGet);

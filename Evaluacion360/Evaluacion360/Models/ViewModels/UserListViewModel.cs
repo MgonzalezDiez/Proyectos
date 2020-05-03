@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Evaluacion360.Models
 {
@@ -17,7 +14,7 @@ namespace Evaluacion360.Models
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Fecha_Nacimiento { get; set; }
-        
+
         public string Rut { get; set; }
         public string Dv { get; set; }
         public string Fondo { get; set; }
