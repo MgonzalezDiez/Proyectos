@@ -95,21 +95,22 @@
         });
     });
 
+    var frm = document.title;
+    if (frm == "Preguntas Auto Evaluación") {
+        /*Ingreso de notas de Autoevaluacion*/
+        var logros = $('#logros').val();
+        var metas = $('#metas').val();
+        var codSec = document.getElementById('codSec');
 
-    /*Ingreso de notas de Autoevaluacion*/
-    //var logros = $('#logros').val();
-    //var metas = $('#metas').val();
-    //var codSec = document.getElementById('codSec');
-
-    //if (logros.innerHTML !="" ) {
-    //    if ((logros != null && logros != "") && (metas != null && metas != "")) {
-    //        codSec.disabled = false;
-    //    }
-    //    else {
-    //        codSec.disabled = true;
-    //    }
-    //}
-
+        if (logros != "") {
+            if ((logros != null && logros != "") && (metas != null && metas != "")) {
+                codSec.disabled = false;
+            }
+            else {
+                codSec.disabled = true;
+            }
+        }
+    }
 
     $(function () {
         $('#notas').on('input', function () {
@@ -199,7 +200,6 @@
                     Nota: nota
                 }
             }
-
 
             $.ajax({
                 type: "POST",
@@ -291,18 +291,48 @@
         }
     });
 
+    $('#logros').change(function () {
+        var logros = $('#logros').val();
+        var metas = $('#metas').val();
+        var codSec = document.getElementById('codSec');
+
+        if ((logros != null && logros != "") && (metas != null && metas != "")) {
+            codSec.disabled = false;
+            return;
+        }
+        else {
+            codSec.disabled = true;
+            return;
+        }
+    });
+    $('#metas').change(function () {
+        var logros = $('#logros').val();
+        var metas = $('#metas').val();
+        var codSec = document.getElementById('codSec');
+
+        if ((logros != null && logros != "") && (metas != null && metas != "")) {
+            codSec.disabled = false;
+            return;
+        }
+        else {
+            codSec.disabled = true;
+            return;
+        }
+    });
+
     $('#codSec').change(function () {
         var cProc = $("#codProc").val();
         var section = $(this).children("option:selected").val();
         var nEval = $("#numEval").val();
-        var cUser = $("#codUser").val();
+        var Cod_Cargo_Evaluador = $("#Cod_Cargo_Evaluador").val();
+        var Cod_Cargo_Evaluado = $("#codUserEval").val();
         var sUrlGet = $("#urlGet").val();
 
         if (section != "") {
             $.ajax({
                 url: sUrlGet,
                 type: 'POST',
-                data: { codUsu: cUser, numEval: nEval, codProc: cProc, codSecc: section },
+                data: { codCargoEvaluador: Cod_Cargo_Evaluador, codCargoEvaluado: Cod_Cargo_Evaluado, codProc: cProc, numEval: nEval, codSecc: section },
                 success: function (result) {
                     if (result != null) {
                         let datos = JSON.parse(result);
@@ -328,7 +358,7 @@
                                     res.innerHTML += `
                                     <tr>
                                         <td><label id = "numQuestion">${item.Numero_Pregunta}</td>
-                                        <td><label id = "textQuestion">${item.TextoPregunta}</td>
+                                        <td><label id = "textQuestion">${item.Texto_Pregunta}</td>
                                         <td><input id = "nota" type="number" class="form-control1", @required = "required", value = 0, style="width:60px; text-align:right;" maxlength = "3", min = "1.0", max = "7.0", step = "0.1"></td>
                                     </tr>`
                                 });
@@ -358,15 +388,84 @@
                 },
             });
         }
+        function showLoader() {
+            $('#loading').show();
+        };
+
+        function hideLoader() {
+            $('#loading').fadeOut();
+        };
     });
 
-    function showLoader() {
-        $('#loading').show();
-    };
 
-    function hideLoader() {
-        $('#loading').fadeOut();
-    };
+    $("#codUserEval").change(function () {
+        // Vacío EL DropDownList
+        $("#codCargoEval").empty();
+        $("#codSec").empty();
+        $.ajax({
+            type: 'POST',
+            url: "/EvaluationPositions/GetPositionByUser",
+            dataType: 'json',
+            data: { codUsuario: $("#codUserEval").val() },
+            success: function (positions) {
+                $.each(positions, function (i, item) {
+                    $("#codCargoEval").append("<option value='" + item.Codigo_Cargo + "'>" + item.Nombre_Cargo + "</option>");
+                });
+                $("#codCargoEval").change();
+            },
+            error: function (err) {
+                {
+                    let msg = document.querySelector('#mensaje');
+                    msg.innerHTML =
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
+                            <strong style="font-size:medium">Algo salió mal.Por favor Contacte con el Administrador</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+                    window.setTimeout(function () {
+                        $("#alertInfo").alert('close');
+                    }, 4000);
+                }
+            }
+        });
+        return false;
+    });
+
+    $("#codCargoEval").change(function () {
+        // Vacío EL DropDownList
+        $("#codSec").empty();
+        $.ajax({
+            type: 'POST',
+            url: "/EvaluationPositions/GetDomainByUser",
+            dataType: 'json',
+            data: { CodCargoEvaluador: $("#Cod_Cargo_Evaluador").val(), CodCargoEvaluado: $("#codUserEval").val() },
+            success: function (domains) {
+                $("#codSec").append("<option value>Seleccione Dominio </option>")
+                $.each(domains, function (i, item) {
+                    $("#codSec").append("<option value='" + item.Codigo_Seccion + "'>" + item.Nombre_Seccion + "</option>");
+                });
+            },
+            error: function (err) {
+                {
+                    let msg = document.querySelector('#mensaje');
+                    msg.innerHTML =
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertInfo" >
+                            <strong style="font-size:medium">Algo salió mal.Por favor Contacte con el Administrador</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+                    window.setTimeout(function () {
+                        $("#alertInfo").alert('close');
+                    }, 4000);
+                }
+            }
+        });
+        return false;
+    });
+
+
 
 })
 

@@ -4,7 +4,9 @@ using Evaluacion360.Utils;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -129,14 +131,19 @@ namespace Evaluacion360.Controllers
                     {
                         if (wrkSheet.Cells[row, 1].Value != null)
                         {
+                            decimal Ponderacion = 0;
                             string CodSec = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper();
+                            if (wrkSheet.Cells[row, 3].Value != null)
+                            {
+                                Ponderacion = decimal.Parse(wrkSheet.Cells[row, 3].Value.ToString().Trim());
+                            }
                             int res = Tools.ValidaDominios(CodSec);
                             Secciones oSection = new Secciones();
                             if (res >= 1)
                             {
                                 oSection.Codigo_Seccion = CodSec;
                                 oSection.Nombre_Seccion = wrkSheet.Cells[row, 2].Value.ToString().Trim().ToUpper();
-                                oSection.Ponderacion_S = decimal.Parse(wrkSheet.Cells[row, 3].Value.ToString().Trim());
+                                oSection.Ponderacion_S = Ponderacion;
                                 oSection.IdState = 1;
                                 bd.Entry(oSection).State = System.Data.Entity.EntityState.Modified;
                                 bd.SaveChanges();
@@ -210,7 +217,6 @@ namespace Evaluacion360.Controllers
                 try
                 {
                     string fname;
-
                     HttpFileCollectionBase files = Request.Files;
                     for (int i = 0; i < files.Count; i++)
                     {
@@ -289,6 +295,7 @@ namespace Evaluacion360.Controllers
                         {
                             if (wrkSheet.Cells[row, 1].Value != null)
                             {
+                                int total = 0;
                                 var CodSec = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper();
                                 int res = Tools.ValidaDominios(CodSec);
                                 if (res == 0)
@@ -304,6 +311,7 @@ namespace Evaluacion360.Controllers
                                     bd.Secciones.Add(oSec);
                                     bd.SaveChanges();
                                 }
+
                                 decimal ponderacion = 0;
                                 if (wrkSheet.Cells[row, 4].Value != null)
                                 {
@@ -320,6 +328,7 @@ namespace Evaluacion360.Controllers
                                 res = Tools.ValidaPreguntas(CodSec, oRQ.Numero_Pregunta);
                                 if (res == 0)
                                 {
+                                    total += 1;
                                     db.Preguntas_Aleatorias.Add(oRQ);
                                     db.SaveChanges();
                                 }
@@ -335,6 +344,18 @@ namespace Evaluacion360.Controllers
                                     Texto_Pregunta = oRQ.Texto_Pregunta,
                                     Ponderacion_P = oRQ.Ponderacion_P
                                 });
+
+                                if (total == 0)
+                                {
+                                    excelData.Clear();
+                                    excelData.Add(new RQExcelModel()
+                                    {
+                                        Codigo_Seccion = "Error",
+                                        Texto_Pregunta = "Los registros ya existen, valide la información",
+                                        Numero_Pregunta = 0
+                                    });
+                                }
+
                             }
                         }
                         //bd.SaveChanges();
@@ -352,7 +373,6 @@ namespace Evaluacion360.Controllers
                         });
                     }
                 }
-                return excelData;
             }
             catch (Exception ex)
             {
@@ -361,15 +381,13 @@ namespace Evaluacion360.Controllers
                 excelData.Clear();
                 excelData.Add(new RQExcelModel()
                 {
-
                     Codigo_Seccion = "Error",
                     Texto_Pregunta = mensaje + " Contactar al administrador",
                     Numero_Pregunta = 0,
                     Ponderacion_P = 0
                 });
-
-                return excelData;
             }
+            return excelData;
         }
         #endregion
 
@@ -418,11 +436,10 @@ namespace Evaluacion360.Controllers
                         fname = Path.Combine(directoryFullPathInput, fname);
                         file.SaveAs(fname);
 
-                        excelModel = ReadEPExcel(fname);
+                        excelModel = SaveEPExcel(fname);
 
-                        var val1 = excelModel.Exists(n => n.Codigo_seccion == "Error");
+                        var val1 = excelModel.Exists(n => n.Codigo_Seccion == "Error");
 
-                        Directory.Delete(fname);
                         FileInfo xFile = new FileInfo(fname);
                         xFile.Delete();
 
@@ -458,7 +475,7 @@ namespace Evaluacion360.Controllers
             }
         }
 
-        public List<EPExcelModel> ReadEPExcel(string FilePath)
+        public List<EPExcelModel> SaveEPExcel(string FilePath)
         {
             List<EPExcelModel> excelData = new List<EPExcelModel>();
             try
@@ -468,93 +485,135 @@ namespace Evaluacion360.Controllers
                 ExcelWorksheet wrkSheet = package.Workbook.Worksheets[1];
                 int rowCount = wrkSheet.Dimension.End.Row;
 
-                using (BD_EvaluacionEntities db = new BD_EvaluacionEntities())
+                BD_EvaluacionEntities db = new BD_EvaluacionEntities();
+                var Proceso = db.Procesos_Evaluacion.Where(x => x.Estado_PE == "A").FirstOrDefault();
+                var EvalNo = db.Auto_Evaluaciones.Where(ae => ae.Codigo_Proceso == Proceso.Codigo_Proceso).FirstOrDefault();
+                try
                 {
-                    try
+                    var NumEval = EvalNo.Numero_Evaluacion;
+                    for (int row = 2; row <= rowCount; row++)
                     {
-                        for (int row = 2; row <= rowCount; row++)
+                        if (wrkSheet.Cells[row, 1].Value != null)
                         {
-                            if (wrkSheet.Cells[row, 1].Value != null)
-                            {
-                                var CodSec = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper();
-                                int res = Tools.ValidaDominios(CodSec);
-                                if (res == 0)
-                                {
-                                    using BD_EvaluacionEntities bd = new BD_EvaluacionEntities();
-                                    var oSec = new Evaluacion_Preguntas_Cargos
-                                    {
-                                        //Numero_Evaluacion = NumEval,
-                                        //Codigo_Proceso = CodProc,
-                                        //Codigo_Usuario = CodUsu,
-                                        //Codigo_seccion = CodSec,
-                                        //Numero_Pregunta = NumPre,
-                                        Nota = 0
-                                    };
-                                    bd.Evaluacion_Preguntas_Cargos.Add(oSec);
-                                    bd.SaveChanges();
-                                }
-                                decimal ponderacion = 0;
-                                if (wrkSheet.Cells[row, 4].Value != null)
-                                {
-                                    ponderacion = Decimal.Parse(wrkSheet.Cells[row, 4].Value.ToString());
-                                }
+                            NumEval += 1;
 
-                                var oRQ = new Preguntas_Aleatorias
+                            var CodCargo = wrkSheet.Cells[row, 1].Value.ToString().Trim().ToUpper();
+                            var CodSec = wrkSheet.Cells[row, 2].Value.ToString().Trim().ToUpper();
+                            var Pctje = wrkSheet.Cells[row, 3].Value.ToString().Trim().ToUpper();
+
+
+                            var CodUsuario = db.Usuarios.Where(u => u.Codigo_Cargo == CodCargo).Select(usu => usu.Codigo_Usuario).FirstOrDefault();
+
+                            int res = Tools.ValidaDominios(CodSec);
+                            if (res == 1)
+                            {
+                                int total = 0;
+                                IEnumerable<int> Preguntas;
+                                if (Pctje == "S")
                                 {
-                                    Codigo_Seccion = CodSec,
-                                    Numero_Pregunta = Convert.ToInt32(wrkSheet.Cells[row, 2].Value.ToString().Trim()),
-                                    Texto_Pregunta = wrkSheet.Cells[row, 3].Value.ToString().Trim(),
-                                    Ponderacion_P = ponderacion
-                                };
-                                res = Tools.ValidaPreguntas(CodSec, oRQ.Numero_Pregunta);
-                                if (res == 0)
-                                {
-                                    db.Preguntas_Aleatorias.Add(oRQ);
-                                    db.SaveChanges();
+                                    var Preg = db.Preguntas_Aleatorias.Where(x => x.Codigo_Seccion == CodSec && x.Ponderacion_P > 0)
+                                        .Select(a => a.Numero_Pregunta);
+                                    Preguntas = Preg.ToList();
                                 }
                                 else
                                 {
-                                    db.Entry(oRQ).State = System.Data.Entity.EntityState.Modified;
-                                    db.SaveChanges();
+                                    var Preg = db.Preguntas_Aleatorias.Where(xx => xx.Codigo_Seccion == CodSec && xx.Ponderacion_P == 0)
+                                        .Select(a => a.Numero_Pregunta);
+                                    Preguntas = Preg.ToList();
                                 }
-                                excelData.Add(new EPExcelModel()
+
+                                foreach (var QuestNo in Preguntas)
                                 {
-                                    //Codigo_Seccion = CodSec,
-                                    //Numero_Pregunta = oRQ.Numero_Pregunta,
-                                    //Texto_Pregunta = oRQ.Texto_Pregunta,
-                                    //Ponderacion_P = oRQ.Ponderacion_P
-                                });
+                                    var existe = db.Preguntas_Cargos.Find(CodCargo, CodCargo, CodSec, QuestNo);
+                                    if (existe == null)
+                                    {
+                                        total += 1;
+                                        var oEpc = new Preguntas_Cargos
+                                        {
+                                            Codigo_Cargo = CodCargo,
+                                            Cod_Cargo_Evaluado = CodCargo,
+                                            Codigo_seccion = CodSec,
+                                            Numero_Pregunta = QuestNo,
+                                            IdState = 1
+                                        };
+                                        db.Preguntas_Cargos.Add(oEpc);
+
+                                        excelData.Add(new EPExcelModel()
+                                        {
+                                            Codigo_Cargo = CodCargo,
+                                            Cod_Cargo_Evaluado = CodCargo,
+                                            Codigo_Seccion = CodSec,
+                                            Numero_Pregunta = QuestNo,
+                                            IdState = 1
+                                        });
+                                    }
+
+                                    var EvCargos = db.Cargos_Evaluadores.Where(x => x.Cod_Cargo_Evaluado == CodCargo && x.Codigo_Cargo != CodCargo).Select(ev => ev.Codigo_Cargo).ToList();
+                                    foreach (var cargo in EvCargos)
+                                    {
+                                        var existePC = db.Preguntas_Cargos.Find(cargo, CodCargo, CodSec, QuestNo);
+                                        if (existePC == null)
+                                        {
+                                            var oEvc = new Preguntas_Cargos
+                                            {
+                                                Codigo_Cargo = cargo,
+                                                Cod_Cargo_Evaluado = CodCargo,
+                                                Codigo_seccion = CodSec,
+                                                Numero_Pregunta = QuestNo,
+                                                IdState = 1
+                                            };
+                                            db.Preguntas_Cargos.Add(oEvc);
+                                            excelData.Add(new EPExcelModel()
+                                            {
+                                                Codigo_Cargo = cargo,
+                                                Cod_Cargo_Evaluado = CodCargo,
+                                                Codigo_Seccion = CodSec,
+                                                Numero_Pregunta = QuestNo,
+                                                IdState = 1
+                                            });
+                                        }
+                                    }
+                                    db.SaveChanges();
+
+                                    if (total == 0)
+                                    {
+                                        excelData.Clear();
+                                        excelData.Add(new EPExcelModel()
+                                        {
+                                            Codigo_Seccion = "Error",
+                                            Mensaje = "Los registros ya existen, valide la información",
+                                            Numero_Pregunta = 0
+                                        });
+                                    }
+                                }
                             }
                         }
-                        //bd.SaveChanges();
-                    }
-                    catch (Exception ex)
-                    {
-                        string mensaje = ex.InnerException.InnerException.Message;
-                        excelData.Clear();
-                        excelData.Add(new EPExcelModel()
-                        {
-                            Codigo_seccion = "Error",
-                            //Codigo_Proceso = mensaje + " Valide la información a Ingresar o Contáctese con el administrador",
-                            Numero_Pregunta = 0,
-                            Nota = 0
-                        });
                     }
                 }
+                catch (Exception ex)
+                {
+                    string mensaje = ex.InnerException.InnerException.Message;
+                    excelData.Clear();
+                    excelData.Add(new EPExcelModel()
+                    {
+                        Codigo_Seccion = "Error",
+                        Mensaje = mensaje,
+                        Numero_Pregunta = 0
+                    });
+                }
+
                 return excelData;
             }
             catch (Exception ex)
             {
-                string mensaje = ex.InnerException.InnerException.Message;
+                string mensaje = ex.Message;
 
                 excelData.Clear();
                 excelData.Add(new EPExcelModel()
                 {
-
-                    Codigo_seccion = "Error",
-                    //Texto_Pregunta = mensaje + " Contactar al administrador",
-                    Numero_Pregunta = 0,
-                    Nota = 0
+                    Codigo_Seccion = "Error",
+                    Mensaje = mensaje,
+                    Numero_Pregunta = 0
                 });
 
                 return excelData;

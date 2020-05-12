@@ -412,6 +412,7 @@
     <Compile Include="Models\ViewModels\IndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\200.gif" />
     <Content Include="Content\ajax-loader.gif" />
     <Content Include="Css-Modernizer\bar.css" />
     <Content Include="Css-Modernizer\bootstrap.css" />
@@ -566,6 +567,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\EvaluationPositions\Create.cshtml" />
     <Content Include="Views\Excel\ListEP.cshtml" />
+    <Content Include="Views\EvaluationProcesses\GenerarCalculoNotas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

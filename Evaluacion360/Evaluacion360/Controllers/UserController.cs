@@ -522,6 +522,8 @@ namespace Evaluacion360.Controllers
         public ActionResult LogOff()
         {
             Session["User"] = null;
+            Session["PositionCode"] = null;
+            Session["TipoUsurio"] = null;
             return RedirectToAction("Login", "Access");
         }
 

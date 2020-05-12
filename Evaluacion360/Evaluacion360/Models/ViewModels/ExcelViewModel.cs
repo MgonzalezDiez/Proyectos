@@ -48,26 +48,19 @@ namespace Evaluacion360.Models.ViewModels
     public class EPExcelModel
     {
         //Datos Evaluacion Preguntas Cargos
-        [JsonProperty("Numero Evaluacion")]
-        public int Numer_Evaluacion { get; set; }
-        [JsonProperty("Codigo Proceso")]
-        public int Codigo_Proceso { get; set; }
-        [JsonProperty("Cod. Usuario Evaluado")]
-        public string Cod_Usuario_Evaluado { get; set; }
+        [JsonProperty("Codigo de Cargo")]
+        public string Codigo_Cargo { get; set; }
+        [JsonProperty("Cod Cargo Eval")]
+        public string Cod_Cargo_Evaluado { get; set; }
         [JsonProperty("Codigo Seccion")]
-        public string Codigo_seccion { get; set; }
+        public string Codigo_Seccion { get; set; }
         [JsonProperty("Numero Pregunta")]
         public int Numero_Pregunta { get; set; }
-        [JsonProperty("Nota")]
-        public decimal Nota { get; set; }
+        [JsonProperty("Estado")]
+        public int IdState { get; set; }
+        [JsonProperty("Error")]
+        public string Mensaje { get; set; }
 
-        ////Datos Evaluaciones Cargos
-        //[JsonProperty("Cod. Cargo Evaluado")]
-        //public string Cod_Cargo_Evaluado { get; set; }
-        //[JsonProperty("Estado Ev. Cargo")]
-        //public string Estado_EC { get; set; }
-        //[JsonProperty("Nota Final")]
-        //public string Nota_Final { get; set; }
     }
     #endregion
 

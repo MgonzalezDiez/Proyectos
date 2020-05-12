@@ -165,7 +165,7 @@ namespace Evaluacion360.Controllers
             ViewBag.State = new SelectList(Tools.LeerEstados(), "IdState", "StateDescription", "");
             ViewBag.RQuestion = new SelectList(Tools.LeerPreguntasAleatorias("", 0), "Numero_Pregunta", "Texto_Pregunta", "");
 
-            var oPQ = new PositionQuestionViewModel();
+            PositionQuestionViewModel oPQ = new PositionQuestionViewModel();
             using (BD_EvaluacionEntities Db = new BD_EvaluacionEntities())
             {
 

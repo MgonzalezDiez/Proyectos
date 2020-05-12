@@ -66,7 +66,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 
 <body>
-    @*@if (ViewBag.Message != null)
+    @if (ViewBag.Message != null)
     {
         if (ViewBag.Status)
         {
@@ -87,23 +87,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </button>
             </div>
         }
-
-    }*@
+    }
     <div id="mensaje">
 
     </div>
 
     <div class="panel-body">
         <div class="notification_header" style="text-align:center">
-            <h1 class="center-block">Responder Preguntas por Cargo</h1>
+            <h1 class="center-block">Responder Preguntas por Cargo </h1>
+            <h2 class="center-block">a @Html.DisplayFor(model => model.Usuario_Evaluador)</h2>
         </div>
-        <br />
 
         <form form="role" class="form-horizontal" action="Create" method="post">
             @Html.AntiForgeryToken()
 
             <input type="hidden" id="urlGet" name="urlGet" value="/EvaluationPositions/GetQuestion" />
             <input type="hidden" id="urlPost" name="urlPost" value="/EvaluationPositions/Edit" />
+
+
+            @Html.HiddenFor(model => model.Cod_Cargo_Evaluador, new { @id = "Cod_Cargo_Evaluador" });
 
             <div class="form-group has-feedback">
                 <label class="col-md-3 control-label">Proceso</label>
@@ -122,8 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
-                        @Html.EditorFor(model => model.Numero_Evaluacion, new { htmlAttributes = new { id = "numEval", @readonly = "readonly", @class = "form-control1", style = "font-family: 'Roboto', sans-serif; line-height: 8px" } })
-                        <div class="clearfix"></div>
+                        @Html.EditorFor(model => model.Numero_Evaluacion, new { htmlAttributes = new { id = "numEval", @readonly = "readonly", type = "text", @class = "form-control1", style = "font-family: 'Roboto', sans-serif; line-height: 8px" } })                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -133,7 +134,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        @Html.DropDownListFor(model => model.Codigo_Usuario_Evaluado, (SelectList)ViewBag.Users, "", new { id = "codUser", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        @Html.DropDownListFor(model => model.Codigo_Usuario_Evaluado, (SelectList)ViewBag.Users, "Seleccione Usuario a evaluar", new { id = "codUserEval", @required = "required", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -144,7 +145,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-list-ol"></i></span>
-                        @Html.DropDownListFor(model => model.Cod_Cargo_Evaluado, (SelectList)ViewBag.Positions, "", new { id = "codCargoEval", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        @Html.DropDownList("Cargo_Evaluado", new List<SelectListItem>(), "", new { id = "codCargoEval", @disabled = "disabled", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -155,7 +156,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-th-list"></i></span>
-                        @Html.DropDownListFor(model => model.Codigo_seccion, (SelectList)ViewBag.Sections, "Seleccione Dominio", new { id = "codSec", @required = "required", type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
+                        @Html.DropDownList("Codigo_seccion", new List<SelectListItem>(), "", new { id = "codSec", @required = "required", type = "text", @class = "form-control1", style = "font-size: 70%; font-family: 'Roboto', sans-serif; line-height: 8px" })
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -181,7 +182,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="padding-bottom:1px">
-                    <h3 class="modal-title" id="myModalLabel">Ingreso de Notas Auto Evaluación</h3>
+                   
+                    <h3 class="modal-title" id="myModalLabel">Ingreso de Notas Evaluación por Cargo   </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="false">&times;</span></button>
                 </div>
                 <div class="modal-body" style="padding-top:1px">
@@ -228,5 +230,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             crossorigin="anonymous"></script>
 
     <script src="~/js/Utiles.js"></script>
+
 </body>
 </html>

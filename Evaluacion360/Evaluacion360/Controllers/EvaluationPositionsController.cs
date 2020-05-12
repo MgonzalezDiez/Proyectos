@@ -14,7 +14,7 @@ namespace Evaluacion360.Controllers
 {
     public class EvaluationPositionsController : Controller
     {
-        string Mensaje = string.Empty;
+        private string Mensaje = string.Empty;
         int userType;
 
 
@@ -90,7 +90,7 @@ namespace Evaluacion360.Controllers
             ViewBag.Status = true;
             Usuarios oUser = (Usuarios)Session["User"];
 
-            ViewBag.Users = new SelectList(Tools.LeerUsuarios(oUser.Codigo_Usuario), "Codigo_Usuario", "Nombre_Usuario", oUser.Codigo_Usuario);
+            ViewBag.Users = new SelectList(Tools.LeerUsuariosPoEvaluador(oUser.Codigo_Usuario), "Codigo_Usuario", "Nombre_Usuario", oUser.Codigo_Usuario);
             ViewBag.Process = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
             ViewBag.EvState = new SelectList(Tools.EstadosEvaluaciones(), "IdState", "StateDescription", "A");
             ViewBag.Sections = new SelectList(Tools.DominiosPorUsuarioCargo(oUser.Codigo_Usuario), "Codigo_Seccion", "Nombre_Seccion");
@@ -116,6 +116,7 @@ namespace Evaluacion360.Controllers
                 oEC = (from pev in Db.Procesos_Evaluacion
                        join evc in Db.Evaluaciones_Cargos on pev.Codigo_Proceso equals evc.Codigo_Proceso
                        join usu in Db.Usuarios on evc.Cod_Usuario_Evaluado equals usu.Codigo_Usuario
+                       join dus in Db.Datos_Usuarios on usu.Codigo_Usuario equals dus.Codigo_Usuario
                        join eev in Db.Estado_Evaluaciones on evc.Estado_EC equals eev.IdState
                        where usu.Codigo_Usuario == oUser.Codigo_Usuario && evc.Estado_EC == "A"
                        orderby pev.Nombre_Proceso
@@ -126,14 +127,21 @@ namespace Evaluacion360.Controllers
                            Codigo_Proceso = evc.Codigo_Proceso,
                            NombreProceso = pev.Nombre_Proceso,
                            Codigo_Usuario_Evaluado = evc.Cod_Usuario_Evaluado,
-                           NombreUsuario = usu.Nombre_Usuario,
+                           Nombre_Usuario_Evaluado = usu.Nombre_Usuario,
                            Cod_Cargo_Evaluado = evc.Cod_Cargo_Evaluado,
                            Estado_EC = eev.IdState ?? "",
                            Nota_Final_EC = evc.Nota_Final_EC ?? 0,
                            Numero_Pregunta = 0,
                            TextoPregunta = "",
+                           Cod_Cargo_Evaluador =  oUser.Codigo_Cargo,
+                           Usuario_Evaluador = dus.Nombre_Completo,
 
                        }).FirstOrDefault();
+                if (oEC == null)
+                {
+                    ViewBag.Message = "Todas las preguntas por Cargo ya fueron respondidas";
+                    ViewBag.Status = false;
+                }
                 return View(oEC);
             }
             catch (Exception ex)
@@ -271,15 +279,6 @@ namespace Evaluacion360.Controllers
                     Mensaje = "Ok";
                     Db.SaveChanges();
 
-                    //EvaluationPositionsViewModel epvm = new EvaluationPositionsViewModel()
-                    //{
-                    //    Numero_Evaluacion = EvPos.Numero_Evaluacion,
-                    //    Codigo_Proceso = EvPos.Codigo_Proceso,
-                    //    Codigo_Usuario_Evaluado = EvPos.Codigo_Usuario_Evaluado,
-                    //    Cod_Cargo_Evaluado = EvPos.Cod_Cargo_Evaluado,
-                    //    Estado_EC = "C"
-                    //};
-
                     var oEvP = Db.Evaluaciones_Cargos.Find(EvPos.Numero_Evaluacion, EvPos.Codigo_Proceso, EvPos.Codigo_Usuario_Evaluado, EvPos.Cod_Cargo_Evaluado);
                     oEvP.Estado_EC = "C";
                     Db.Entry(oEvP).State = System.Data.Entity.EntityState.Modified;
@@ -401,12 +400,12 @@ namespace Evaluacion360.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetQuestion(string codUsu, int numEval, int codProc, string codSecc)
+        public JsonResult GetQuestion(int codCargoEvaluador, int codCargoEvaluado, int codProc, int numEval, string codSecc)
         {
             string ModelJson;
             List<AutoEvQuestionScoreViewModel> QuestByUser; /*= new List<AutoEvQuestionScoreViewModel>();*/
 
-            QuestByUser = GetQuestions(codUsu, numEval, codProc, codSecc).ToList();
+            QuestByUser = GetQuestions(codCargoEvaluador, codCargoEvaluado, numEval, codProc, codSecc).ToList();
 
             if (QuestByUser != null)
             {
@@ -424,20 +423,23 @@ namespace Evaluacion360.Controllers
             ;
         }
 
-        public static IEnumerable<AutoEvQuestionScoreViewModel> GetQuestions(string codUsu, int numEval, int codProc, string sectionCode)
+        public static IEnumerable<AutoEvQuestionScoreViewModel> GetQuestions(int codCargoEvaluador, int codCargoEvaluado, int numEval, int codProc, string sectionCode)
         {
             List<AutoEvQuestionScoreViewModel> RandomQ = new List<AutoEvQuestionScoreViewModel>();
             string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
-            string sql = "select epc.Numero_Pregunta, pal.Texto_Pregunta " +
+            string sql = "select epc.Numero_Pregunta, pal.Texto_Pregunta, epc.Numero_Evaluacion " +
                          "from Evaluacion_Preguntas_Cargos epc " +
                          "Join Evaluaciones_Cargos evc on epc.Numero_Evaluacion = evc.Numero_Evaluacion " +
                          " and epc.Codigo_Proceso = evc.Codigo_Proceso and epc.Codigo_Usuario = evc.Cod_Usuario_Evaluado " +
                          "join Preguntas_Cargos pca on evc.Cod_Cargo_Evaluado = pca.Cod_Cargo_Evaluado and epc.Codigo_seccion = pca.Codigo_seccion  " +
                          "and epc.Numero_Pregunta = pca.Numero_Pregunta " +
                          "join Preguntas_Aleatorias pal on epc.Codigo_seccion = pal.Codigo_Seccion and epc.Numero_Pregunta = pal.Numero_Pregunta " +
-                         "where epc.Codigo_Usuario = '" + codUsu + "' and evc.Numero_Evaluacion = " + numEval + " and evc.Codigo_Proceso = '" + codProc + "'" +
-                         "And epc.Codigo_seccion = '" + sectionCode + "'" +
-                         "And pca.Cod_Cargo_Evaluado <> pca.Codigo_Cargo ";
+                         "Where pca.Codigo_Cargo = " + codCargoEvaluador + 
+                         " And pca.Cod_Cargo_Evaluado = " + codCargoEvaluado + 
+                         " And evc.Codigo_Proceso = '" + codProc + "' " +
+                         " And epc.Numero_Evaluacion = " + numEval +
+                         " And epc.Codigo_seccion = '" + sectionCode + "' " +
+                         " And pca.Cod_Cargo_Evaluado <> pca.Codigo_Cargo ";
 
             using SqlConnection Cnn = new SqlConnection(CnnStr);
             using SqlCommand cmd = new SqlCommand
@@ -457,7 +459,7 @@ namespace Evaluacion360.Controllers
                         {
                             Codigo_Seccion = sectionCode,
                             Numero_Pregunta = sec.GetInt32(0),
-                            TextoPregunta = sec.GetString(1),
+                            Texto_Pregunta = sec.GetString(1),
 
                         };
 
@@ -470,12 +472,68 @@ namespace Evaluacion360.Controllers
                     RandomQ.Add(new AutoEvQuestionScoreViewModel()
                     {
                         Codigo_Seccion = "Error",
-                        TextoPregunta = mensaje + " Valide la información"
+                        Texto_Pregunta = mensaje + " Valide la información"
 
                     });
                 }
             }
             return RandomQ;
+        }
+
+        public JsonResult GetPositionByUser(int codUsuario)
+        {
+            List<Cargos> cargos = new List<Cargos>();
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = "select car.Codigo_Cargo, car.Nombre_Cargo from Cargos car " +
+                                  "Join Usuarios usu on car.Codigo_Cargo = usu.Codigo_Cargo " +
+                                  "join Datos_Usuarios dus on usu.Codigo_Usuario = dus.Codigo_Usuario " +
+                                  "where usu.Codigo_Cargo = '" + codUsuario + "'";
+                cmd.Connection = Cnn;
+                Cnn.Open();
+
+                using SqlDataReader rea = cmd.ExecuteReader();
+                while (rea.Read())
+                {
+                    Cargos c = new Cargos
+                    {
+                        Codigo_Cargo = rea.GetString(0),
+                        Nombre_Cargo = rea.GetString(1)
+                    };
+                    cargos.Add(c);
+                }
+            }
+            return Json(cargos, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDomainByUser(string CodCargoEvaluador, string CodCargoEvaluado)
+        {
+            List<Secciones> sec = new List<Secciones>();
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = "Select Distinct Sec.Codigo_Seccion, Sec.Nombre_Seccion from Secciones Sec " +
+                         "Join Preguntas_Cargos EPC on Sec.Codigo_Seccion = EPC.Codigo_Seccion " +
+                         "Where EPC.Cod_Cargo_Evaluado = '" + CodCargoEvaluado + "' And EPC.Codigo_Cargo = '" + CodCargoEvaluador + "'";
+
+                cmd.Connection = Cnn;
+                Cnn.Open();
+
+                using SqlDataReader rea = cmd.ExecuteReader();
+                while (rea.Read())
+                {
+                    Secciones c = new Secciones
+                    {
+                        Codigo_Seccion = rea.GetString(0),
+                        Nombre_Seccion = rea.GetString(1)
+                    };
+                    sec.Add(c);
+                }
+            }
+            return Json(sec, JsonRequestBehavior.AllowGet);
         }
     }
 }

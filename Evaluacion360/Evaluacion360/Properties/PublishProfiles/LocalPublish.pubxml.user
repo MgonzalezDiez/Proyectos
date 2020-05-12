@@ -6,7 +6,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\Desarrollo C#\Evaluacion 360 v8\Proyectos\Evaluacion360\Evaluacion360\bin\Release\Publish</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\Desarrollo C#\Evaluacion 360 v9\Proyectos\Evaluacion360\Evaluacion360\bin\Release\Publish</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/about.cshtml.a8d08dba.compiled">
@@ -19,10 +19,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>11/13/2019 01:52:14</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>05/03/2020 19:13:31</publishTime>
+      <publishTime>05/11/2020 18:46:31</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>05/03/2020 19:13:31</publishTime>
+      <publishTime>05/11/2020 18:46:31</publishTime>
     </File>
     <File Include="bin/App_Web_04sr0zlh.dll">
       <publishTime>04/12/2020 19:08:16</publishTime>
@@ -376,10 +376,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>11/28/2018 13:04:36</publishTime>
     </File>
     <File Include="bin/Evaluacion360.dll">
-      <publishTime>05/03/2020 19:13:20</publishTime>
+      <publishTime>05/11/2020 18:46:22</publishTime>
     </File>
     <File Include="bin/Evaluacion360.pdb">
-      <publishTime>05/03/2020 19:13:20</publishTime>
+      <publishTime>05/11/2020 18:46:22</publishTime>
     </File>
     <File Include="bin/fr-FR/Microsoft.Data.Tools.Schema.Sql.resources.dll">
       <publishTime>10/14/2019 23:16:40</publishTime>
@@ -876,6 +876,9 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
     <File Include="bin/_viewstart.cshtml.65a2d1ee.compiled">
       <publishTime>04/12/2020 19:08:24</publishTime>
     </File>
+    <File Include="Content/200.gif">
+      <publishTime>05/05/2020 23:01:27</publishTime>
+    </File>
     <File Include="Content/ajax-loader.gif">
       <publishTime>12/23/2019 09:43:52</publishTime>
     </File>
@@ -1039,7 +1042,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>12/12/2019 13:48:39</publishTime>
     </File>
     <File Include="js/ExcelJson.js">
-      <publishTime>05/02/2020 23:37:34</publishTime>
+      <publishTime>05/06/2020 00:17:26</publishTime>
     </File>
     <File Include="js/jquery-2.1.4.min.js">
       <publishTime>11/13/2019 01:52:14</publishTime>
@@ -1081,7 +1084,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>01/20/2020 08:21:32</publishTime>
     </File>
     <File Include="js/Utiles.js">
-      <publishTime>05/03/2020 18:58:54</publishTime>
+      <publishTime>05/11/2020 13:31:08</publishTime>
     </File>
     <File Include="Models/Evaluacion.edmx.diagram">
       <publishTime>04/29/2020 23:36:24</publishTime>
@@ -1090,7 +1093,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>11/13/2019 01:52:14</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>05/03/2020 19:13:22</publishTime>
+      <publishTime>05/11/2020 18:46:24</publishTime>
     </File>
     <File Include="Scripts/cldr.js">
       <publishTime>04/04/2020 00:47:09</publishTime>
@@ -1240,7 +1243,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>04/04/2020 23:13:02</publishTime>
     </File>
     <File Include="Views/AutoEvaluationQuestion/Create.cshtml">
-      <publishTime>05/01/2020 00:12:05</publishTime>
+      <publishTime>05/06/2020 09:23:56</publishTime>
     </File>
     <File Include="Views/AutoEvaluationQuestion/Details.cshtml">
       <publishTime>02/10/2020 14:50:21</publishTime>
@@ -1255,7 +1258,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>01/31/2020 20:48:02</publishTime>
     </File>
     <File Include="Views/EvaluationPositions/Create.cshtml">
-      <publishTime>05/03/2020 10:41:39</publishTime>
+      <publishTime>05/11/2020 18:33:51</publishTime>
     </File>
     <File Include="Views/EvaluationProcesses/Create.cshtml">
       <publishTime>03/17/2020 23:42:10</publishTime>
@@ -1268,6 +1271,9 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
     </File>
     <File Include="Views/EvaluationProcesses/Edit.cshtml">
       <publishTime>03/18/2020 19:45:57</publishTime>
+    </File>
+    <File Include="Views/EvaluationProcesses/GenerarCalculoNotas.cshtml">
+      <publishTime>05/05/2020 13:33:33</publishTime>
     </File>
     <File Include="Views/EvaluationProcesses/GenerarProcesoEvaluacion.cshtml">
       <publishTime>03/22/2020 22:21:21</publishTime>
@@ -1297,10 +1303,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/01/2020 21:57:00</publishTime>
     </File>
     <File Include="Views/Excel/ListEP.cshtml">
-      <publishTime>05/02/2020 23:50:24</publishTime>
+      <publishTime>05/05/2020 10:18:37</publishTime>
     </File>
     <File Include="Views/Excel/ListRQ.cshtml">
-      <publishTime>04/03/2020 19:47:45</publishTime>
+      <publishTime>05/05/2020 23:06:02</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>04/03/2020 19:48:59</publishTime>
@@ -1312,7 +1318,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>11/13/2019 01:52:14</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>04/22/2020 18:39:34</publishTime>
+      <publishTime>05/05/2020 13:32:31</publishTime>
     </File>
     <File Include="Views/PositionEvaluations/Create.cshtml">
       <publishTime>03/27/2020 10:33:37</publishTime>
@@ -1363,7 +1369,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/17/2020 23:33:34</publishTime>
     </File>
     <File Include="Views/RandomQuestion/List.cshtml">
-      <publishTime>03/30/2020 13:31:31</publishTime>
+      <publishTime>05/05/2020 20:20:36</publishTime>
     </File>
     <File Include="Views/Section/Create.cshtml">
       <publishTime>05/02/2020 19:32:17</publishTime>
@@ -1423,7 +1429,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>11/13/2019 01:52:14</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/01/2020 12:12:41</publishTime>
+      <publishTime>05/05/2020 08:47:13</publishTime>
     </File>
   </ItemGroup>
 </Project>

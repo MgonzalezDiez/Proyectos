@@ -16,7 +16,7 @@ namespace Evaluacion360.Models.ViewModels
 
         [Required]
         public string Codigo_Usuario_Evaluado { get; set; }
-        public string NombreUsuario { get; set; }
+        public string Nombre_Usuario_Evaluado { get; set; }
 
         [Required]
         public string Cod_Cargo_Evaluado { get; set; }
@@ -24,7 +24,8 @@ namespace Evaluacion360.Models.ViewModels
         public string Estado_EC { get; set; }
         public Nullable<decimal> Nota_Final_EC { get; set; }
 
-        public string UsuarioEvaluador { get; set; }
+        public string Cod_Cargo_Evaluador { get; set; }
+        public string Usuario_Evaluador { get; set; }
 
         //Evaluacion_Preguntas_Cargo
         public string Codigo_seccion { get; set; }

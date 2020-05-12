@@ -439,5 +439,63 @@ namespace Evaluacion360.Controllers
 
             return RedirectToAction("GenerarProcesoEvaluacionUno", "EvaluationProcesses", new { codUsu = ePG.Codigo_Usuario, codProc = ePG.Codigo_Proceso, Mensaje });
         }
+
+        [HttpGet]
+        public ActionResult GenerarCalculoNotas(string mensaje)
+        {
+            ViewBag.Procesos = new SelectList(Tools.LeerProcesos(), "Codigo_Proceso", "Nombre_Proceso", "");
+            ViewBag.Usuarios = new SelectList(Tools.LeerUsuarios(""), "Codigo_Usuario", "Nombre_Usuario", 1);
+
+            ViewBag.Status = false;
+            if (mensaje != null && mensaje != "")
+            {
+                if (mensaje == "Ok")
+                {
+                    ViewBag.Message = "Generación de Procesos de Evaluación por usuario Terminado exitosamente";
+                    ViewBag.Status = true;
+                }
+                else
+                {
+                    ViewBag.Message = mensaje;
+                    ViewBag.Status = false;
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GenerarCalculoNotas(EvProcsGenerationUno ePG)
+        {
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            if (ePG.Codigo_Usuario == null)
+            {
+                ePG.Codigo_Usuario = "";
+            }
+
+            using (SqlConnection conn = new SqlConnection(CnnStr))
+            using (SqlCommand cmd = new SqlCommand("Calcula_Notas", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CodigoUsuario", ePG.Codigo_Usuario.ToString());
+                cmd.Parameters.AddWithValue("@Proceso", ePG.Codigo_Proceso.ToString());
+
+                SqlParameter parRes = new SqlParameter
+                {
+                    ParameterName = "@Result",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 1000,
+                    Direction = ParameterDirection.Output,
+                    Value = ""
+                };
+                cmd.Parameters.Add(parRes);
+
+                conn.Open();
+                cmd.ExecuteScalar();
+
+                Mensaje = cmd.Parameters["@Result"].Value.ToString();
+                conn.Close();
+            }
+            return RedirectToAction("GenerarCalculoNotas", "EvaluationProcesses", new { codUsu = ePG.Codigo_Usuario, codProc = ePG.Codigo_Proceso, Mensaje });
+        }
     }
 }

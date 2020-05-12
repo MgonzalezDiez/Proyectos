@@ -70,7 +70,7 @@ namespace Evaluacion360.Models.ViewModels
     {
         public string Codigo_Seccion { get; set; }
         public int Numero_Pregunta { get; set; }
-        public string TextoPregunta { get; set; }
+        public string Texto_Pregunta { get; set; }
         public decimal Nota { get; set; }
     }
 

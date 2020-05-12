@@ -38,6 +38,7 @@ namespace Evaluacion360.Controllers
                 {
                     ViewBag.Mensaje = "";
                     Session["User"] = oUser;
+                    Session["PositionCode"] = oUser.Codigo_Cargo;
                     Session["TipoUsuario"] = oUser.Tipo_Usuario;
                     return RedirectToAction("Index", "Home");
                 }
@@ -51,7 +52,9 @@ namespace Evaluacion360.Controllers
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-                Session["User"] = "";
+                Session["User"] = null;
+                Session["PositionCode"] = null;
+                Session["TipoUsuario"] = null;
                 return View();
 
             }

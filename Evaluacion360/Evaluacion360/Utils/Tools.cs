@@ -100,7 +100,7 @@ namespace Evaluacion360.Utils
                          "Join Auto_Evaluacion_Preguntas AEP on Sec.Codigo_Seccion = AEP.Codigo_Seccion And Prc.Numero_Pregunta = AEP.Numero_Pregunta " +
                          "Join Auto_Evaluaciones AEv on AEP.Numero_Evaluacion = AEv.Numero_Evaluacion and AEP.Codigo_Proceso = AEV.Codigo_Proceso " +
                          "Where Codigo_Usuario = '" + codUsuario + "'" +
-                         "And Prc.Cod_Cargo_Evaluado = Prc.Codigo_Cargo";
+                         "And Prc.Cod_Cargo_Evaluado = Prc.Codigo_Cargo And AEP.Nota = 0";
 
 
             using SqlConnection Cnn = new SqlConnection(CnnStr);
@@ -162,6 +162,41 @@ namespace Evaluacion360.Utils
                 }
             }
             return Section;
+        }
+
+        public static IEnumerable<Preguntas_Aleatorias> PreguntasPorPonderacion(string CodSec, string Ponderacion, string CodUser)
+        {
+            List<Preguntas_Aleatorias> RQ = new List<Preguntas_Aleatorias>();
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            string sql = "Select Distinct Numero_Pregunta, Texto_Pregunta from Preguntas_Aleatorias Pal " +
+                         "Join Secciones Sec on Pal.Codigo_Seccion = Sec.Codigo_Seccion " +
+                         "Where Sec.Codigo_Seccion = '" + CodSec + "' And " +
+                         "And Pal.Ponderacion_P = " + Ponderacion ;
+
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using SqlCommand cmd = new SqlCommand
+            {
+                CommandText = sql,
+                Connection = Cnn
+            };
+            Cnn.Open();
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        Preguntas_Aleatorias pal = new Preguntas_Aleatorias()
+                        {
+                            Codigo_Seccion = CodSec,
+                            Numero_Pregunta = int.Parse( dr.GetString(0)),
+                            Texto_Pregunta = dr.GetString(1),
+                        };
+                        RQ.Add(pal);
+                    }
+                }
+            }
+            return RQ;
         }
 
         public static IEnumerable<Cargos> LeerCargos(int userType)
@@ -240,6 +275,39 @@ namespace Evaluacion360.Utils
             {
                 sql += " where codigo_usuario = '" + CodUser + "'";
             }
+            using SqlConnection Cnn = new SqlConnection(CnnStr);
+            using SqlCommand cmd = new SqlCommand
+            {
+                CommandText = sql,
+                Connection = Cnn
+            };
+            Cnn.Open();
+            using (SqlDataReader pos = cmd.ExecuteReader())
+            {
+                while (pos.Read())
+                {
+                    Usuarios pro = new Usuarios()
+                    {
+                        Codigo_Usuario = pos.GetString(0),
+                        Nombre_Usuario = pos.GetString(1)
+                    };
+                    Proc.Add(pro);
+                }
+            }
+            return Proc;
+        }
+
+        public static IEnumerable<Usuarios> LeerUsuariosPoEvaluador(string CodUser)
+        {
+            List<Usuarios> Proc = new List<Usuarios>();
+            string CnnStr = ConfigurationManager.ConnectionStrings["CnnStr"].ConnectionString;
+            string sql = "select Us1.Codigo_Cargo CargoEvaluado, Dus.Nombre_Completo " +
+                         "from cargos_evaluadores Cev " +
+                         "Join Usuarios Usu on Cev.Codigo_Cargo = Usu.Codigo_Cargo " +
+                         "Join Usuarios Us1 on Cev.Cod_Cargo_Evaluado = Us1.Codigo_Cargo " +
+                         "Join Datos_Usuarios Dus on Us1.Codigo_Usuario = Dus.Codigo_Usuario " +
+                         "where Usu.Codigo_Usuario = '" + CodUser + "' And Cev.Codigo_Cargo <> Cev.Cod_Cargo_Evaluado ";
+
             using SqlConnection Cnn = new SqlConnection(CnnStr);
             using SqlCommand cmd = new SqlCommand
             {
